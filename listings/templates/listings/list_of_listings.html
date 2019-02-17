@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Listings</title>
   </head>
   <body>
     <h1>Listings</h1>
@@ -11,8 +11,19 @@
       <ul>
         {% for listing in list_of_listings %}
           <li>{{ listing }}</li>
-          {% endfor %}
+
+          <!-- Playing around with JSON... -->
+          <script type="text/javascript">listing_{{ listing.id }} = {{ listing.get_json|safe }};
+          console.log("listing_{{ listing.id }} = ");
+          console.log(listing_{{ listing.id }});
+          </script>
+          <!----------------------------------->
+
+        {% endfor %}
       </ul>
+
+      <p>Check the console for JS objects!</p>
+
     {% else %}
       <p>No listings are available. :(</p>
     {% endif %}

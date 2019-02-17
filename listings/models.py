@@ -8,9 +8,11 @@ class Listing(models.Model):
     name = models.CharField(max_length=100)
     rating = models.IntegerField()
 
-    def __str__(self):
+    def get_json(self):
         return dict_to_json(self.__dict__)
-        # return str(self.__dict__)
+
+    def __str__(self):
+        return str(self.name)
 
 def dict_to_json(d):
     copy = d.copy()
