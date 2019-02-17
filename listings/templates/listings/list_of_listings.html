@@ -1,0 +1,11 @@
+<h1>Listings</h1>
+
+{% if list_of_listings %}
+  <ul>
+    {% for listing in list_of_listings %}
+      <li>{{ listing }}</li>
+      {% endfor %}
+  </ul>
+{% else %}
+  <p>No listings are available. :(</p>
+{% endif %}
