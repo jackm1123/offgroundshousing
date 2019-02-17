@@ -2,3 +2,5 @@
 \.DS_Store
 
 segfaulters/__pycache__/
+
+listings/__pycache__/
