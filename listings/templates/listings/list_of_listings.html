@@ -1,32 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %} 
+{% block content %}
+
   <head>
-    <meta charset="utf-8">
     <title>Listings</title>
   </head>
   <body>
     <h1>Listings</h1>
 
     {% if list_of_listings %}
+
       <ul>
         {% for listing in list_of_listings %}
-          <li>{{ listing }}</li>
-
-          <!-- Playing around with JSON... -->
-          <script type="text/javascript">listing_{{ listing.id }} = {{ listing.get_json|safe }};
-          console.log("listing_{{ listing.id }} = ");
-          console.log(listing_{{ listing.id }});
-          </script>
-          <!----------------------------------->
-
+          <li>{{ listing.name}}</li>
         {% endfor %}
       </ul>
-
-      <p>Check the console for JS objects!</p>
 
     {% else %}
       <p>No listings are available. :(</p>
     {% endif %}
   </body>
-</html>
-<!--->
+
+{% endblock %}
