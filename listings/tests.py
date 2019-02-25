@@ -83,3 +83,16 @@ class ListingTest(TestCase):
 		d = create_generic_listing(name="d",id=3,price=2)
 
 		self.assertEqual([c,a,d,b],Listing.get_sorted("price"))
+
+	# Todo: add tests for sorting by other fields
+
+	def test_get_in_price_range(self):
+		a = create_generic_listing(name="a",price=1)
+		b = create_generic_listing(name="b",price=2)
+		c = create_generic_listing(name="c",price=3)
+		d = create_generic_listing(name="d",price=4)
+		e = create_generic_listing(name="e",price=5)
+		f = create_generic_listing(name="f",price=6)
+		g = create_generic_listing(name="g",price=7)
+		h = create_generic_listing(name="h",price=8)
+		self.assertEqual({c,d,e,f},set(Listing.get_in_price_range(3,6)))
