@@ -20,6 +20,12 @@ class Listing(models.Model):
 
 
 
+    def print_details(self):
+        print("-"*30)
+        for i in self.__dict__:
+            print(i," = ",self.__dict__[i])
+        print("-"*30)
+
 
     def get_json(self):
         return dict_to_json(self.__dict__)
