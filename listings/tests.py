@@ -3,24 +3,8 @@ from django.test import TestCase
 from .models import Listing
 
 def create_generic_listing(**kwargs):
-
-	existing_ids = []
-	for listing in Listing.objects.all():
-		existing_ids.append(listing.id)
-
-	unique_id = 0
-	while unique_id in existing_ids:
-		unique_id += 1
-
-	out = Listing(unique_id)
-
-	for key in kwargs:
-		if key not in out.__dict__:
-			raise KeyError("Invalid key: " + str(key))
-		out.__dict__[key] = kwargs[key]
-
+	out = Listing(**kwargs)
 	out.save()
-
 	return out
 
 # Note: The testing database is empty by default before each test
@@ -47,26 +31,6 @@ class ListingTest(TestCase):
 
 		if(not validated):
 			self.fail('Listing(submission_date = "pizza") should throw a ValidationError.')
-
-	# Are these 3 tests necessary? Not testing Listing...
-	def test_create_generic_listing(self):
-		a = create_generic_listing()
-		b = create_generic_listing()
-		c = create_generic_listing()
-		self.assertEqual(3,len(Listing.objects.all()))
-
-	def test_create_generic_listing_kwargs(self):
-		a = create_generic_listing(price=20)
-		self.assertEqual(20,a.price)
-
-	def test_create_generic_listing_invalid_kwargs(self):
-		ok = False
-		try:
-			create_generic_listing(invalid="invalid")
-		except KeyError:
-			ok = True
-
-		self.assertTrue(ok)
 
 	def test_get_sorted_by_id(self):
 		a = create_generic_listing(name="a",id=3)
