@@ -18,20 +18,29 @@ class Listing(models.Model):
     OWNERSHIP_CHOICES = [('O', 'Owned'), ('A', 'Available')]
     ownership_info = models.CharField(choices=OWNERSHIP_CHOICES, max_length=1, blank = False, default='A') # status is required field
 
-
-
     def print_details(self):
         print("-"*30)
         for i in self.__dict__:
             print(i," = ",self.__dict__[i])
         print("-"*30)
 
-
     def get_json(self):
         return dict_to_json(self.__dict__)
 
     def __str__(self):
         return str(self.name)
+
+    @classmethod
+    def get_sorted(cls,key):
+        if type(key) != str:
+            raise TypeError("Sorting key should be a string")
+
+        if key not in cls.__dict__:
+            raise KeyError("Key not found: " + key)
+
+        out = cls.objects.all()
+        out_sorted = sorted(out,key=lambda i: i.__dict__[key])
+        return out_sorted
 
 def dict_to_json(d):
     copy = d.copy()
