@@ -9,6 +9,8 @@ class Listing(models.Model):
     LAUNDRY_CHOICES = [('L', 'Laundry'), ('N', 'No Laundry')]
     #The first element in each tuple is the value that will be stored in the database. The second element is displayed by the field’s form widget.
     laundry_info = models.CharField(choices=LAUNDRY_CHOICES, max_length=1, blank = False, default='N') # laundry required field
+    PARKING_CHOICES = [('P', 'Parking'), ('N', 'No Parking')]
+    parking_info = models.CharField(choices=PARKING_CHOICES, max_length=1, blank = False, default='N') # laundry required field
     square_footage = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     bedroom_num = models.IntegerField(default=0)
@@ -17,7 +19,7 @@ class Listing(models.Model):
     OWNERSHIP_CHOICES = [('O', 'Owned'), ('A', 'Available')]
     ownership_info = models.CharField(choices=OWNERSHIP_CHOICES, max_length=1, blank = False, default='A') # status is required field
     submission_date = models.DateTimeField(default=datetime.now, blank=True)
-    
+
 
     def print_details(self):
         print("-"*30)

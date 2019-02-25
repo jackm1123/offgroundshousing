@@ -12,7 +12,7 @@ def create_generic_listing(**kwargs):
 	while unique_id in existing_ids:
 		unique_id += 1
 
-	out = Listing(unique_id,"name",5,"description","N",0,0,0,"123-456-7890","address","A")
+	out = Listing(unique_id)
 
 	for key in kwargs:
 		if key not in out.__dict__:
@@ -30,7 +30,7 @@ class ListingTest(TestCase):
 		pass
 
 	def test_positional_arguments(self):
-		l = Listing("id","name","rating","description","laundry_info","square_footage","price","bedroom_num","phone_num","address","ownership_info","submission_date")
+		l = Listing("id","name","rating","description","laundry_info","parking_info","square_footage","price","bedroom_num","phone_num","address","ownership_info","submission_date")
 		for item in l.__dict__:
 			if item != "_state":
 				self.assertEqual(item,l.__dict__[item],"Listing Constructor: Change detected in positional arguments (name or order). \nThrown for: Listing." + str(item))
