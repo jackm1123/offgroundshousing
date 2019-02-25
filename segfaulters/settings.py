@@ -1,4 +1,4 @@
-import django_heroku
+#import django_heroku
 """
 Django settings for segfaulters project.
 
