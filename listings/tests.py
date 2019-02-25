@@ -13,3 +13,5 @@ class ListingTest(TestCase):
 			if item != "_state":
 				self.assertEqual(item,l.__dict__[item],"Listing Constructor: Change detected in positional arguments (name or order). \nThrown for: Listing." + str(item))
 		# l.print_details() # Uncomment to see how things fell into place
+
+	
