@@ -1,1 +1,1 @@
-python3 manage.py shell < make_dummy_listings.py
+python3 manage.py shell < utils/make_dummy_listings.py

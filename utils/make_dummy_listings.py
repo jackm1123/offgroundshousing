@@ -1,6 +1,12 @@
+"""
+This file will not run alone.
+It must be run in the main directory by the following command:
+    python3 manage.py shell < utils/make_dummy_listings.py
+"""
+
 from listings.models import Listing
 
-with open("dummy_listings.csv") as y:
+with open("utils/dummy_listings.csv") as y:
     lines = y.readlines()
 
 lines.pop(0)
