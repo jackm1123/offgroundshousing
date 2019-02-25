@@ -14,4 +14,14 @@ class ListingTest(TestCase):
 				self.assertEqual(item,l.__dict__[item],"Listing Constructor: Change detected in positional arguments (name or order). \nThrown for: Listing." + str(item))
 		# l.print_details() # Uncomment to see how things fell into place
 
-	
+	def test_date_validation(self):
+		l = Listing(submission_date="pizza")
+		validated = True
+		try:
+			l.save()
+			validated = False
+		except:
+			pass
+
+		if(not validated):
+			self.fail('Listing(submission_date = "pizza") should throw a ValidationError.')
