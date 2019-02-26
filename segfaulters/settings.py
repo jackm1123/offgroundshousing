@@ -1,4 +1,10 @@
-import django_heroku
+# Try to import django-heroku depending on Travis or Heroku
+try:
+    # Configure Django App for Heroku.
+    import django_heroku
+    django_heroku.settings(locals())
+except ImportError:
+    found = False
 """
 Django settings for segfaulters project.
 
@@ -108,13 +114,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
-
-django_heroku.settings(locals())
