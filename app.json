@@ -3,6 +3,10 @@
   "scripts": {
   },
   "env": {
+    "DISABLE_COLLECTSTATIC": {
+      "description": "Don't run python manage.py collectstatic --noinput on deploy",
+      "value": "1"
+    }
   },
   "formation": {
     "web": {
@@ -18,3 +22,4 @@
     }
   ]
 }
+
