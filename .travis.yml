@@ -8,7 +8,8 @@ install:
 env:
   - DJANGO=2.1.7
 script:
-  - python3 manage.py test
+  - python manage.py migrate --run-syncdb
+  - python manage.py test
 deploy:
   provider: heroku
   api_key:
