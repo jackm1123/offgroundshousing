@@ -8,7 +8,7 @@ install:
 env:
   - DJANGO=2.1.7
 script:
-  - python manage.py test
+  - python3 manage.py test
 deploy:
   provider: heroku
   api_key:
