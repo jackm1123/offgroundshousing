@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'listings.apps.ListingsConfig',
-    'crispy_forms', #dont have,
+    'crispy_forms', #dont have, 
 ]
 
 MIDDLEWARE = [
