@@ -2,8 +2,6 @@
   "name": "segfaulters",
   "scripts": {
   },
-  "env": {
-  },
   "formation": {
     "web": {
       "quantity": 1
@@ -18,3 +16,4 @@
     }
   ]
 }
+

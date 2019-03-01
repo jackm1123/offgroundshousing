@@ -5,5 +5,12 @@ python:
 install:
   - pip install -r requirements-travis.txt
 # command to run tests
+env:
+  - DJANGO=2.1.7
 script:
   - python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: "2e0QxWJASRgahk5rYhFFL0mqMMRyJYbb04bygM68UUvsNi7zsr5BIAuKdLDJ2sEuD8Z027ZeGRLJae8p9qEJCJvXT6YaHIwK+JHPByv1u+z7pKUZKrX6hGS8Vx4z0SMf7Pv/57soaXJnWlcuB82BkYaf13VGofjxaoUiv036qJgLoN6/PQhAkKUq71nNwRy5NDPJwowf6pkPu8ZFfKZyGJEFqyDDfPnw73culgYYuRLag4ChkQamLbyA+/KHZSbGQyZPk0oFHpdECw0LuIBCqcGzNYiUy9fOHIlCorJslfjsGH94Mfd1JnY7Bq50C9GhSjpe9BxBiopa/UQXIwMmBqAcLT39xJ8hJpuXpfLf0d2UnrUeeYaT76U29bPugho5fwdP5qB6DKDZl5Cdm3BRFqQq752jZuc1B4AX+jSpX9n14Bs8C2xJxgnYESJJ7Tsn32N8G2buZi3fEbhUHicGG9AV3X+lZOaKpUx9ha7jYbFoj6Gb36J6qAGd4fzVlfKrFVkySi0yB38piIDATqe+Fg9uLVlwtjFgZTvnw2RJETqLM0r1BcEUur0PXW91G79n4VZqboelXYmnCExazgO1V1ORY0borD74iP8XXiLYFi+U7gR/e/DVMNMrpLHP18H8dq9tw2BK+WYM2slxSDvvfFk594WriUmMZNRvGnuhXBo="
+  app: segfaulters3240
