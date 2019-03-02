@@ -31,15 +31,15 @@ class ListingTest(TestCase):
         if not META_TESTING:
             return
 
-        # if subprocess.call("coverage") != 0:
-        #     os.system("pip install coverage")
-        #     os.system("pip3 install coverage")
+        if subprocess.call("coverage") != 0:
+            os.system("pip install coverage")
+            os.system("pip3 install coverage")
 
         if(os.path.isfile("no_meta_test")):
             return
-
         y = open("no_meta_test","w")
         y.close()
+
         os.system("coverage run manage.py test")
         os.remove("no_meta_test")
         coverage_info = get_command_output("coverage report").decode().split("\n")[2:-3]

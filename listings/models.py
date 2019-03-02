@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 
 class Listing(models.Model):
 
@@ -18,7 +19,7 @@ class Listing(models.Model):
     address = models.CharField(max_length=100, default="")
     OWNERSHIP_CHOICES = [('O', 'Owned'), ('A', 'Available')]
     ownership_info = models.CharField(choices=OWNERSHIP_CHOICES, max_length=1, blank = False, default='A') # status is required field
-    submission_date = models.DateTimeField(default=datetime.now, blank=True)
+    submission_date = models.DateTimeField(default=timezone.now, blank=True)
 
 
     def print_details(self): # pragma no cover (used for debugging)
