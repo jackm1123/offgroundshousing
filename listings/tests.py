@@ -80,10 +80,6 @@ class ListingTest(TestCase):
             #     os.system("open htmlcov/index.html")
             self.assertEqual("100%",coverage,error_message)
 
-
-
-
-
     def test_positional_arguments(self):
         l = Listing("id","name","rating","description","laundry_info","parking_info","square_footage","price","bedroom_num","phone_num","address","ownership_info","submission_date")
         for item in l.__dict__:
