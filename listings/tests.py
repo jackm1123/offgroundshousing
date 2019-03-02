@@ -13,7 +13,7 @@ def get_command_output(command):
     return subprocess.check_output(command_lst)
 
 # Note: The testing database is empty by default before each test
-class ListingTest(TestCase):
+class ListingTest(TestCase): # pragma no cover
 
     def setUp(self):
         pass
@@ -33,6 +33,7 @@ class ListingTest(TestCase):
         os.system("coverage run manage.py test")
         os.remove("no_meta_test")
         coverage_info = get_command_output("coverage report").decode().split("\n")[2:-3]
+        os.system("coverage html")
 
         coverage_dict = {}
         for line in coverage_info:
@@ -63,7 +64,7 @@ class ListingTest(TestCase):
 
             error_message += "\n\nOptions to increase your coverage:"
             error_message += "\n\t1) Add tests that reach the uncovered lines"
-            error_message += "\n\t2) Use '#pragma ignore' decorator if you really don't think a test is necessary"
+            error_message += "\n\t2) Use '#pragma no cover' decorator if you really don't think a test is necessary"
             error_message += "\n\n*******************\n"
             # if(coverage != "100%"):
             #     os.system("open htmlcov/index.html")
@@ -107,6 +108,18 @@ class ListingTest(TestCase):
         d = create_generic_listing(name="d",id=3,price=2)
 
         self.assertEqual([c,a,d,b],Listing.get_sorted("price"))
+
+    def test_get_sorted_invalid_key_type(self):
+        a = create_generic_listing(name="a",id=0,price=1)
+        b = create_generic_listing(name="b",id=1,price=3)
+
+        self.assertRaises(TypeError,Listing.get_sorted,key=0)
+
+    def test_get_sorted_invalid_key_name(self):
+        a = create_generic_listing(name="a",id=0,price=1)
+        b = create_generic_listing(name="b",id=1,price=3)
+
+        self.assertRaises(KeyError,Listing.get_sorted,key="dsghjdvgjsgjshvs")
 
     # Todo: add tests for sorting by other fields
 
