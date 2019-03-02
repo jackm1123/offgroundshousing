@@ -14,13 +14,13 @@ def get_command_output(command):
     command_lst = command.split()
     return subprocess.check_output(command_lst)
 
-def debug_write(message): # pragma no cover (debugging method)
+def debug_write(message):
     y = open("debug_output.txt","a")
     y.write(message)
     y.close()
 
 # Note: The testing database is empty by default before each test
-class ListingTest(TestCase): # pragma no cover
+class ListingTest(TestCase):
 
     def setUp(self):
         pass
