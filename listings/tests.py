@@ -1,4 +1,5 @@
 META_TESTING = True
+SYSTEM_TESTING = True
 
 from django.test import TestCase
 
@@ -19,6 +20,11 @@ def debug_write(message):
     y.write(message)
     y.close()
 
+def exclude_from_metatest():
+    return os.path.isfile("no_meta_test")
+
+on_travis = 'TRAVIS' in os.environ
+
 # Note: The testing database is empty by default before each test
 class ListingTest(TestCase):
 
@@ -31,7 +37,7 @@ class ListingTest(TestCase):
         if not META_TESTING:
             return
 
-        if(os.path.isfile("no_meta_test")):
+        if(exclude_from_metatest()):
             return
 
         if os.system("coverage > no_meta_test") != 0:
@@ -159,3 +165,33 @@ class ListingTest(TestCase):
                 print("-----")
                 print(actual_output)
             self.assertTrue(combined in actual_output)
+
+################################################################################
+""" System Tests """
+################################################################################
+
+if not on_travis and SYSTEM_TESTING and not exclude_from_metatest():
+    # https://lincolnloop.com/blog/introduction-django-selenium-testing/
+    from selenium import webdriver
+    from django.test import LiveServerTestCase
+    class SeleniumTest(LiveServerTestCase):
+
+        def setUp(self):
+            self.browser = webdriver.Chrome()
+            super(SeleniumTest, self).setUp()
+
+        def tearDown(self):
+            self.browser.quit()
+
+        def load(self,url):
+            self.browser.get(self.live_server_url+url)
+
+        # https://selenium-python.readthedocs.io/locating-elements.html
+        def get_by_tag(self,id):
+            return self.browser.find_element_by_tag_name(id)
+
+        def test_selenium(self):
+            if(exclude_from_metatest() or on_travis):
+                return
+            self.load("/listings")
+            self.assertEqual("Listings",self.get_by_tag("h1").text)
