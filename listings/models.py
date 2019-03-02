@@ -21,7 +21,8 @@ class Listing(models.Model):
     submission_date = models.DateTimeField(default=datetime.now, blank=True)
 
 
-    def print_details(self):
+    def print_details(self): # pragma no cover (used for debugging)
+        print("debugging info:")
         print("-"*30)
         for i in self.__dict__:
             print(i," = ",self.__dict__[i])

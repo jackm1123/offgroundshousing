@@ -1,3 +1,5 @@
+META_TESTING = True
+
 from django.test import TestCase
 
 from .models import Listing
@@ -12,6 +14,11 @@ def get_command_output(command):
     command_lst = command.split()
     return subprocess.check_output(command_lst)
 
+def debug_write(message): # pragma no cover (debugging method)
+    y = open("debug_output.txt","a")
+    y.write(message)
+    y.close()
+
 # Note: The testing database is empty by default before each test
 class ListingTest(TestCase): # pragma no cover
 
@@ -20,6 +27,8 @@ class ListingTest(TestCase): # pragma no cover
 
     # Super-hacky way of programatically testing our coverage levels
     def test_meta(self):
+        if not META_TESTING:
+            return
 
         if subprocess.call("coverage") != 0:
             os.system("pip install coverage")
@@ -81,6 +90,10 @@ class ListingTest(TestCase): # pragma no cover
                 self.assertEqual(item,l.__dict__[item],"Listing Constructor: Change detected in positional arguments (name or order). \nThrown for: Listing." + str(item))
         # l.print_details() # Uncomment to see how things fell into place
 
+    def test_str(self):
+        a = create_generic_listing(name="test123")
+        self.assertEqual("test123",str(a))
+
     def test_date_validation(self):
         l = Listing(submission_date="pizza")
         validated = True
@@ -133,3 +146,20 @@ class ListingTest(TestCase): # pragma no cover
         g = create_generic_listing(name="g",price=7)
         h = create_generic_listing(name="h",price=8)
         self.assertEqual({c,d,e,f},set(Listing.get_in_price_range(3,6)))
+
+    def test_get_json(self):
+        a = create_generic_listing()
+        actual_output = a.get_json()
+
+        for key,val in a.__dict__.items():
+            key_quotes = '"%s"' %str(key)
+            if type(val) != int:
+                val_quotes = '"%s"' %str(val)
+            else:
+                val_quotes = '%s' %str(val)
+            combined = key_quotes + ":" + val_quotes
+            if combined not in actual_output:
+                print(combined)
+                print("-----")
+                print(actual_output)
+            self.assertTrue(combined in actual_output)
