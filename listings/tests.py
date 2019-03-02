@@ -38,7 +38,7 @@ class ListingTest(TestCase):
             os.system("pip install coverage")
             os.system("pip3 install coverage")
 
-        os.system("coverage run manage.py test &>/dev/null")
+        os.system("coverage run manage.py test &> no_meta_test")
         os.remove("no_meta_test")
         coverage_info = get_command_output("coverage report").decode().split("\n")[2:-3]
         get_command_output("coverage html")
