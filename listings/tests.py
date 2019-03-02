@@ -30,9 +30,9 @@ class ListingTest(TestCase):
         if not META_TESTING:
             return
 
-        if subprocess.call("coverage") != 0:
-            os.system("pip install coverage")
-            os.system("pip3 install coverage")
+        # if subprocess.call("coverage") != 0:
+        #     os.system("pip install coverage")
+        #     os.system("pip3 install coverage")
 
         if(os.path.isfile("no_meta_test")):
             return
@@ -74,7 +74,8 @@ class ListingTest(TestCase):
             error_message += "\n\nOptions to increase your coverage:"
             error_message += "\n\t1) Add tests that reach the uncovered lines"
             error_message += "\n\t2) Use '#pragma no cover' decorator if you really don't think a test is necessary"
-            error_message += "\n\n*******************\n"
+            error_message += "\n\n*******************\n\n"
+            error_message = get_command_output("coverage report").decode() + error_message
             # if(coverage != "100%"):
             #     os.system("open htmlcov/index.html")
             self.assertEqual("100%",coverage,error_message)

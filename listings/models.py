@@ -46,6 +46,9 @@ class Listing(models.Model):
         out_sorted = sorted(out,key=lambda i: i.__dict__[key])
         return out_sorted
 
+    def uncovered():
+        pass
+
     @classmethod
     def get_in_price_range(cls,low,high):
         return cls.objects.filter(price__gte=low,price__lte=high)
