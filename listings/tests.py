@@ -3,7 +3,7 @@ META_TESTING = True
 from django.test import TestCase
 
 from .models import Listing
-import os,subprocess
+import os,subprocess,sys
 
 def create_generic_listing(**kwargs):
     out = Listing(**kwargs)
@@ -31,19 +31,17 @@ class ListingTest(TestCase):
         if not META_TESTING:
             return
 
-        if subprocess.call("coverage") != 0:
+        if(os.path.isfile("no_meta_test")):
+            return
+
+        if os.system("coverage > no_meta_test") != 0:
             os.system("pip install coverage")
             os.system("pip3 install coverage")
 
-        if(os.path.isfile("no_meta_test")):
-            return
-        y = open("no_meta_test","w")
-        y.close()
-
-        os.system("coverage run manage.py test")
+        os.system("coverage run manage.py test &>/dev/null")
         os.remove("no_meta_test")
         coverage_info = get_command_output("coverage report").decode().split("\n")[2:-3]
-        os.system("coverage html")
+        get_command_output("coverage html")
 
         coverage_dict = {}
         for line in coverage_info:
