@@ -26,6 +26,7 @@ class ListingTest(TestCase):
         pass
 
     # Super-hacky way of programatically testing our coverage levels
+    # TODO: Make this not run all the tests twice...
     def test_meta(self):
         if not META_TESTING:
             return
