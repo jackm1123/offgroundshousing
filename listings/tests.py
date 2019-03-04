@@ -2,7 +2,8 @@ META_TESTING = True
 SYSTEM_TESTING = True
 
 from django.test import TestCase
-
+from django.test import Client
+from django.urls import reverse
 from .models import Listing
 import os,subprocess,sys
 
@@ -165,6 +166,12 @@ class ListingTest(TestCase):
                 print("-----")
                 print(actual_output)
             self.assertTrue(combined in actual_output)
+
+    def test_empty_url(self):
+        client = Client()
+        response = client.get(reverse('home'))
+        stat = response.status_code
+        self.assertEqual(200,stat)
 
 ################################################################################
 """ System Tests """
