@@ -9,6 +9,10 @@ env:
   - DJANGO=2.1.7
 script:
   - python manage.py test
+branches:
+  only:
+  - gh-pages
+  - /.*/
 deploy:
   provider: heroku
   api_key:

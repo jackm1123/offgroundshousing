@@ -2,7 +2,8 @@ META_TESTING = True
 SYSTEM_TESTING = True
 
 from django.test import TestCase
-
+from django.test import Client
+from django.urls import reverse
 from .models import Listing
 import os,subprocess,sys
 
@@ -166,6 +167,18 @@ class ListingTest(TestCase):
                 print(actual_output)
             self.assertTrue(combined in actual_output)
 
+    def test_empty_url(self):
+        client = Client()
+        response = client.get(reverse('home'))
+        stat = response.status_code
+        self.assertEqual(200,stat)
+
+    def test_listings_empty_url(self):
+        client = Client()
+        response = client.get(reverse('listings:listings-empty'))
+        stat = response.status_code
+        self.assertEqual(200,stat)
+
 ################################################################################
 """ System Tests """
 ################################################################################
@@ -194,4 +207,4 @@ if not on_travis and SYSTEM_TESTING and not exclude_from_metatest():
             if(exclude_from_metatest() or on_travis):
                 return
             self.load("/listings")
-            self.assertEqual("Listings",self.get_by_tag("h1").text)
+            self.assertEqual("Let me know",self.get_by_tag("h1").text)

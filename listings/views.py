@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from .models import Listing
 
@@ -10,3 +12,6 @@ class IndexView(generic.ListView):
 
     def get_queryset(self): # pragma no cover (not sure how to test)
         return Listing.objects.all()
+
+def index(request): 
+    return render_to_response('home/index.html')

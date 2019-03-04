@@ -1,0 +1,95 @@
+/* cutomize styles to bootstrap */
+
+.navbar {
+   margin-bottom: 0;      /* remove space between navbar and jumbotron */
+}
+
+
+/* override styles to the main elements of the page */
+body {               
+   /* background: #333333; */
+   background: #F8F8F8; /* lightgrey; */
+   color: #f7f7f7;    
+}
+
+h1, h2 {
+   font-weight: bold;
+}
+
+p {
+   font-size: 16px;
+   color: #666666;
+}
+
+
+/* override styles to the jumbotron */
+.jumbotron {
+   background: #003366;       /* change background color */
+   color: white;              /* change text color */
+   text-align: center;        /* align center instead of default (left) */
+}
+.jumbotron p {                
+   color: white; 
+   font-size: 26px;
+}
+
+
+/* override styles to the button */
+.btn-primary {
+   color: #ffffff;
+   background-color: transparent;  
+   border-color: white;
+   margin-bottom: 5px;
+}
+/* use pseudoclass selector to style the button, on specified event
+   reminder -- no space between selector:event 
+*/
+.btn-primary:hover {   
+   color: #006699;
+   background-color: white;
+   border-color: white;	
+}
+
+
+/* override styles to navbar */
+.navbar-inverse {
+   background: #2e2f31;
+   border: 0;
+}
+.navbar-inverse .navbar-nav li a {
+   color: #f7f7f7;
+   font-size: 16px;
+}
+.navbar-inverse .navbar-nav li a:hover {
+   background: #336699;
+}
+
+
+/* override styles to drowdown menu */
+.dropdown-menu {
+   background: #999999;
+   border-radius: 5px;
+   border: 0;
+}
+.dropdown-menu li a {
+   padding: 10px;
+}
+.navbar-inverse .navbar-nav .dropdown-menu li a:hover {
+   background: #666666;	
+}
+
+
+
+.highlight {
+   text-align: center;
+   color: #333333;
+}
+
+/* style image */
+img {
+   border-radius: 10px;
+   /* transform: scale(0.75, 0.75); */
+   width: 30%;
+   padding: 10px 0px 10px 0px;
+}
+
