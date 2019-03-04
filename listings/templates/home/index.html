@@ -17,7 +17,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
 
-    <title>Bootstrap example</title>
+    <title>Yelp for Off Grounds Housing</title>
 
   </head>
   <body>
@@ -26,7 +26,7 @@
 
 
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Yelp for Off Grounds Housing!</a>
+        <a class="navbar-brand" href="http://segfaulters3240.herokuapp.com/">Yelp for Off Grounds Housing!</a>
 
 
 
@@ -37,9 +37,12 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item">
+              <a class="nav-link" href="http://segfaulters3240.herokuapp.com/listings/">Listings</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#">About</a>
             </li>
-            <li class="nav-item dropdown">
+              <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
               <div class="dropdown-menu" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="#">Design</a>
@@ -51,7 +54,7 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/login.html">Login</a>
+              <a class="nav-link" href="http://segfaulters3240.herokuapp.com/login/">Login</a>
             </li>
           </ul>
         </div>
@@ -63,7 +66,7 @@
       <div class="container">
         <h1>Let me know</h1>
         <p>What you guys want to put in here</p>
-         <form class="form-inline justify-content-center" method = "GET" action = "{% url 'search' %}" >
+         <form class="form-inline justify-content-center" method = "GET" action = "" >
         <input class="form-control mr-sm-2" name="query" size = "40%" type="text" placeholder="Starting by entering either a zip code or city!">
         <button class="btn btn-outline-success  my-2 my-sm-0" type="submit">Find Housing</button>
         </form>
