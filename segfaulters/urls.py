@@ -8,8 +8,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.LoginView.as_view(), name='login'),
     url(r'^logout/$', views.LogoutView.as_view(template_name='home.html'), name='logout'),
-    url(r'^logoutt/$', views.LogoutView.as_view(template_name='registration/logout.html'), name='logoutt'),
+    #url(r'^logoutt/$', views.LogoutView.as_view(template_name='registration/logout.html'), name='logoutt'),
     url(r'^auth/', include('social_django.urls', namespace='social')),  # <- Here
     url(r'^$', home, name='home'),
+
+    #listings app
     path('listings/',include('listings.urls')),
 ]
