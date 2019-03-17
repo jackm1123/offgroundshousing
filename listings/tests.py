@@ -18,6 +18,7 @@ def get_command_output(command):
 
 def debug_write(message):
     y = open("debug_output.txt","a")
+    y.write("\n----------\n")
     y.write(message)
     y.close()
 
@@ -25,6 +26,12 @@ def exclude_from_metatest():
     return os.path.isfile("no_meta_test")
 
 on_travis = 'TRAVIS' in os.environ
+
+def ping_url(url):
+    client = Client()
+    response = client.get(url)
+    stat = response.status_code
+    return stat
 
 # Note: The testing database is empty by default before each test
 class ListingTest(TestCase):
@@ -168,16 +175,19 @@ class ListingTest(TestCase):
             self.assertTrue(combined in actual_output)
 
     def test_empty_url(self):
-        client = Client()
-        response = client.get(reverse('home'))
-        stat = response.status_code
-        self.assertEqual(200,stat)
+        self.assertEqual(200,ping_url("/"))
 
-    def test_listings_empty_url(self):
-        client = Client()
-        response = client.get(reverse('listings:listings-empty'))
-        stat = response.status_code
-        self.assertEqual(200,stat)
+    def test_admin_url(self):
+        self.assertEqual(302,ping_url("/admin/"))
+
+    def test_login_url(self):
+        self.assertEqual(200,ping_url("/login/"))
+
+    def test_logout_url(self):
+        self.assertEqual(200,ping_url("/logout/"))
+
+    def test_auth_url(self):
+        self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
 
 ################################################################################
 """ System Tests """
@@ -206,5 +216,5 @@ if not on_travis and SYSTEM_TESTING and not exclude_from_metatest():
         def test_selenium(self):
             if(exclude_from_metatest() or on_travis):
                 return
-            self.load("/listings")
-            self.assertEqual("Let me know",self.get_by_tag("h1").text)
+            self.load("")
+            self.assertTrue(len(self.get_by_tag("h1").text) > 0)
