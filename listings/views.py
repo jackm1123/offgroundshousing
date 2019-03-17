@@ -13,5 +13,6 @@ class IndexView(generic.ListView):
     def get_queryset(self): # pragma no cover (not sure how to test)
         return Listing.objects.all()
 
-def index(request): 
-    return render_to_response('home/index.html')
+# Deleted: I think this code isn't used
+# def index(request):
+#     return render_to_response('home/index.html')
