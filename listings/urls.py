@@ -4,6 +4,6 @@ from . import views
 
 app_name = 'listings'
 urlpatterns = [
-    path('listings/', views.IndexView.as_view(), name='index'),
-    path('', views.index,name='listings-empty')
+    path('', views.IndexView.as_view(), name='index'),
+    path("<int:listing_id>/",views.one_listing, name="one_listing")
 ]

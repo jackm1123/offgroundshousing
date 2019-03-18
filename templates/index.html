@@ -53,9 +53,18 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="http://segfaulters3240.herokuapp.com/login/">Login</a>
+              <a class="nav-link" href="">Hello, {{ user.username }}</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </nav>

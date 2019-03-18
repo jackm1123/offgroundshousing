@@ -21,6 +21,9 @@ class Listing(models.Model):
     ownership_info = models.CharField(choices=OWNERSHIP_CHOICES, max_length=1, blank = False, default='A') # status is required field
     submission_date = models.DateTimeField(default=timezone.now, blank=True)
 
+    pictures = models.TextField(default="")
+
+    # sean = models.ImageField()
 
     def print_details(self): # pragma no cover (used for debugging)
         print("debugging info:")
