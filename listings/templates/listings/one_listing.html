@@ -3,6 +3,12 @@
 
   <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
   <script type="text/javascript" src="{% static 'listings/one_listing.js' %}"></script>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
 
 <div class="listing-info-container">
@@ -58,6 +64,33 @@
     <p><strong>submission_date:</strong> {{ listing.submission_date }}</p>
 
   </div>
+  <div id="map"></div>
+  <!-- Replace the value of the key parameter with your own API key. -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs&callback=initMap">
+  </script>
+
+
+  <script>
+    function initMap() {
+      // The location of Uluru
+      var latt = Number("{{listing.latitude}}")
+      var long = Number("{{listing.longitude}}")
+      if (latt === ""){
+        latt = 38.034
+      }
+      if (long === ""){
+        long = 131.036
+      }
+
+      var location = {lat: latt, lng: long};
+      // The map, centered at Uluru
+      var map = new google.maps.Map(
+          document.getElementById('map'), {zoom: 15, center: location});
+      // The marker, positioned at Uluru
+      var marker = new google.maps.Marker({position: location, map: map});
+    }
+  </script>
 
 
 {% else %}
