@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 class Listing(models.Model):
 
@@ -56,6 +58,20 @@ class Listing(models.Model):
     @classmethod
     def get_in_price_range(cls,low,high):
         return cls.objects.filter(price__gte=low,price__lte=high)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # avatar = models.ImageField()
+    # favorites = models.ManyToManyField('Listing')
+    dummyfield=models.IntegerField(default=5)
+
+#scary copy pasted code
+# https://github.com/maxg203/Django-Tutorials/blob/master/accounts/models.py
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UserProfile.objects.create(user=kwargs['instance'])
+
+post_save.connect(create_profile, sender=User)
 
 def dict_to_json(d):
     copy = d.copy()

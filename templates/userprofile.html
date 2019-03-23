@@ -6,6 +6,7 @@
             <ul class="display-4">
                 <p>Username: {{ user.username }}</p>
                 <p>Display Name: {{ user.first_name }} {{ user.last_name }}</p>
+                <p>Dummy Field: {{user.userprofile.dummyfield}}</p>
                 <p>Avatar: The Last Airbender</p>
             </ul>
 			<a class="lead" href="{% url 'logout' %}">Log out</a>
