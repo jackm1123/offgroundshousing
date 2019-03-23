@@ -38,7 +38,7 @@ $(function() {
   empty_stars.push(empty_star4);
   empty_stars.push(empty_star5);
 
-  for(var i = 0; i < rating-1; i++){
+  for(var i = 0; i < 5-rating; i++){
     stars[i].hide()
   }
 
