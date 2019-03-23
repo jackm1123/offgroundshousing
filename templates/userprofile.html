@@ -4,9 +4,9 @@
 	{% if user.is_authenticated %}
             <p class="display-3">My Profile</p>
             <ul class="display-4">
-                <p>Avatar: The Last Airbender</p>
                 <p>Username: {{ user.username }}</p>
                 <p>Display Name: {{ user.first_name }} {{ user.last_name }}</p>
+                <p>Avatar: The Last Airbender</p>
             </ul>
 			<a class="lead" href="{% url 'logout' %}">Log out</a>
 	{% else %}
