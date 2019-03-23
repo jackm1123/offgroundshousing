@@ -17,7 +17,7 @@ def one_listing(request,listing_id):
     context = {
         "listing" : listing,
     }
-    return render(request, 'listings/one_listing.html', context)
+    return render(request, 'listings/page_for_one_listing.html', context)
 
 # Deleted: I think this code isn't used
 # def index(request):
