@@ -28,6 +28,8 @@ class Listing(models.Model):
     latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
     longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
+    favorite = models.ManyToManyField(User, blank=True, related_name='user_favourite')
+
     # sean = models.ImageField()
 
     def print_details(self): # pragma no cover (used for debugging)
