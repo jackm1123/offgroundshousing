@@ -4,6 +4,9 @@ from django.contrib.auth import views
 from .views import home
 from django.urls import path,include
 
+from django.conf import settings
+from django.views.static import serve
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.LoginView.as_view(), name='login'),
@@ -14,3 +17,10 @@ urlpatterns = [
     #listings app
     path('listings/',include('listings.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$',serve,{
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]

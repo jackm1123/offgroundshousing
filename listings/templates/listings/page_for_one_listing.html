@@ -36,14 +36,11 @@
 
 
   <div class="pics" style="border: 2px solid black;">
-    <p>Pics</p>
-
-
     <!-- <img src="{% static 'listings/pics/4/'|add:listing.pictures %}" alt=""> -->
-    {% if listing.pictures %}
-    <img src="{% static 'listings/pics/' %}{{ listing.id }}/{{ listing.pictures }}" alt="">
+    {% if listing.image %}
+    <img src="{{ listing.image.url }}" alt="">
     {% else %}
-    <p>No pictures</p>
+    <p>No pictures available.</p>
     {% endif %}
 
 

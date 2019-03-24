@@ -23,6 +23,8 @@ class Listing(models.Model):
 
     pictures = models.TextField(default="")
 
+    image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
+
     latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
     longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
