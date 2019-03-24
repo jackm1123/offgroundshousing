@@ -41,6 +41,9 @@ class Listing(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def get_day(self):
+        return self.submission_date.strftime("%m/%d/%Y")
+
     @classmethod
     def get_sorted(cls,key):
         if type(key) != str:

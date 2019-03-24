@@ -19,6 +19,13 @@ def one_listing(request,listing_id):
     }
     return render(request, 'listings/page_for_one_listing.html', context)
 
+def one_listing_condensed(request,listing_id):
+    listing = get_object_or_404(Listing,pk=listing_id)
+    context = {
+        "listing" : listing,
+    }
+    return render(request, 'listings/one_listing_condensed.html', context)
+
 # Deleted: I think this code isn't used
 # def index(request):
 #     return render_to_response('home/index.html')

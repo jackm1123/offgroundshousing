@@ -17,7 +17,7 @@
 
           <ul>
             {% for listing in list_of_listings %}
-              <li>{{ listing.name}}</li>
+              <li> <a href="{{ listing.id }} ">{{ listing.name}}</a> </li>
             {% endfor %}
           </ul>
 

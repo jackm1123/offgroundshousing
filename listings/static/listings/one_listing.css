@@ -12,8 +12,10 @@ body{
 }
 
 .name{
-  padding-top: 2%;
-  position: relative;
+  margin: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
   background-color: #003366;
   padding: 1%;
 }
@@ -30,18 +32,48 @@ body{
   margin-left: 2%;
 }
 
-.at-a-glance h3, .contact-info h3{
+.at-a-glance{
+  border: 2px solid red;
+  overflow: hidden;
+}
+
+.at-a-glance h3, .contact-info h3, .description h3{
   padding-left: 1%;
+  font-size: 250%;
 }
 
 .at-a-glance * ,.contact-info *{
   padding-left: 2%;
 }
 
-
 .rating{
   /* margin-top: 3%; */
   position: absolute;
   top: 4%;
   left: 30%;
+}
+
+.bullet_pair{
+  /* border: 2px solid red; */
+  float: left;
+  width: 20%;
+  display: inline-block;
+  padding: 0;
+  margin-bottom: 3%;
+}
+
+.bullet_pair_body{
+  float: left;
+  width: 60%;
+  margin-top: 3%;
+  font-size: 140%;
+}
+
+.bullet_icon{
+  width: 20%;
+  float: left;
+}
+
+#bullet_pair_price{
+  margin-right: 40%;
 }
