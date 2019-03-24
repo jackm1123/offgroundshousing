@@ -37,8 +37,14 @@
 
   <div class="pics" style="border: 2px solid black;">
     <!-- <img src="{% static 'listings/pics/4/'|add:listing.pictures %}" alt=""> -->
-    {% if listing.image %}
-    <img src="{{ listing.image.url }}" alt="">
+    {% if listing.images %}
+
+    {% for image_model in listing.images.all %}
+
+      <img src="{{ image_model.image.url }}" alt="">
+    {% endfor %}
+
+
     {% else %}
     <p>No pictures available.</p>
     {% endif %}

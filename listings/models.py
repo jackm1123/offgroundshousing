@@ -22,9 +22,6 @@ class Listing(models.Model):
     submission_date = models.DateTimeField(default=timezone.now, blank=True)
 
     pictures = models.TextField(default="")
-
-    image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
-
     latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
     longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
@@ -61,6 +58,11 @@ class Listing(models.Model):
     @classmethod
     def get_in_price_range(cls,low,high):
         return cls.objects.filter(price__gte=low,price__lte=high)
+
+class Listing_Image(models.Model):
+    listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
+    image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
+    
 
 def dict_to_json(d):
     copy = d.copy()
