@@ -77,3 +77,11 @@ body{
 #bullet_pair_price{
   margin-right: 40%;
 }
+
+#slides{
+  text-align: center;
+}
+
+#slides embed{
+    width: 50%;
+}

@@ -9,8 +9,10 @@
 <div class="listing">
 
   <div class="picture">
-    {% if listing.pictures %}
-    <img src="{% static 'listings/pics/' %}{{ listing.id }}/{{ listing.pictures }}" alt="Missing image">
+    {% if listing.images %}
+      {% with listing.images.all|first as image_model %}
+      <img src="{{ image_model.image.url }}" alt="image missing">
+      {% endwith %}
     {% else %}
     <p>No pictures</p>
     {% endif %}
