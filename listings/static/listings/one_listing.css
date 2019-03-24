@@ -1,3 +1,30 @@
+
+
+.test{
+  all: unset;
+}
+
 .rating img{
-  height: 40px;
+  height: 10%;
+  width: auto;
+}
+
+.name{
+  padding-top: 2%;
+  position: relative;
+  background-color: #003366;
+  padding: 1%;
+}
+
+.name h1{
+  font-size: 200%;
+  color: white;
+  margin-left: 2%;
+}
+
+.rating{
+  /* margin-top: 3%; */
+  position: absolute;
+  top: 2%;
+  left: 20%;
 }

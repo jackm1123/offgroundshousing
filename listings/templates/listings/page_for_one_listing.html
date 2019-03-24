@@ -11,28 +11,33 @@
     }
   </style>
 
+{% include "navbar.html" %}
 
-  <div class="name" style="border: 3px solid black;">
+<div class="test">
+
+
+  <div class="name">
     <h1>{{ listing.name }}</h1>
+    <div class="rating">
+      <p style="display: none;">Rating = {{ listing.rating }}</p>
+      <img src="{% static 'listings/0stars.png' %}" alt="0 stars" num="0">
+      <img src="{% static 'listings/1stars.png' %}" alt="1 stars" num="1">
+      <img src="{% static 'listings/2stars.png' %}" alt="2 stars" num="2">
+      <img src="{% static 'listings/3stars.png' %}" alt="3 stars" num="3">
+      <img src="{% static 'listings/4stars.png' %}" alt="4 stars" num="4">
+      <img src="{% static 'listings/5stars.png' %}" alt="5 stars" num="5">
+    </div>
   </div>
-  <div class="price" style="border: 2px solid black;">
+  <div class="price" style="border: 2px solid orange;">
     <p>Estimated costs: ${{ listing.price }}</p>
   </div>
 
 
-  <div class="rating" style="border: 2px solid black;">
-    <p style="display: none;">Rating = {{ listing.rating }}</p>
-    <img src="{% static 'listings/0stars.png' %}" alt="0 stars" num="0">
-    <img src="{% static 'listings/1stars.png' %}" alt="1 stars" num="1">
-    <img src="{% static 'listings/2stars.png' %}" alt="2 stars" num="2">
-    <img src="{% static 'listings/3stars.png' %}" alt="3 stars" num="3">
-    <img src="{% static 'listings/4stars.png' %}" alt="4 stars" num="4">
-    <img src="{% static 'listings/5stars.png' %}" alt="5 stars" num="5">
-  </div>
 
 
 
-  <div class="map" style="border: 2px solid black;">
+
+  <div class="map" style="border: 2px solid blue;">
     <p>Map</p>
     <div class="contact-info">
       <p>{{ listing.phone_num }}</p>
@@ -95,3 +100,5 @@
 {% else %}
     <p>WHAT. No listing. :p</p>
 {% endif %}
+
+</div>
