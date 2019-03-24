@@ -14,6 +14,7 @@ body{
   margin: 0;
   position: -webkit-sticky;
   position: sticky;
+  z-index: 1000;
   top: 0px;
   background-color: #003366;
   padding: 1%;
@@ -36,10 +37,22 @@ body{
   overflow: hidden;
 }
 
+.description {
+  padding-top: 10px;
+  padding-left: 2%;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid black;
+}
+
 .at-a-glance h3, .contact-info h3, .description h3{
   padding-left: 1%;
   font-size: 250%;
 }
+
+ .description h3{
+   padding-left: 0;
+ }
 
 .at-a-glance * ,.contact-info *{
   padding-left: 2%;
@@ -79,9 +92,21 @@ body{
 }
 
 #slides{
-  text-align: center;
+  /* text-align: center; */
+  padding-top: 10px;
+  width: 50%;
+  float: left;
 }
 
 #slides embed{
-    width: 50%;
+    width: 100%;
+    height: 500px;
+    overflow:hidden;
+}
+
+#map {
+  margin-top: 10px;
+  height: 500px;
+  margin-bottom: 20px;
+  width: 50%;
 }

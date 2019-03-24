@@ -26,6 +26,9 @@
 
   <div class="rating">
     {% include 'listings/rating.html' %}
+    <script type="text/javascript">
+      hide_stars({{ listing.rating }});
+    </script>
   </div>
 
   <div class="price">
