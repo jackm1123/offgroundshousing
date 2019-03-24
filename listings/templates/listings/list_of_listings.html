@@ -15,11 +15,9 @@
 
         {% if list_of_listings %}
 
-          <ul>
-            {% for listing in list_of_listings %}
-              <li> <a href="{{ listing.id }} ">{{ listing.name}}</a> </li>
-            {% endfor %}
-          </ul>
+          {% for listing in list_of_listings %}
+            {% include 'listings/one_listing_condensed.html' %}
+          {% endfor %}
 
 
         {% else %}

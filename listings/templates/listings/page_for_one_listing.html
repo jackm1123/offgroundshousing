@@ -7,7 +7,10 @@
 {% load static %}
 
   <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
-  <script type="text/javascript" src="{% static 'listings/one_listing.js' %}"></script>
+  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
+
+
   <style>
     #map {
       height: 400px;
@@ -15,7 +18,6 @@
     }
   </style>
 
-<link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
 
 <div class="test">
 
@@ -23,13 +25,8 @@
   <div class="name">
     <h1>{{ listing.name }}</h1>
     <div class="rating">
-      <p style="display: none;">Rating = {{ listing.rating }}</p>
-      <img src="{% static 'listings/0stars.png' %}" alt="0 stars" num="0">
-      <img src="{% static 'listings/1stars.png' %}" alt="1 stars" num="1">
-      <img src="{% static 'listings/2stars.png' %}" alt="2 stars" num="2">
-      <img src="{% static 'listings/3stars.png' %}" alt="3 stars" num="3">
-      <img src="{% static 'listings/4stars.png' %}" alt="4 stars" num="4">
-      <img src="{% static 'listings/5stars.png' %}" alt="5 stars" num="5">
+      {% include 'listings/rating.html' %}
+
     </div>
     <div class="price">
       <h3>${{ listing.price }}</h3>
@@ -173,9 +170,43 @@
 
 
 {% else %}
-    <p>WHAT. No listing. :p</p>
+    <p>WHAT. No listing. :p This should have been handled by the 404 page...</p>
 {% endif %}
 
 </div>
+
+<!--
+Experimental
+<script type="text/javascript">
+
+var topofDiv = $(".name").offset().top; //gets offset of header
+var height = $(".name").outerHeight()
+
+var flip = true;
+
+$(window).scroll(function(){
+    var name = $(".name");
+    var title = $(".name h1");
+    var price = $(".name price").children("h3");
+    if(flip && $(window).scrollTop() > (topofDiv + height/4)){
+      var save_size = title.css("font-size");
+      title.prop("save_size",save_size);
+      title.css("font-size","100%");
+      price.css("font-size","10px");
+      flip = false;
+    }
+    else if(!flip && $(window).scrollTop() < (topofDiv)){
+      flip = true;
+      var save_size = title.prop("save_size");
+      if(save_size.length > 0){
+        title.css("font-size",title.prop("save_size"));
+        title.prop("save_size","")
+      }
+    }
+});
+
+</script>
+
+-->
 
 {% endblock %}

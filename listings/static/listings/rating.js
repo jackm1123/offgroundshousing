@@ -9,6 +9,8 @@ $(function() {
     var star_num = parseInt($(this).attr("num"));
     if(star_num != rating){
       $(this).hide();
+    }else{
+      $(this).show();
     }
   });
 
