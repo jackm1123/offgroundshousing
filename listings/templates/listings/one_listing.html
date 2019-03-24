@@ -9,23 +9,29 @@
       width: 100%;
     }
   </style>
+  <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
+
+<div class="listing-info-container">
 
 
-  <div class="name" style="border: 3px solid black;">
-    <h1>{{ listing.name }}</h1>
+  <div class="name-container">
+    <h1 id="name">{{ listing.name }}</h1>
   </div>
-  <div class="price" style="border: 2px solid black;">
-    <p>Estimated costs: ${{ listing.price }}</p>
+  <div class="price-container">
+    <span class="price">${{ listing.price }}</span>
   </div>
 
 
-  <div class="rating" style="border: 2px solid black;">
+  <div class="rating">
     <p>Rating = {{ listing.rating }}</p>
       <img id="star" src="{% static 'listings/star.png' %}" alt="" style="width: 50px;">
       <img id="empty_star" src="{% static 'listings/empty_star.png' %}" alt="" style="width: 50px;">
   </div>
 
-
+</div>
+<br>
+<br>
+<br>
 
   <div class="map" style="border: 2px solid black;">
     <p>Map</p>

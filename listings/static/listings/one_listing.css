@@ -1,0 +1,31 @@
+body{
+  background-color: #dadada;
+}
+
+.price-container, .name-container{
+  float: left;
+  margin-right: 20px;
+  /* height: 3%; */
+}
+
+.price-container{
+  padding-top: 45px;
+}
+
+.rating{
+  padding-top: 50px;
+}
+
+.price{
+  font-size: 50px;
+  font-weight: bold;
+  color: #006900;
+}
+
+#name{
+  font-size: 60px;
+}
+
+/* .listing-info-container{
+  border: 5px solid green;
+} */
