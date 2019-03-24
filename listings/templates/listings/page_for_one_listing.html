@@ -1,9 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
 {% if listing %}
 {% load static %}
 
   <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
   <script type="text/javascript" src="{% static 'listings/one_listing.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
   <style>
     #map {
       height: 400px;
@@ -11,7 +15,7 @@
     }
   </style>
 
-{% include "navbar.html" %}
+<link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
 
 <div class="test">
 
@@ -27,23 +31,17 @@
       <img src="{% static 'listings/4stars.png' %}" alt="4 stars" num="4">
       <img src="{% static 'listings/5stars.png' %}" alt="5 stars" num="5">
     </div>
-  </div>
-  <div class="price" style="border: 2px solid orange;">
-    <p>Estimated costs: ${{ listing.price }}</p>
-  </div>
-
-
-
-
-
-
-  <div class="map" style="border: 2px solid blue;">
-    <p>Map</p>
-    <div class="contact-info">
-      <p>{{ listing.phone_num }}</p>
-      <p>{{ listing.address }}</p>
-      <!-- Email -->
+    <div class="price">
+      <h3>${{ listing.price }}</h3>
     </div>
+  </div>
+
+
+  <div class="contact-info">
+    <h3>Contact info</h3>
+    <p>{{ listing.phone_num }}</p>
+    <p>{{ listing.address }}</p>
+    <!-- Email -->
   </div>
   <div class="pics" style="border: 2px solid black;">
     <p>Pics</p>
@@ -59,6 +57,7 @@
 
   </div>
   <div class="at-a-glance" style="border: 2px solid black;">
+    <h3>At a glance</h3>
     <p><strong>Description:</strong> {{ listing.description }}</p>
     <p><strong>Laundry:</strong> {{ listing.laundry_info }}</p>
     <p><strong>square_footage:</strong> {{ listing.square_footage }} sqft</p>
@@ -102,3 +101,5 @@
 {% endif %}
 
 </div>
+
+{% endblock %}

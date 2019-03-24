@@ -1,12 +1,14 @@
-
+body{
+  color: black;
+}
 
 .test{
   all: unset;
 }
 
 .rating img{
-  height: 10%;
-  width: auto;
+  height: 12%;
+  /* width: auto; */
 }
 
 .name{
@@ -17,14 +19,29 @@
 }
 
 .name h1{
-  font-size: 200%;
-  color: white;
+  font-size: 300%;
+  color: orange;
   margin-left: 2%;
 }
+
+.price h3{
+  color: white;
+  font-size: 200%;
+  margin-left: 2%;
+}
+
+.at-a-glance h3, .contact-info h3{
+  padding-left: 1%;
+}
+
+.at-a-glance * ,.contact-info *{
+  padding-left: 2%;
+}
+
 
 .rating{
   /* margin-top: 3%; */
   position: absolute;
-  top: 2%;
-  left: 20%;
+  top: 4%;
+  left: 30%;
 }
