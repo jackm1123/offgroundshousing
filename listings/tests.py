@@ -1,5 +1,5 @@
 META_TESTING = False
-SYSTEM_TESTING = False
+SYSTEM_TESTING = True
 
 from django.test import TestCase
 from django.test import Client
@@ -206,7 +206,7 @@ class ListingTest(TestCase):
 """ System Tests """
 ################################################################################
 
-if not on_travis and SYSTEM_TESTING and not exclude_from_metatest():
+if SYSTEM_TESTING and not exclude_from_metatest():
     # https://lincolnloop.com/blog/introduction-django-selenium-testing/
     from selenium import webdriver
     from django.test import LiveServerTestCase
@@ -227,7 +227,14 @@ if not on_travis and SYSTEM_TESTING and not exclude_from_metatest():
             return self.browser.find_element_by_tag_name(id)
 
         def test_selenium(self):
-            if(exclude_from_metatest() or on_travis):
-                return
             self.load("")
             self.assertTrue(len(self.get_by_tag("h1").text) > 0)
+
+        def test_some_listings(self):
+            a = create_generic_listing(name="a",id=3)
+            b = create_generic_listing(name="b",id=2)
+            c = create_generic_listing(name="c",id=1)
+            d = create_generic_listing(name="d",id=0)
+
+            divs = self.browser.find_elements_by_class_name("listing")
+            print("LENGTH:",len(divs))
