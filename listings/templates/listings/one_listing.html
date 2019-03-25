@@ -11,6 +11,11 @@
   </style>
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
 
+<div class="switch">
+  <input type="checkbox" onclick="change_actve">
+  <span class="slider round"></span>
+</div>
+
 <div class="listing-info-container">
   <div class="name-container">
     <h1 id="name">{{ listing.name }}</h1>
