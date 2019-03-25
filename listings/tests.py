@@ -180,6 +180,19 @@ class ListingTest(TestCase):
     def test_admin_url(self):
         self.assertEqual(302,ping_url("/admin/"))
 
+    def test_listings_url(self):
+        self.assertEqual(200,ping_url("/listings/"))
+
+    def test_all_listings_pages(self):
+        a = create_generic_listing(name="a",id=3)
+        b = create_generic_listing(name="b",id=2)
+        c = create_generic_listing(name="c",id=1)
+        d = create_generic_listing(name="d",id=0)
+
+        objs = Listing.objects.all()
+        for o in objs:
+            self.assertEqual(301,ping_url("/listings/" + str(o.id)))
+
     # def test_login_url(self):
     #     self.assertEqual(200,ping_url("/login/"))
 
