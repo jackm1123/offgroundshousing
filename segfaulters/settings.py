@@ -140,7 +140,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_HOST = "smtp.google.com'
+EMAIL_HOST = 'smtp.google.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'segfaulter3240@gmail.com'
 EMAIL_HOST_PASSWORD = 'SHERRIFF'
