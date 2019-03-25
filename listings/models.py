@@ -27,8 +27,8 @@ class Listing(models.Model):
     latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
     longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
-    active = models.BooleanField(default=False)
-    favorite = models.BooleanField(default=False)
+    active = models.BooleanField(default=True) #change to true for testing, will be made default false later
+    favorite = models.BooleanField(default=False) #need to go find one.
     user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
 
     # sean = models.ImageField()

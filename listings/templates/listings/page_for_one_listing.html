@@ -8,9 +8,11 @@
 
   <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
   <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+  <!--<script type="text/javascript" src="{% static 'listings/favorite_button.js' %}"></script>
+  <script type="text/javascript" src="{% static 'listings/active.js' %}"></script> -->
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
-
-
+ <!-- <link rel="stylesheet" href="{% static 'listings/favorite_button.css' %}">
+  <link rel="stylesheet" href="{% static 'listings/active.css' %}"> -->
 <div class="test">
 
 
@@ -18,11 +20,24 @@
     <h1>{{ listing.name }}</h1>
     <div class="rating">
       {% include 'listings/rating.html' %}
-
     </div>
     <div class="price">
       <h3>${{ listing.price }}</h3>
     </div>
+    <!--{% if listing.active %}
+    <p>active: {{list.active}} <label class="switch">
+      <input type="checkbox" checked>
+      <span class="slider round"></span>
+    </label>
+    </p>
+    {% else %}
+    <p>active: <label class="switch">
+      <input type="checkbox" checked>
+      <span class="slider round"></span>
+    </label>
+    </p>
+    {% endif %}
+    -->
   </div>
 
 <div id="slides">
