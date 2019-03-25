@@ -25,8 +25,20 @@ class IndexView(generic.ListView):
         apply_GET_filter("price__lte","price_high")
         apply_GET_filter("rating__gte","rating_low")
         apply_GET_filter("rating__lte","rating_high")
+        apply_GET_filter("square_footage__gte","sqft_low")
+        apply_GET_filter("square_footage__lte","sqft_high")
+        apply_GET_filter("bedroom_num__gte","beds_low")
+        apply_GET_filter("bedroom_num__lte","beds_high")
         apply_GET_filter("name","name")
+        apply_GET_filter("phone_num","phone_num")
         apply_GET_filter("laundry_info","laundry")
+        apply_GET_filter("parking_info","parking")
+        apply_GET_filter("ownership_info","owned")
+        apply_GET_filter("ownership_info","owned")
+
+        # submission_date
+        # active
+        # favorite
 
 
         return objects
