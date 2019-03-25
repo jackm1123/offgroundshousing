@@ -119,8 +119,6 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='315248084971-5c5eu3vq2q8l4ki1vaeiibudie40anp9.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'y1NoNmYUsW_EoE-eo2xLCUtA' #Paste Secret Key
 
-
-
 '''-------------------------'''
 
 # Internationalization
@@ -142,6 +140,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+EMAIL_HOST = "smtp.google.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'segfaulter3240@gmail.com'
+EMAIL_HOST_PASSWORD = 'SHERRIFF'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 django_heroku.settings(locals(), test_runner=False)
