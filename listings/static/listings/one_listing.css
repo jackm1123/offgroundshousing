@@ -1,0 +1,112 @@
+body{
+  color: black;
+}
+
+.test{
+  all: unset;
+}
+
+.rating img{
+  width: 100%;
+}
+
+.name{
+  margin: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 1000;
+  top: 0px;
+  background-color: #003366;
+  padding: 1%;
+}
+
+.name h1{
+  font-size: 300%;
+  color: orange;
+  margin-left: 2%;
+}
+
+.price h3{
+  color: white;
+  font-size: 200%;
+  margin-left: 2%;
+}
+
+.at-a-glance{
+  border: 2px solid red;
+  overflow: hidden;
+}
+
+.description {
+  padding-top: 10px;
+  padding-left: 2%;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid black;
+}
+
+.at-a-glance h3, .contact-info h3, .description h3{
+  padding-left: 1%;
+  font-size: 250%;
+}
+
+ .description h3{
+   padding-left: 0;
+ }
+
+.at-a-glance * ,.contact-info *{
+  padding-left: 2%;
+}
+
+.rating{
+  /* margin-top: 3%; */
+  position: absolute;
+  top: 8%;
+  left: 20%;
+  width: 45%;
+}
+
+.bullet_pair{
+  /* border: 2px solid red; */
+  float: left;
+  width: 20%;
+  display: inline-block;
+  padding: 0;
+  margin-bottom: 3%;
+}
+
+.bullet_pair_body{
+  float: left;
+  width: 60%;
+  margin-top: 3%;
+  font-size: 140%;
+}
+
+.bullet_icon{
+  width: 20%;
+  float: left;
+}
+
+#bullet_pair_price{
+  margin-right: 40%;
+}
+
+#slides{
+  /* text-align: center; */
+  padding-top: 10px;
+  width: 50%;
+  float: left;
+}
+
+#slides embed{
+    width: 100%;
+    height: 500px;
+    overflow:hidden;
+}
+
+#map {
+  margin-top: 10px;
+  height: 500px;
+  margin-bottom: 20px;
+  width: 50%;
+}

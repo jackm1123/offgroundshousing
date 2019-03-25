@@ -1,10 +1,98 @@
-{% extends "layout.html" %}
-
+{% extends "base.html" %}
 {% block content %}
-	{% if user.is_authenticated %}
-			<p class="display-4">Hello, {{ user.username }}</p>
-			<a class="lead" href="{% url 'logout' %}">Log out</a>
-	{% else %}
-		<a class="lead" href="{% url 'login' %}">Log in</a>
-	{% endif %}
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://drive.google.com/uc?export=view&id=1jn0gyeFp-xQwb_Vysi4WgqYiQxSnbbsC" />
+
+
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
+    <title>Yelp for Off Grounds Housing</title>
+
+  </head>
+  <body>
+
+
+    {% if user.is_authenticated %}
+
+    {% load static %}
+
+
+      <script type="text/javascript">
+        var greeting1 = 'Hello, {{ user.username }}.';
+      </script>
+
+      <script type="text/javascript" src="{% static 'greeting2.js' %}"></script>
+
+    {% else %}
+      <script type="text/javascript">
+        var greeting1 = 'Hello, stranger!';
+        var greeting2 = 'You can log in on the top right.';
+      </script>
+    {% endif %}
+
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1 id='greeting1'>Let me know</h1>
+        <p id='greeting2'>What you guys want to put in here</p>
+
+        <script type="text/javascript">
+          $("#greeting1").text(greeting1);
+          $("#greeting2").text(greeting2);
+
+        </script>
+
+         <form class="form-inline justify-content-center" method = "GET" action = "" >
+        <input class="form-control mr-sm-2" name="query" size = "40%" type="text" placeholder="Starting by entering either a zip code or city!">
+        <button class="btn btn-outline-success  my-2 my-sm-0" type="submit">Find Housing</button>
+        </form>
+
+      </div>
+    </div>
+
+    <section class="highlight">
+        <h1> Available Listings!</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image1">
+          <h3>Cardboard Box</h3>
+          <p> Thats a big TV the neighbors brought in.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image2">
+          <h3>Trashcan</h3>
+          <p> Hey it could be worse, you could be garbage!
+          </p>
+        </div>
+        <div class="col-md-4">
+          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image3">
+          <h3>A friend's couch</h3>
+          <p> Always open and warm, though your friends might mind.
+          </p>
+        </div>
+      </div>
+    </div>
+    </section>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+
+
 {% endblock content %}

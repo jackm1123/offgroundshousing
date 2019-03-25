@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+            <p class="display-3">My Profile</p>
+            <ul class="display-4">
+                <p>Username: {{ user.username }}</p>
+                <p>Display Name: {{ user.first_name }} {{ user.last_name }}</p>
+                <p>Dummy Field: {{user.userprofile.dummyfield}}</p>
+                <p>Avatar: The Last Airbender</p>
+            </ul>
+			<a class="lead" href="{% url 'logout' %}">Log out</a>
+	{% else %}
+		<a class="lead" href="{% url 'login' %}">Log in</a>
+	{% endif %}
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.views import generic
 from django.shortcuts import render_to_response, get_object_or_404, render
@@ -10,14 +11,46 @@ class IndexView(generic.ListView):
     context_object_name = 'list_of_listings'
 
     def get_queryset(self): # pragma no cover (not sure how to test)
-        return Listing.objects.all()
+
+        objects = Listing.objects.all()
+
+        def apply_GET_filter(arg_name,filter_name):
+            nonlocal objects
+            filter = self.request.GET.get(filter_name)
+            kwargs = {arg_name: filter}
+            if(filter != None):
+                objects = objects.filter(**kwargs)
+
+        apply_GET_filter("price__gte","price_low")
+        apply_GET_filter("price__lte","price_high")
+        apply_GET_filter("rating__gte","rating_low")
+        apply_GET_filter("rating__lte","rating_high")
+        apply_GET_filter("name","name")
+        apply_GET_filter("laundry_info","laundry")
+
+
+        return objects
 
 def one_listing(request,listing_id):
     listing = get_object_or_404(Listing,pk=listing_id)
     context = {
         "listing" : listing,
     }
-    return render(request, 'listings/one_listing.html', context)
+    return render(request, 'listings/page_for_one_listing.html', context)
+
+def one_listing_condensed(request,listing_id):
+    listing = get_object_or_404(Listing,pk=listing_id)
+    context = {
+        "listing" : listing,
+    }
+    return render(request, 'listings/one_listing_condensed.html', context)
+
+def one_listing_slides(request,listing_id):
+    listing = get_object_or_404(Listing,pk=listing_id)
+    context = {
+        "listing" : listing,
+    }
+    return render(request, 'listings/one_listing_slides.html', context)
 
 # Deleted: I think this code isn't used
 # def index(request):

@@ -3,7 +3,9 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
+MEDIA_URL = "/media/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -15,6 +17,10 @@ SECRET_KEY = 'p#p!_8(1l#&0)&i@%^7k4-lpefksh5il+bt1t2aukst$vj9g&d'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 
 # Application definition
@@ -117,8 +123,6 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='315248084971-5c5eu3vq2q8l4ki1vaeiibudie40anp9.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'y1NoNmYUsW_EoE-eo2xLCUtA' #Paste Secret Key
 
-
-
 '''-------------------------'''
 
 # Internationalization
@@ -140,6 +144,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+EMAIL_HOST = "smtp.google.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "segfaulter3240@gmail.com"
+EMAIL_HOST_PASSWORD = 'SHERRIFF'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 django_heroku.settings(locals(), test_runner=False)

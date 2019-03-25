@@ -180,8 +180,8 @@ class ListingTest(TestCase):
     def test_admin_url(self):
         self.assertEqual(302,ping_url("/admin/"))
 
-    def test_login_url(self):
-        self.assertEqual(200,ping_url("/login/"))
+    # def test_login_url(self):
+    #     self.assertEqual(200,ping_url("/login/"))
 
     def test_logout_url(self):
         self.assertEqual(200,ping_url("/logout/"))

@@ -1,36 +1,35 @@
-
 {% extends 'base.html' %}
-{% load crispy_forms_tags %} 
+{% load crispy_forms_tags %}
 {% block content %}
 
-  <head>
-    <title>Listings</title>
-  </head>
-  <body>
-    <h1>Listings</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <hr class="mt-0 mb-4">
 
-    {% if list_of_listings %}
+      <head>
+        <title>Listings</title>
+      </head>
+      <body>
+        <h1>Listings</h1>
 
-      <ul>
-        {% for listing in list_of_listings %}
-          <li>{{ listing.name}}</li>
-        {% endfor %}
-      </ul>
+        {% if list_of_listings %}
 
-
-    {% else %}
-      <p>No listings are available. :(</p>
-    {% endif %}
+          {% for listing in list_of_listings %}
+            {% include 'listings/one_listing_condensed.html' %}
+          {% endfor %}
 
 
-  </body>
+        {% else %}
+          <p>No listings are available. :(</p>
+        {% endif %}
 
 
+      </body>
 
-
-
-
-
+    </div>
+  </div>
+</div>
 
 
 
