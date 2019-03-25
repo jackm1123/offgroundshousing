@@ -28,10 +28,16 @@
 
 
     {% if user.is_authenticated %}
+
+    {% load static %}
+
+
       <script type="text/javascript">
         var greeting1 = 'Hello, {{ user.username }}.';
-        var greeting2 = 'You look great today.';
       </script>
+
+      <script type="text/javascript" src="{% static 'greeting2.js' %}"></script>
+
     {% else %}
       <script type="text/javascript">
         var greeting1 = 'Hello, stranger!';
