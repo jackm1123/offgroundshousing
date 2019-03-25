@@ -9,4 +9,5 @@ urlpatterns = [
     path("<int:listing_id>/condensed",views.one_listing_condensed, name="one_listing_condensed"),
     path("<int:listing_id>/slides",views.one_listing_slides, name="one_listing_slides"),
 
+
 ]

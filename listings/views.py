@@ -11,7 +11,25 @@ class IndexView(generic.ListView):
     context_object_name = 'list_of_listings'
 
     def get_queryset(self): # pragma no cover (not sure how to test)
-        return Listing.objects.all()
+
+        objects = Listing.objects.all()
+
+        def apply_GET_filter(arg_name,filter_name):
+            nonlocal objects
+            filter = self.request.GET.get(filter_name)
+            kwargs = {arg_name: filter}
+            if(filter != None):
+                objects = objects.filter(**kwargs)
+
+        apply_GET_filter("price__gte","price_low")
+        apply_GET_filter("price__lte","price_high")
+        apply_GET_filter("rating__gte","rating_low")
+        apply_GET_filter("rating__lte","rating_high")
+        apply_GET_filter("name","name")
+        apply_GET_filter("laundry_info","laundry")
+
+
+        return objects
 
 def one_listing(request,listing_id):
     listing = get_object_or_404(Listing,pk=listing_id)

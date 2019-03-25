@@ -82,7 +82,7 @@ post_save.connect(create_profile, sender=User)
 class Listing_Image(models.Model):
     listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
-    
+
 
 def dict_to_json(d):
     copy = d.copy()
