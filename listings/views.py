@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.views import generic
@@ -45,6 +44,11 @@ class IndexView(generic.ListView):
 
 def one_listing(request,listing_id):
     listing = get_object_or_404(Listing,pk=listing_id)
+    for i in listing.user_list.all():
+        send_mail(
+            'Hello a listing you were interested in went down: ' + listing.name,
+            'this is an automated message do not reply',
+            'segfaulters3240@gmail', [i.email], fail_silently=False)
     context = {
         "listing" : listing,
     }
@@ -63,6 +67,18 @@ def one_listing_slides(request,listing_id):
         "listing" : listing,
     }
     return render(request, 'listings/one_listing_slides.html', context)
+
+def one_listing_mail(request,listing_id):
+    listing = get_object_or_404(Listing,pk=listing_id)
+    for i in listing.user_list.all():
+        send_mail(
+            'Hello a listing you were interested in went down: ' + listing.name,
+            'this is an automated message do not reply',
+            'segfaulters3240@gmail', [i.email], fail_silently=False)
+    context = {
+        "listing" : listing,
+    }
+    return render(request, 'listings/page_for_one_listing.html', context)
 
 # Deleted: I think this code isn't used
 # def index(request):
