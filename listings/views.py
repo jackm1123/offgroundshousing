@@ -44,7 +44,6 @@ class IndexView(generic.ListView):
 
 def one_listing(request,listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
-    print("not here")
     context = {
         "listing" : listing,
     }
@@ -66,6 +65,7 @@ def one_listing_slides(request,listing_id):
 
 def one_listing_inactive(request,listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
+    listing.active = False
     print("here")
     send_mail(
         'Hello a listing you were interested in went down: ' + listing.name,
