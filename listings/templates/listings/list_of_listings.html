@@ -79,17 +79,39 @@
           }
         </script>
 
+        <button id="show-list">List view</button>
+        <button id="show-map">Map view</button>
 
-        {% if list_of_listings %}
+        <div class="list-of-listings">
+          {% if list_of_listings %}
 
-          {% for listing in list_of_listings %}
-            {% include 'listings/one_listing_condensed.html' %}
-          {% endfor %}
+            {% for listing in list_of_listings %}
+              {% include 'listings/one_listing_condensed.html' %}
+            {% endfor %}
 
 
-        {% else %}
-          <p>No listings are available. :(</p>
-        {% endif %}
+          {% else %}
+            <p>No listings are available. :(</p>
+          {% endif %}
+        </div>
+
+        <div class="map">
+          This is the map!
+        </div>
+
+        <script type="text/javascript">
+          $("#show-list").click(function(){
+            $(".map").hide()
+            $(".list-of-listings").show();
+          });
+          $("#show-map").click(function(){
+            $(".list-of-listings").hide();
+            $(".map").show()
+          });
+        </script>
+
+
+
 
 
       </body>
