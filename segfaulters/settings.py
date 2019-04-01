@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'listings.apps.ListingsConfig',
+    'users.apps.UsersConfig',
     'crispy_forms', #bootstrap django forms
     'social_django', #social auth google
 ]
