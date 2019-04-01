@@ -1,0 +1,42 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'listings/one_listing_condensed.css' %}">
+
+
+<div class="listing">
+
+  <div class="picture">
+    {% if listing.images %}
+      {% with listing.images.all|first as image_model %}
+      <img src="{{ image_model.image.url }}" alt="image missing">
+      {% endwith %}
+    {% else %}
+    <p>No pictures</p>
+    {% endif %}
+  </div>
+
+
+
+  <div class="name">
+    <a href="{{ listing.id }}">{{ listing.name }}</a>
+  </div>
+
+  <div class="rating">
+    {% include 'listings/rating.html' %}
+    <script type="text/javascript">
+      hide_stars({{ listing.rating }});
+    </script>
+  </div>
+
+  <div class="price">
+    ${{ listing.price }}
+  </div>
+
+  <div class="address">
+    {{ listing.address }}
+  </div>
+
+</div>
