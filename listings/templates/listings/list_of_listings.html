@@ -95,8 +95,41 @@
           {% endif %}
         </div>
 
-        <div class="map">
-          This is the map!
+        <div class="mapview">
+          <div id="map"></div>
+          <script async defer
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs&callback=initMap">
+            </script>
+
+
+            <script>
+              function initMap() {
+                // The location of Uluru
+                var latt = 38.034
+                var long = 131.036
+                if (latt === ""){
+                  latt = 38.034
+                }
+                if (long === ""){
+                  long = 131.036
+                }
+
+                var location = {lat: latt, lng: long};
+                // The map, centered at Uluru
+                var map = new google.maps.Map(
+                    document.getElementById('map'), {zoom: 15, center: location});
+                // The marker, positioned at Uluru
+                var marker = new google.maps.Marker({position: location, map: map, title: "yert", labelInBackground: false,});
+                var marker2 = new google.maps.Marker({position: {lat: 38.040, lng: 131.040}, map: map, labelContent: "yeet", labelInBackground: false,})
+
+
+
+                 google.maps.event.addListener(marker, 'click', function() {
+                  window.open("http://google.com");
+               });
+              }
+            </script>
+
         </div>
 
         <script type="text/javascript">
@@ -106,7 +139,7 @@
           });
           $("#show-map").click(function(){
             $(".list-of-listings").hide();
-            $(".map").show()
+            $(".mapview").show()
           });
         </script>
 
