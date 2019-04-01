@@ -25,17 +25,23 @@
       <h3>${{ listing.price }}</h3>
     </div>
     {% if listing.active %}
-    <p>active: {{list.active}} <label class="switch">
-      <input type="checkbox" checked>
+    <form action ="/listings/{{ listing.id }}/inactive">
+      <p>active: <label class="switch">
+      <input type="checkbox" value = "true" checked>
       <span class="slider round"></span>
     </label>
     </p>
+      <input type="submit" value="Submit">
+    </form>
     {% else %}
-    <p>active: <label class="switch">
-      <input type="checkbox" checked>
+    <form action ="/listings/{{ listing.id }}/inactive">
+      <p>active: <label class="switch">
+      <input type="checkbox" value = "false">
       <span class="slider round"></span>
     </label>
     </p>
+      <input type="submit" value="Submit">
+    </form>
     {% endif %}
   </div>
 
@@ -43,6 +49,17 @@
     hide_stars({{ listing.rating }});
   </script>
 
+  <script>
+function check() {
+alert("there");
+  if ({{list.active}}){
+    document.getElementById("active").checked = true;
+ }
+  else{
+    document.getElementById("active").checked = false;
+ }
+}
+</script>
 <div id="slides">
   <embed src="slides" width="500px" height="600px">
 </div>
@@ -153,7 +170,7 @@
       <img class="bullet_icon" src="{% static 'listings/icons/email.png' %}" alt="sqft icon">
       <div class="bullet_pair_body">
         <strong>Email</strong><br>
-        add_this_to_model@yahoo.com
+        segfaulters3240@gmail.com
         <!-- {{ listing.email }} -->
       </div>
     </div>
