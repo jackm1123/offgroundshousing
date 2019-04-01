@@ -1,0 +1,49 @@
+.listing{
+  /* border: 2px solid blue; */
+  position: relative;
+  height: 200px;
+  width: 80%;
+  border-bottom: 2px dotted black;
+}
+
+.listing:hover{
+  background-color: #f1f1f1;
+
+}
+
+.listing div{
+  margin-left: 46%;
+}
+
+.listing .picture{
+  position: absolute;
+  width: 44%;
+  height: 100%;
+  /* border: 2px solid red; */
+  margin: 0px;
+}
+
+.listing .rating {
+  margin-left: 30%;
+}
+
+.picture img{
+  width: 100%;
+}
+
+
+.rating img{
+  width: 100%;
+  float:left;
+}
+
+.rating{
+  width: 50%;
+  overflow: hidden;
+}
+
+.name a{
+  font-size: 200%;
+  font-weight: bold;
+  color: #b10000;
+}

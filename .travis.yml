@@ -1,20 +1,18 @@
 language: python
 python:
-  - "3.6"
-# command to install dependencies
+- '3.6'
 install:
-  - pip install -r requirements-travis.txt
-# command to run tests
+- pip install -r requirements-travis.txt
 env:
-  - DJANGO=2.1.7
+- DJANGO=2.1.7
 script:
-  - python manage.py test
+- python manage.py test
 branches:
   only:
   - gh-pages
-  - /.*/
+  - "/.*/"
 deploy:
   provider: heroku
   api_key:
-    secure: "2e0QxWJASRgahk5rYhFFL0mqMMRyJYbb04bygM68UUvsNi7zsr5BIAuKdLDJ2sEuD8Z027ZeGRLJae8p9qEJCJvXT6YaHIwK+JHPByv1u+z7pKUZKrX6hGS8Vx4z0SMf7Pv/57soaXJnWlcuB82BkYaf13VGofjxaoUiv036qJgLoN6/PQhAkKUq71nNwRy5NDPJwowf6pkPu8ZFfKZyGJEFqyDDfPnw73culgYYuRLag4ChkQamLbyA+/KHZSbGQyZPk0oFHpdECw0LuIBCqcGzNYiUy9fOHIlCorJslfjsGH94Mfd1JnY7Bq50C9GhSjpe9BxBiopa/UQXIwMmBqAcLT39xJ8hJpuXpfLf0d2UnrUeeYaT76U29bPugho5fwdP5qB6DKDZl5Cdm3BRFqQq752jZuc1B4AX+jSpX9n14Bs8C2xJxgnYESJJ7Tsn32N8G2buZi3fEbhUHicGG9AV3X+lZOaKpUx9ha7jYbFoj6Gb36J6qAGd4fzVlfKrFVkySi0yB38piIDATqe+Fg9uLVlwtjFgZTvnw2RJETqLM0r1BcEUur0PXW91G79n4VZqboelXYmnCExazgO1V1ORY0borD74iP8XXiLYFi+U7gR/e/DVMNMrpLHP18H8dq9tw2BK+WYM2slxSDvvfFk594WriUmMZNRvGnuhXBo="
+    secure: XSfGvd6STwKXZ+QDGmtjiYRc1P1l46UGkdJIZc4EL4TUEW97Y16T0sYCIRfG8baP052xP2gMXTvsxsSsTqPC3d/vrZqheGNyjZOYY8rjJZALtzA73MRm38OlAm6p1/GunEd/sWs8QsF648sRICd1RHfzf4Q2kw1tId6lYdKOtsdFSEdbXHJBqnsNXVlHVScI+9MFqb9eOyfv46/H1KOTPRvPAzopcwAAWbFrmthVxb8TPCh9dBm01iNLx4AgkVYywi36Fyd2XEr71TFj0du8lHpS1PlxDIydCkD/mVxDvzmOTdx8LptfRZmcqo2oLZRb11WvShi/j0UJgdObgIhg2ZPIa341E2wslnmuVOHqhFEvuMhZ7jCi8k3Q7N/3RKk4l7pjUAktsa0WolA/eV786u/7xy8bgySRe6o6Wd/lcX3m3rnIlZ2LeAlmU+FoFWzaOdCXmrmT67sneBVvktpWl77K1G7GjnNAmfGFZJebtC3cgQTBR0Jc5v0aC/w3b8JTZ9SeDBdFKCEYTOXh6IhipegztZMYf3kR7h0N8GNnIvDjNAz5l+rJV+iuxDjgBzbrVZaIbpc8DSc0w1XyAjZ1hBf/ALCoX2fS5TchoUNxaKlaNmcA88IsdHYkhjX7gPrHJouCWCICXlJfWT1IsVFFFBs7m9kZlWWQ3A/dhbeDwfw=
   app: segfaulters3240

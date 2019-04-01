@@ -24,12 +24,12 @@ class Listing(models.Model):
     submission_date = models.DateTimeField(default=timezone.now, blank=True)
 
     pictures = models.TextField(default="")
-
     latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
     longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
-    is_active = models.BooleanField(default= False);
-    favorite = models.ManyToManyField(User, blank=True, related_name='user_favourite')
+    active = models.BooleanField(default=True) #change to true for testing, will be made default false later
+    favorite = models.BooleanField(default=False) #need to go find one.
+    user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
 
     # sean = models.ImageField()
 
@@ -46,6 +46,9 @@ class Listing(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def get_day(self):
+        return self.submission_date.strftime("%m/%d/%Y")
+
     @classmethod
     def get_sorted(cls,key):
         if type(key) != str:
@@ -61,6 +64,10 @@ class Listing(models.Model):
     @classmethod
     def get_in_price_range(cls,low,high):
         return cls.objects.filter(price__gte=low,price__lte=high)
+
+class Listing_Image(models.Model):
+    listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
+    image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
 
 def dict_to_json(d):
     copy = d.copy()
