@@ -43,8 +43,10 @@ class IndexView(generic.ListView):
         return objects
 
 def one_listing(request,listing_id):
+
     listing = get_object_or_404(Listing, pk=listing_id)
     active = listing.active
+    favorite = listing.favorite
     context = {
         "listing" : listing,
     }
@@ -52,15 +54,15 @@ def one_listing(request,listing_id):
 
     form = MailForm(initial={'active': active, })
     if (request.method == "POST"):
+        print(request.POST)
         form = MailForm(request.POST)
         if form.is_valid():
             active = form.cleaned_data['active']
             if (not active) and listing.active:
-                for i in listing.user_list.all():
-                    send_mail(
-                        'Hello a listing you were interested in went down: ' + listing.name,
-                        'this is an automated message do not reply',
-                        'segfaulters3240@gmail', [i.email], fail_silently=False)
+                send_mail(
+                    'Hello a listing you were interested in went down: ' + listing.name,
+                    'this is an automated message do not reply',
+                    'segfaulters3240@gmail', ['djx7et@virginia.edu'], fail_silently=False)
                 print("SENT MAIL")
             listing.active = active
             listing.save()
