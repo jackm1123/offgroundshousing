@@ -1,7 +1,7 @@
 language: python
 before_script:
   - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.3/bin/
   - export CHROME_BIN=chromium-browser
 python:
 - '3.6'
