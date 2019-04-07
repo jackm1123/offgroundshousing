@@ -205,12 +205,25 @@ class ListingTest(TestCase):
 ################################################################################
 """ System Tests """
 ################################################################################
+def make_some_listings():
+    a = create_generic_listing(name="a",id=3)
+    b = create_generic_listing(name="b",id=2)
+    c = create_generic_listing(name="c",id=1)
+    d = create_generic_listing(name="d",id=0)
+    return a,b,c,d
 
 if SYSTEM_TESTING and not exclude_from_metatest():
     # https://lincolnloop.com/blog/introduction-django-selenium-testing/
     from selenium import webdriver
     from django.test import LiveServerTestCase
     class SeleniumTest(LiveServerTestCase):
+
+        def __init__(self, *args, **kwargs):
+            super(LiveServerTestCase, self).__init__(*args, **kwargs)
+            for i in self.__dict__:
+                print(i)
+            if self.settings.DEBUG == False:
+                self.settings.DEBUG = True
 
         def setUp(self):
             self.browser = webdriver.Chrome()
@@ -226,15 +239,13 @@ if SYSTEM_TESTING and not exclude_from_metatest():
         def get_by_tag(self,id):
             return self.browser.find_element_by_tag_name(id)
 
-        def test_selenium(self):
-            self.load("")
-            self.assertTrue(len(self.get_by_tag("h1").text) > 0)
+        # def test_selenium(self):
+        #     self.load("")
+        #     self.assertTrue(len(self.get_by_tag("h1").text) > 0)
 
         def test_some_listings(self):
-            a = create_generic_listing(name="a",id=3)
-            b = create_generic_listing(name="b",id=2)
-            c = create_generic_listing(name="c",id=1)
-            d = create_generic_listing(name="d",id=0)
-
+            a,b,c,d = make_some_listings()
+            self.load("/listings/")
+            input()
             divs = self.browser.find_elements_by_class_name("listing")
             print("LENGTH:",len(divs))
