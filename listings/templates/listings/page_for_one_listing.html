@@ -24,27 +24,35 @@
     <div class="price">
       <h3>${{ listing.price }}</h3>
     </div>
-    <div class="asdf">
+    <div class="active">
+      {% if listing.active %}
       <form method = "post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="id_active">Active:</label>
+        <input type="checkbox" name="active" id="id_active" checked>
         <button type="submit">Save</button>
       </form>
-
+      {% else %}
+      <form method = "post">
+        {% csrf_token %}
+        <label for="id_active">Active:</label>
+        <input type="checkbox" name="active" id="id_active">
+        <button type="submit">Save</button>
+      </form>
+      {% endif %}
      <!--  {% if listing.active %}
-    <form action ="/listings/{{ listing.id }}/inactive">
+    <form method="post">
       <p>active: <label class="switch">
-      <input type="checkbox" value = "true" checked>
+      <input type="checkbox" value = "True" checked>
       <span class="slider round"></span>
     </label>
     </p>
       <input type="submit" value="Submit">
     </form>
     {% else %}
-    <form action ="/listings/{{ listing.id }}/inactive">
+    <form action = "post">
       <p>active: <label class="switch">
-      <input type="checkbox" value = "false">
-      <span class="slider round"></span>
+      <input type="checkbox" value = "False>
     </label>
     </p>
       <button type="submit" value="Submit">
