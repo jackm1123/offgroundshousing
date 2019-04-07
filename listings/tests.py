@@ -7,6 +7,9 @@ from django.urls import reverse
 from .models import Listing
 import os,subprocess,sys
 
+from django.test.utils import override_settings
+from django.conf import settings
+
 def create_generic_listing(**kwargs):
     out = Listing(**kwargs)
     out.save()
@@ -206,24 +209,27 @@ class ListingTest(TestCase):
 """ System Tests """
 ################################################################################
 def make_some_listings():
-    a = create_generic_listing(name="a",id=3)
-    b = create_generic_listing(name="b",id=2)
-    c = create_generic_listing(name="c",id=1)
-    d = create_generic_listing(name="d",id=0)
+    a = create_generic_listing(name="Test property A",address="853 W Main St., Charlottesville, VA 22903",id=3)
+    b = create_generic_listing(name="Test property B",address="301 15th St NW, Charlottesville, VA",id=2)
+    c = create_generic_listing(name="Test property C",address="102 14th St NW, Charlottesville, VA",id=1)
+    d = create_generic_listing(name="Test property D",address="101 14th St NW, Charlottesville, VA",id=0)
     return a,b,c,d
 
 if SYSTEM_TESTING and not exclude_from_metatest():
     # https://lincolnloop.com/blog/introduction-django-selenium-testing/
     from selenium import webdriver
     from django.test import LiveServerTestCase
+    @override_settings(DEBUG=True)
+
     class SeleniumTest(LiveServerTestCase):
 
-        def __init__(self, *args, **kwargs):
-            super(LiveServerTestCase, self).__init__(*args, **kwargs)
-            for i in self.__dict__:
-                print(i)
-            if self.settings.DEBUG == False:
-                self.settings.DEBUG = True
+
+        # def __init__(self, *args, **kwargs):
+        #     super(LiveServerTestCase, self).__init__(*args, **kwargs)
+        #     for i in self.__dict__:
+        #         print(i)
+        #     if self.settings.DEBUG == False:
+        #         self.settings.DEBUG = True
 
         def setUp(self):
             self.browser = webdriver.Chrome()
