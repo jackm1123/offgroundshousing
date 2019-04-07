@@ -245,13 +245,21 @@ if SYSTEM_TESTING and not exclude_from_metatest():
         def get_by_tag(self,id):
             return self.browser.find_element_by_tag_name(id)
 
-        # def test_selenium(self):
-        #     self.load("")
-        #     self.assertTrue(len(self.get_by_tag("h1").text) > 0)
+        """
+        # ! Uncomment Before push
+        def test_selenium(self):
+            self.load("")
+            self.assertTrue(len(self.get_by_tag("h1").text) > 0)
 
         def test_some_listings(self):
             a,b,c,d = make_some_listings()
             self.load("/listings/")
-            input()
             divs = self.browser.find_elements_by_class_name("listing")
-            print("LENGTH:",len(divs))
+            self.assertEqual(4,len(divs))
+
+        """
+
+        def test_rating(self):
+            a = create_generic_listing(name="Test property A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            self.load("/listings/")
+            input()
