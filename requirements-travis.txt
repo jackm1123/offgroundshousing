@@ -7,3 +7,4 @@ social-auth-core==3.1.0
 pillow==5.4.1
 geopy
 coverage
+selenium
