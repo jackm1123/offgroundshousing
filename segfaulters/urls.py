@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views
-from .views import home, profile, search
+from .views import home, profile
 from django.urls import path,include
 
 from django.conf import settings
@@ -15,7 +15,7 @@ urlpatterns = [
     #url(r'^logoutt/$', views.LogoutView.as_view(template_name='registration/logout.html'), name='logoutt'),
     url(r'^auth/', include('social_django.urls', namespace='social')),  # <- Here
     url(r'^$', home, name='home'),
-    url(r'^search/$', search, name='search'),
+    url(r'^search/$', include('listings.urls')),
 
     #listings app
     path('listings/',include('listings.urls')),
