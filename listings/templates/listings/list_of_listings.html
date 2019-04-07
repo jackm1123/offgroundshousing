@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+<style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+</style>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-8">
@@ -79,23 +84,65 @@
           }
         </script>
 
+        <button id="show-list">List view</button>
+        <button id="show-map">Map view</button>
 
-        {% if list_of_listings %}
+        <div class="list-of-listings">
+          {% if list_of_listings %}
 
-          {% for listing in list_of_listings %}
-            {% include 'listings/one_listing_condensed.html' %}
-          {% endfor %}
+            {% for listing in list_of_listings %}
+              {% include 'listings/one_listing_condensed.html' %}
+            {% endfor %}
 
 
-        {% else %}
-          <p>No listings are available. :(</p>
-        {% endif %}
+          {% else %}
+            <p>No listings are available. :(</p>
+          {% endif %}
+        </div>
 
+        <div class="mapview">
+          <div id="map">
+            <script async defer
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs&callback=initMap">
+            </script>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          $("#show-list").click(function(){
+            $(".map").hide()
+            $(".list-of-listings").show();
+            document.getElementById('map').innerHTML = ''
+          });
+          $("#show-map").click(function(){
+            $(".list-of-listings").hide();
+            $(".mapview").show();
+              var map = new google.maps.Map(
+                    document.getElementById('map'), {zoom: 14, center: {lat: 38.0356, lng: -78.5034}});
+               {% if list_of_listings %}
+                 {% for listing in list_of_listings %}
+                    coords = ( '{{ listing.get_coordinates }}')
+                    coords = JSON.parse("[" + coords.replace(/\(/g, "[").replace(/\)/g, "]") + "]")
+                    coords = coords[0]
+                    var marker = new google.maps.Marker({position: {lat: coords[0], lng: coords[1]}, map: map,})
+                    google.maps.event.addListener(marker, 'click', function() {
+                      window.open('{{ listing.id }}');
+                    });
+
+
+
+                    //NEED TO TALK TO TEAM ABOUT THIS ON. BC SEGFAULTERS PAGE DOESN'T HAVE 1
+                 {% endfor %}
+               {% endif %}
+
+          });
+        </script>
 
       </body>
 
     </div>
   </div>
+  
 </div>
 
 

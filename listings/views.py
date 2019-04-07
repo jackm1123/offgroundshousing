@@ -1,9 +1,9 @@
 from django.core.mail import send_mail
-from django.http import QueryDict
 from django.views import generic
 from django.shortcuts import render_to_response, get_object_or_404, render
-from django.template import RequestContext
+from django.http import QueryDict
 from .models import Listing
+from .forms import MailForm
 
 class IndexView(generic.ListView):
     template_name = 'listings/list_of_listings.html'
@@ -44,9 +44,35 @@ class IndexView(generic.ListView):
 
 def one_listing(request,listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
+    active = listing.active
     context = {
         "listing" : listing,
     }
+    print("Current listing state: " + str(active))
+
+    form = MailForm(initial={'active': active, })
+    if (request.method == "POST"):
+        form = MailForm(request.POST)
+        if form.is_valid():
+            active = form.cleaned_data['active']
+            if (not active) and listing.active:
+                for i in listing.user_list.all():
+                    send_mail(
+                        'Hello a listing you were interested in went down: ' + listing.name,
+                        'this is an automated message do not reply',
+                        'segfaulters3240@gmail', [i.email], fail_silently=False)
+                print("SENT MAIL")
+            listing.active = active
+            listing.save()
+        context['form'] = form
+        context['active'] = active
+
+
+    else:
+        form = MailForm()
+        context['form'] = form
+
+    print("New listing state: " + str(active))
     return render(request, 'listings/page_for_one_listing.html', context)
 
 def one_listing_condensed(request,listing_id):
@@ -63,14 +89,18 @@ def one_listing_slides(request,listing_id):
     }
     return render(request, 'listings/one_listing_slides.html', context)
 
+'''
+probably deprecated
 def one_listing_inactive(request,listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     listing.active = False
-    print("here")
+
     send_mail(
         'Hello a listing you were interested in went down: ' + listing.name,
         'this is an automated message do not reply',
         'segfaulters3240@gmail', ['djx7et@virginia.edu'], fail_silently=False)
+    print("SENT MAIL")
+
     for i in listing.user_list.all():
         send_mail(
             'Hello a listing you were interested in went down: ' + listing.name,
@@ -79,7 +109,10 @@ def one_listing_inactive(request,listing_id):
     context = {
         "listing" : listing,
     }
+
     return render(request, 'listings/page_for_one_listing.html', context)
+'''
+
 # Deleted: I think this code isn't used
 # def index(request):
 #     return render_to_response('home/index.html')
