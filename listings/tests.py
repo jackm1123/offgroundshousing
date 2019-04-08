@@ -205,6 +205,11 @@ class ListingTest(TestCase):
     def test_auth_url(self):
         self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
 
+    def test_faulty_address_coordinates(self):
+        a = create_generic_listing(name="Test property A",address="asdmnaskb",id=3)
+        a.get_coordinates()
+
+
 ################################################################################
 """ System Tests """
 ################################################################################
@@ -363,9 +368,20 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             listings = self.get(".listing .name a")
             for l in listings:
                 self.assertTrue(l.text in ("substring A","substring B"))
+        # 
+        # def test_search_and_click(self):
+        #     create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #
+        #     self.do_search_box("substr")
+        #     self.get(".name a")[0].click()
 
-        def test_search_and_click(self):
+
+        def test_map_node_number(self):
             create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring C",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring D",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring E",address="301 15th St NW, Charlottesville, VA",rating=4)
 
             self.do_search_box("substr")
             self.get(".name a")[0].click()
