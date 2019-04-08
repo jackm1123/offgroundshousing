@@ -18,7 +18,7 @@
       <body>
         <h1>Listings</h1>
 
-        <button onclick="show_dialog()">Filter</button>
+        <button id="filter" onclick="show_dialog()">Filter</button>
 
         <div id="dialog">
           <h3>Filters</h3>
@@ -49,6 +49,7 @@
             buttons: [
               {
                 text: "Apply filters",
+                id: "apply_filters",
                 click: function() {
 
                   var inputs = $("#dialog").children("ul").children("li").children("input");
@@ -142,7 +143,7 @@
 
     </div>
   </div>
-  
+
 </div>
 
 
