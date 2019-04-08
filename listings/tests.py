@@ -232,7 +232,7 @@ if SYSTEM_TESTING and not exclude_from_metatest():
         #         self.settings.DEBUG = True
 
         def setUp(self):
-            self.browser = webdriver.Chrome()
+            self.browser = webdriver.Firefox()
             super(SeleniumTest, self).setUp()
 
         def tearDown(self):
@@ -262,4 +262,4 @@ if SYSTEM_TESTING and not exclude_from_metatest():
         def test_rating(self):
             a = create_generic_listing(name="Test property A",address="301 15th St NW, Charlottesville, VA",rating=4)
             self.load("/listings/")
-            input()
+            # input()

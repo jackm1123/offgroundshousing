@@ -1,8 +1,12 @@
 language: python
+sudo: required
+addons:
+  firefox: stable
 before_script:
-  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.3/bin/
-  - export CHROME_BIN=chromium-browser
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+  - tar -xvzf geckodriver*
+  - chmod +x geckodriver
+  - export PATH=$PATH:$PWD
 python:
 - '3.6'
 install:
