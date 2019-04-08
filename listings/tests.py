@@ -368,25 +368,25 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             listings = self.get(".listing .name a")
             for l in listings:
                 self.assertTrue(l.text in ("substring A","substring B"))
-        # 
-        # def test_search_and_click(self):
-        #     create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
-        #
-        #     self.do_search_box("substr")
-        #     self.get(".name a")[0].click()
 
-
-        def test_map_node_number(self):
+        def test_search_and_click(self):
             create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
-            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
-            create_generic_listing(name="substring C",address="301 15th St NW, Charlottesville, VA",rating=4)
-            create_generic_listing(name="substring D",address="301 15th St NW, Charlottesville, VA",rating=4)
-            create_generic_listing(name="substring E",address="301 15th St NW, Charlottesville, VA",rating=4)
 
             self.do_search_box("substr")
             self.get(".name a")[0].click()
-            this = self.get(".name h1")[0].text
-            self.assertEqual("substring A","test")
+
+
+        # def test_map_node_number(self):
+        #     create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring C",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring D",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring E",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #
+        #     self.do_search_box("substr")
+        #     all = self.get("area")
+        #     self.assertEqual(5,len(all))
+
 
 
         def test_search_box_stripped(self):
