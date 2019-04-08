@@ -15,6 +15,7 @@ urlpatterns = [
     #url(r'^logoutt/$', views.LogoutView.as_view(template_name='registration/logout.html'), name='logoutt'),
     url(r'^auth/', include('social_django.urls', namespace='social')),  # <- Here
     url(r'^$', home, name='home'),
+    url(r'^search/$', include('listings.urls')),
 
     #listings app
     path('listings/',include('listings.urls')),
