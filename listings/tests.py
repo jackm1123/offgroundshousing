@@ -219,7 +219,9 @@ if SYSTEM_TESTING and not exclude_from_metatest():
     # https://lincolnloop.com/blog/introduction-django-selenium-testing/
     from selenium import webdriver
     from django.test import LiveServerTestCase
+    from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
     @override_settings(DEBUG=True)
+
 
     class SeleniumTest(LiveServerTestCase):
 
@@ -234,7 +236,15 @@ if SYSTEM_TESTING and not exclude_from_metatest():
         #         self.settings.DEBUG = True
 
         def setUp(self):
-            self.browser = webdriver.Firefox()
+            # cap["marionette"] = False
+
+            try:
+                self.browser = webdriver.Firefox(executable_path="geckodriver")
+                # self.browser = webdriver.Firefox()
+            except Exception as e:
+                print(e)
+                print(open("geckodriver.log").read())
+                raise e
             super(SeleniumTest, self).setUp()
 
         def tearDown(self):
