@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Dashboard</title>
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
 
-    hi
+{% if user.is_authenticated %}
+Hello, {{ user.username }}
 
-  </body>
-</html>
+{% else %}
+Nope!
+
+
+{% endif %}
+
+
+
+{% endblock content %}
