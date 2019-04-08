@@ -1,7 +1,7 @@
 language: python
 sudo: required
 addons:
-  firefox: stable
+  firefox: "45.4.0esr"
 before_script:
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
   - tar -xvzf geckodriver*
