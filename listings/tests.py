@@ -225,7 +225,7 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
     class SeleniumTest(LiveServerTestCase):
 
-        print(os.listdir())
+        # print(os.listdir())
 
 
         # def __init__(self, *args, **kwargs):
@@ -256,13 +256,30 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
         # https://selenium-python.readthedocs.io/locating-elements.html
         def get_by_tag(self,id):
-            return self.browser.find_element_by_tag_name(id)
+            return self.browser.find_elements_by_tag_name(id)
 
-        """
-        # ! Uncomment Before push
+        def get_by_class(self,cls):
+            return self.browser.find_elements_by_class_name(cls)
+
+        def get_by_id(self,id):
+            return self.browser.find_element_by_id(id)
+
+        def get(self,css):
+            return self.browser.find_elements_by_css_selector(css)
+
+        def do_search_box(self,text):
+            self.load("")
+            search_box = self.get(".form-control")[0]
+            search_box.click()
+            search_box.send_keys(text)
+            self.get(".btn-outline-success")[0].click()
+
+
+        ###############################################
+
         def test_selenium(self):
             self.load("")
-            self.assertTrue(len(self.get_by_tag("h1").text) > 0)
+            self.assertTrue(len(self.get_by_tag("h1")[0].text) > 0)
 
         def test_some_listings(self):
             a,b,c,d = make_some_listings()
@@ -270,9 +287,71 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             divs = self.browser.find_elements_by_class_name("listing")
             self.assertEqual(4,len(divs))
 
-        """
 
         def test_rating(self):
-            a = create_generic_listing(name="Test property A",address="301 15th St NW, Charlottesville, VA",rating=4)
-            self.load("/listings/")
-            # input()
+            a = create_generic_listing(name="Test property A",address="301 15th St NW, Charlottesville, VA",rating=4,id=1)
+            self.load("/listings/1/")
+            for rating_pic in self.get(".rating img"):
+                num = rating_pic.get_attribute("num")
+                visible = rating_pic.is_displayed()
+                if num == "4":
+                    self.assertTrue(visible)
+                else:
+                    self.assertFalse(visible)
+
+
+        def test_search_number(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring sa B",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="asd sdsubstringasd C",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="asdjklsubstringaslkjsd D",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring E",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="SUBSTRING F",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="__sUbStRiNg__ G",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no substrinmatch",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substrinngno s ubstring substrinmatch",address="302 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=substring")
+            listings = self.get(".listing")
+            self.assertEqual(7,len(listings))
+
+
+
+        def test_search_content(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=substring")
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_search_stripped(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=%20%20substring%20%20")
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_search_box(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("substr")
+
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+        def test_search_and_click(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("substr")
+            self.get(".name a")[0].click()
