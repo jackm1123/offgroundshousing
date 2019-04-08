@@ -54,6 +54,8 @@ class Listing(models.Model):
     def get_coordinates(self):
         geolocator = Nominatim()
         location = geolocator.geocode(self.address)
+        if(location == None):
+            return 0,0
         return (location.latitude, location.longitude)
 
     @property

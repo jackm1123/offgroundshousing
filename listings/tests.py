@@ -205,6 +205,11 @@ class ListingTest(TestCase):
     def test_auth_url(self):
         self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
 
+    def test_faulty_address_coordinates(self):
+        a = create_generic_listing(name="Test property A",address="asdmnaskb",id=3)
+        a.get_coordinates()
+
+
 ################################################################################
 """ System Tests """
 ################################################################################
