@@ -274,9 +274,24 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             search_box.send_keys(text)
             self.get(".btn-outline-success")[0].click()
 
+        def check_for_listings(self,listings):
+            l_s = self.get(".listing .name a")
+            for l in l_s:
+                self.assertTrue(l.text in listings)
+
+        def load_filter_view(self):
+            self.load("/listings/")
+            self.get_by_id("filter").click()
+
+        def enter_in_filter_form(self,id,text):
+            self.load_filter_view()
+            box = self.get_by_id(id)
+            box.send_keys(text)
+            self.get_by_id("apply_filters").click()
+
 
         ###############################################
-
+        """
         def test_selenium(self):
             self.load("")
             self.assertTrue(len(self.get_by_tag("h1")[0].text) > 0)
@@ -355,3 +370,65 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
             self.do_search_box("substr")
             self.get(".name a")[0].click()
+            this = self.get(".name h1")[0].text
+            self.assertEqual("substring A","test")
+
+
+        def test_search_box_stripped(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("  substr  ")
+
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_filter_by_name(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            self.enter_in_filter_form("name","substring A")
+            self.check_for_listings(["substring A"])
+
+
+
+        def test_filter_by_price_low(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=4,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=4,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=4,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            self.enter_in_filter_form("price_low","500")
+            self.check_for_listings(["C","D"])
+
+        def test_filter_by_price_high(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=4,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=4,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=4,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            self.enter_in_filter_form("price_high","500")
+            self.check_for_listings(["A","B"])
+
+            """
+
+
+        def test_filter_by_rating_low(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=0,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=1,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=2,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=3,price=800)
+            create_generic_listing(name="E",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            create_generic_listing(name="F",address="301 15th St NW, Charlottesville, VA",rating=5,price=800)
+            self.enter_in_filter_form("rating_low","3")
+            self.check_for_listings(["D","E","F"])
+
+        def test_filter_by_rating_high(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=0,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=1,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=2,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=3,price=800)
+            create_generic_listing(name="E",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            create_generic_listing(name="F",address="301 15th St NW, Charlottesville, VA",rating=5,price=800)
+            self.enter_in_filter_form("rating_high","3")
+            self.check_for_listings(["A","B","C","D"])
