@@ -223,6 +223,8 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
     class SeleniumTest(LiveServerTestCase):
 
+        print(os.listdir())
+
 
         # def __init__(self, *args, **kwargs):
         #     super(LiveServerTestCase, self).__init__(*args, **kwargs)
@@ -236,6 +238,7 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             super(SeleniumTest, self).setUp()
 
         def tearDown(self):
+            self.browser.close()
             self.browser.quit()
 
         def load(self,url):
