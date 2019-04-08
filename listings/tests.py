@@ -291,7 +291,6 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
 
         ###############################################
-        """
         def test_selenium(self):
             self.load("")
             self.assertTrue(len(self.get_by_tag("h1")[0].text) > 0)
@@ -410,7 +409,6 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             self.enter_in_filter_form("price_high","500")
             self.check_for_listings(["A","B"])
 
-            """
 
 
         def test_filter_by_rating_low(self):
