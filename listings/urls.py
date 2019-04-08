@@ -8,6 +8,7 @@ urlpatterns = [
     path("<int:listing_id>/", views.one_listing, name="one_listing"),
     path("<int:listing_id>/condensed", views.one_listing_condensed, name="one_listing_condensed"),
     path("<int:listing_id>/slides", views.one_listing_slides, name="one_listing_slides"),
+    path("add_favorite", views.add_favorite,name="add_favorite"),
     #path("<int:listing_id>/inactive", views.one_listing_inactive, name="one_listing_inactive"),
 
 ]

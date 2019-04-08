@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.views import generic
 from django.shortcuts import render_to_response, get_object_or_404, render
-from django.http import QueryDict
+from django.http import QueryDict, HttpResponse
 from .models import Listing
 from .forms import MailForm
 
@@ -89,6 +89,15 @@ def one_listing_slides(request,listing_id):
     }
     return render(request, 'listings/one_listing_slides.html', context)
 
+def add_favorite(request):
+    # print(request.body)
+    if (request.method == "POST" and 'favorite' in request.POST):
+        data = request.POST.copy()
+        listing_id = data.get('listing_id')
+        username = data.get('username')
+        print(listing_id,username)
+        listing = get_object_or_404(Listing,pk=listing_id)
+    return HttpResponse("wow you're looking at the console what a good boy")
 '''
 probably deprecated
 def one_listing_inactive(request,listing_id):

@@ -22,6 +22,12 @@
     <div class="price">
       <h3>${{ listing.price }}</h3>
     </div>
+    <div class="favebutton">
+      {% if user.is_authenticated %}
+          {% csrf_token %}
+          <button id="favorite">FAVORITE</button>
+      {% endif %}
+    </div>
     <div class="active">
       {% if listing.active %}
       <form method = "post">
@@ -64,14 +70,36 @@
   </script>
 
   <script>
+    $(function(){
+      $("#favorite").click(function(){
+        var data = {};
+        data["username"] = "{{ user.username }}";
+        data["listing_id"] = "{{ listing.id }}";
+        data["favorite"] = true;
+        function AJAX(url,type,data,func){
+          $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: func
+          });
+        }
+        AJAX("/listings/add_favorite","post",data,function(response){
+          // alert("you did a favorite");
+        });
+      });
+    });
+  </script>
+
+  <script>
 function check() {
 alert("there");
-  if ({{list.active}}){
-    document.getElementById("active").checked = true;
- }
-  else{
-    document.getElementById("active").checked = false;
- }
+ //  if ({{list.active}}){
+ //    document.getElementById("active").checked = true;
+ // }
+ //  else{
+ //    document.getElementById("active").checked = false;
+ // }
 }
 </script>
 <div id="slides">
