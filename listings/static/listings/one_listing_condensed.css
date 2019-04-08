@@ -17,19 +17,27 @@
 
 .listing .picture{
   position: absolute;
+  max-height: 100%;
+  overflow:hidden;
   width: 44%;
-  height: 100%;
+
   /* border: 2px solid red; */
   margin: 0px;
+}
+
+.picture img{
+  width: 100%;
+  /* max-height: 100%; */
+
 }
 
 .listing .rating {
   margin-left: 30%;
 }
 
-.picture img{
+/* .picture img{
   width: 100%;
-}
+} */
 
 
 .rating img{

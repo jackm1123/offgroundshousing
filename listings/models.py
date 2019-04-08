@@ -3,6 +3,8 @@ from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from geopy import Nominatim
+
 
 class Listing(models.Model):
 
@@ -24,8 +26,8 @@ class Listing(models.Model):
     submission_date = models.DateTimeField(default=timezone.now, blank=True)
 
     pictures = models.TextField(default="")
-    latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
-    longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
+    # latitude = models.DecimalField(max_digits=6, decimal_places=3, default=38.034)
+    # longitude = models.DecimalField(max_digits=6, decimal_places=3, default=78.508)
 
     active = models.BooleanField(default=True) #change to true for testing, will be made default false later
     favorite = models.BooleanField(default=False) #need to go find one.
@@ -48,6 +50,20 @@ class Listing(models.Model):
 
     def get_day(self):
         return self.submission_date.strftime("%m/%d/%Y")
+
+    def get_coordinates(self):
+        geolocator = Nominatim()
+        location = geolocator.geocode(self.address)
+        return (location.latitude, location.longitude)
+
+    @property
+    def latitude(self):
+        return self.get_coordinates()[0]
+
+    @property
+    def longitude(self):
+        return self.get_coordinates()[1]
+
 
     @classmethod
     def get_sorted(cls,key):
