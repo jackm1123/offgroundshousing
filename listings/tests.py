@@ -7,6 +7,9 @@ from django.urls import reverse
 from .models import Listing
 import os,subprocess,sys
 
+from django.test.utils import override_settings
+from django.conf import settings
+
 def create_generic_listing(**kwargs):
     out = Listing(**kwargs)
     out.save()
@@ -202,34 +205,55 @@ class ListingTest(TestCase):
     def test_auth_url(self):
         self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
 
+    def test_faulty_address_coordinates(self):
+        a = create_generic_listing(name="Test property A",address="asdmnaskb",id=3)
+        a.get_coordinates()
+
+
 ################################################################################
 """ System Tests """
 ################################################################################
 def make_some_listings():
-    a = create_generic_listing(name="a",id=3)
-    b = create_generic_listing(name="b",id=2)
-    c = create_generic_listing(name="c",id=1)
-    d = create_generic_listing(name="d",id=0)
+    a = create_generic_listing(name="Test property A",address="853 W Main St., Charlottesville, VA 22903",id=3)
+    b = create_generic_listing(name="Test property B",address="301 15th St NW, Charlottesville, VA",id=2)
+    c = create_generic_listing(name="Test property C",address="102 14th St NW, Charlottesville, VA",id=1)
+    d = create_generic_listing(name="Test property D",address="101 14th St NW, Charlottesville, VA",id=0)
     return a,b,c,d
 
 if SYSTEM_TESTING and not exclude_from_metatest():
     # https://lincolnloop.com/blog/introduction-django-selenium-testing/
     from selenium import webdriver
     from django.test import LiveServerTestCase
+    from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+    @override_settings(DEBUG=True)
+
+
     class SeleniumTest(LiveServerTestCase):
 
-        def __init__(self, *args, **kwargs):
-            super(LiveServerTestCase, self).__init__(*args, **kwargs)
-            for i in self.__dict__:
-                print(i)
-            if self.settings.DEBUG == False:
-                self.settings.DEBUG = True
+        # print(os.listdir())
+
+
+        # def __init__(self, *args, **kwargs):
+        #     super(LiveServerTestCase, self).__init__(*args, **kwargs)
+        #     for i in self.__dict__:
+        #         print(i)
+        #     if self.settings.DEBUG == False:
+        #         self.settings.DEBUG = True
 
         def setUp(self):
-            self.browser = webdriver.Chrome()
+            # cap["marionette"] = False
+
+            try:
+                self.browser = webdriver.Firefox(executable_path="geckodriver")
+                # self.browser = webdriver.Firefox()
+            except Exception as e:
+                print(e)
+                print(open("geckodriver.log").read())
+                raise e
             super(SeleniumTest, self).setUp()
 
         def tearDown(self):
+            self.browser.close()
             self.browser.quit()
 
         def load(self,url):
@@ -237,15 +261,188 @@ if SYSTEM_TESTING and not exclude_from_metatest():
 
         # https://selenium-python.readthedocs.io/locating-elements.html
         def get_by_tag(self,id):
-            return self.browser.find_element_by_tag_name(id)
+            return self.browser.find_elements_by_tag_name(id)
 
-        # def test_selenium(self):
-        #     self.load("")
-        #     self.assertTrue(len(self.get_by_tag("h1").text) > 0)
+        def get_by_class(self,cls):
+            return self.browser.find_elements_by_class_name(cls)
+
+        def get_by_id(self,id):
+            return self.browser.find_element_by_id(id)
+
+        def get(self,css):
+            return self.browser.find_elements_by_css_selector(css)
+
+        def do_search_box(self,text):
+            self.load("")
+            search_box = self.get(".form-control")[0]
+            search_box.click()
+            search_box.send_keys(text)
+            self.get(".btn-outline-success")[0].click()
+
+        def check_for_listings(self,listings):
+            l_s = self.get(".listing .name a")
+            for l in l_s:
+                self.assertTrue(l.text in listings)
+
+        def load_filter_view(self):
+            self.load("/listings/")
+            self.get_by_id("filter").click()
+
+        def enter_in_filter_form(self,id,text):
+            self.load_filter_view()
+            box = self.get_by_id(id)
+            box.send_keys(text)
+            self.get_by_id("apply_filters").click()
+
+
+        ###############################################
+        def test_selenium(self):
+            self.load("")
+            self.assertTrue(len(self.get_by_tag("h1")[0].text) > 0)
 
         def test_some_listings(self):
             a,b,c,d = make_some_listings()
             self.load("/listings/")
-            input()
             divs = self.browser.find_elements_by_class_name("listing")
-            print("LENGTH:",len(divs))
+            self.assertEqual(4,len(divs))
+
+
+        def test_rating(self):
+            a = create_generic_listing(name="Test property A",address="301 15th St NW, Charlottesville, VA",rating=4,id=1)
+            self.load("/listings/1/")
+            for rating_pic in self.get(".rating img"):
+                num = rating_pic.get_attribute("num")
+                visible = rating_pic.is_displayed()
+                if num == "4":
+                    self.assertTrue(visible)
+                else:
+                    self.assertFalse(visible)
+
+
+        def test_search_number(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring sa B",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="asd sdsubstringasd C",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="asdjklsubstringaslkjsd D",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring E",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="SUBSTRING F",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="__sUbStRiNg__ G",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no substrinmatch",address="302 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substrinngno s ubstring substrinmatch",address="302 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=substring")
+            listings = self.get(".listing")
+            self.assertEqual(7,len(listings))
+
+
+
+        def test_search_content(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=substring")
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_search_stripped(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.load("/search/?query=%20%20substring%20%20")
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_search_box(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("substr")
+
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+        def test_search_and_click(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("substr")
+            self.get(".name a")[0].click()
+
+
+        # def test_map_node_number(self):
+        #     create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring C",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring D",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #     create_generic_listing(name="substring E",address="301 15th St NW, Charlottesville, VA",rating=4)
+        #
+        #     self.do_search_box("substr")
+        #     all = self.get("area")
+        #     self.assertEqual(5,len(all))
+
+
+
+        def test_search_box_stripped(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="no match",address="301 15th St NW, Charlottesville, VA",rating=4)
+
+            self.do_search_box("  substr  ")
+
+            listings = self.get(".listing .name a")
+            for l in listings:
+                self.assertTrue(l.text in ("substring A","substring B"))
+
+
+        def test_filter_by_name(self):
+            create_generic_listing(name="substring A",address="301 15th St NW, Charlottesville, VA",rating=4)
+            create_generic_listing(name="substring B",address="301 15th St NW, Charlottesville, VA",rating=4)
+            self.enter_in_filter_form("name","substring A")
+            self.check_for_listings(["substring A"])
+
+
+
+        def test_filter_by_price_low(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=4,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=4,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=4,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            self.enter_in_filter_form("price_low","500")
+            self.check_for_listings(["C","D"])
+
+        def test_filter_by_price_high(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=4,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=4,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=4,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            self.enter_in_filter_form("price_high","500")
+            self.check_for_listings(["A","B"])
+
+
+
+        def test_filter_by_rating_low(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=0,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=1,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=2,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=3,price=800)
+            create_generic_listing(name="E",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            create_generic_listing(name="F",address="301 15th St NW, Charlottesville, VA",rating=5,price=800)
+            self.enter_in_filter_form("rating_low","3")
+            self.check_for_listings(["D","E","F"])
+
+        def test_filter_by_rating_high(self):
+            create_generic_listing(name="A",address="301 15th St NW, Charlottesville, VA",rating=0,price=200)
+            create_generic_listing(name="B",address="301 15th St NW, Charlottesville, VA",rating=1,price=400)
+            create_generic_listing(name="C",address="301 15th St NW, Charlottesville, VA",rating=2,price=600)
+            create_generic_listing(name="D",address="301 15th St NW, Charlottesville, VA",rating=3,price=800)
+            create_generic_listing(name="E",address="301 15th St NW, Charlottesville, VA",rating=4,price=800)
+            create_generic_listing(name="F",address="301 15th St NW, Charlottesville, VA",rating=5,price=800)
+            self.enter_in_filter_form("rating_high","3")
+            self.check_for_listings(["A","B","C","D"])

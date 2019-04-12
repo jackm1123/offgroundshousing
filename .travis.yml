@@ -1,8 +1,16 @@
 language: python
+sudo: required
+addons:
+  firefox: "65.0.1"
 before_script:
-  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
-  - export CHROME_BIN=chromium-browser
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+  - tar -xvzf geckodriver*
+  - chmod +x geckodriver
+  - export PATH=$PATH:$PWD
+  - sudo cp geckodriver /usr/local/bin/
+  - sudo apt-get install xvfb
+  - Xvfb :10 -ac &
+  - export DISPLAY=:10
 python:
 - '3.6'
 install:
