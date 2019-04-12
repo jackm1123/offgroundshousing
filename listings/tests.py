@@ -1,5 +1,5 @@
 META_TESTING = False
-SYSTEM_TESTING = True
+SYSTEM_TESTING = False
 
 from django.test import TestCase
 from django.test import Client
@@ -200,7 +200,7 @@ class ListingTest(TestCase):
     #     self.assertEqual(200,ping_url("/login/"))
 
     def test_logout_url(self):
-        self.assertEqual(200,ping_url("/logout/"))
+        self.assertEqual(302,ping_url("/logout/"))
 
     def test_auth_url(self):
         self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
@@ -208,6 +208,13 @@ class ListingTest(TestCase):
     def test_faulty_address_coordinates(self):
         a = create_generic_listing(name="Test property A",address="asdmnaskb",id=3)
         a.get_coordinates()
+
+    def test_add_rating(self):
+        a = create_generic_listing(rating=3.0, num_ratings= 9)
+        rating = 5
+        a.add_rating(rating)
+        self.assertEqual(3.2,a.rating)
+        self.assertEqual(10,a.num_ratings)
 
 
 ################################################################################

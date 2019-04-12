@@ -6,22 +6,112 @@
 {% if listing %}
 {% load static %}
 
-  <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
-  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+  <!--  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>-->
   <script type="text/javascript" src="{% static 'listings/favorite_button.js' %}"></script>
+  <script type="text/javascript">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $("input:id_favorite").change(function() {
+            var isChecked = $("input:id_favorite").is(":checked") ? 1:0;
+            $.ajax({
+                url: 'self.php',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': csrf_token , name: user.username, favorite:isChecked }
+            });
+        });
+    });
+  </script>
   <!--<script type="text/javascript" src="{% static 'listings/active.js' %}"></script> -->
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
   <link rel="stylesheet" href="{% static 'listings/favorite_button.css' %}">
   <link rel="stylesheet" href="{% static 'listings/active.css' %}">
 <div class="test">
 
+  <div id="dialog">
+    <h3>Write a review</h3>
+    <ul style="list-style: none;">
+      {% include 'listings/stars.html' %}
+      <hr>
+      <textarea id='review' rows="4" cols="50" placeholder="Please write your review here..."></textarea>
+
+
+    </ul>
+  </div>
+
+    <script type="text/javascript">
+      $( "#dialog" ).dialog({
+          dialogClass: "dialogs",
+          buttons: [
+            {
+              text: "Submit",
+              id: "submit-review",
+              click: function() {
+
+                var data = {};
+                data["username"] = "{{ user.username }}";
+                data["listing_id"] = "{{ listing.id }}";
+                data["rating"] = default_rating;
+                data["review"] = $("#review").val();
+                AJAX("/listings/rate","post",data,function(response){
+
+                });
+
+
+              }
+            }
+          ]
+        });
+
+        $(".dialogs").css("width","80%");
+        $(".dialogs").css("top","20%");
+        $(".dialogs").css("left","10%");
+
+
+    $(".dialogs").hide();
+
+    function show_dialog(){
+      console.log("yyeet")
+      $(".dialogs").show();
+    }
+
+    </script>
+
 
   <div class="name">
     <h1>{{ listing.name }}</h1>
-      {% include 'listings/rating.html' %}
+      {% include 'listings/stars_static.html' %}
+      <script type="text/javascript">
+        set_static_rating({{ listing.rating }});
+      </script>
     <div class="price">
       <h3>${{ listing.price }}</h3>
     </div>
+    <div class="favebutton">
+      {% if user.is_authenticated %}
+          {% csrf_token %}
+
+            <button id="rate" onclick="show_dialog()">Write a review</button>
+            <button id="favorite">FAVORITE</button>
+            <button id="un-favorite">UN-FAVORITE</button>
+
+            {% if user in listing.user_list.all %}
+              <style media="screen">
+                #favorite{
+                  display: none;
+                }
+              </style>
+            {% else %}
+            <style media="screen">
+              #un-favorite{
+                display: none;
+              }
+            </style>
+            {% endif %}
+
+
+      {% endif %}
+    </div>
+    {% if user.is_superuser %}
     <div class="active">
       {% if listing.active %}
       <form method = "post">
@@ -38,40 +128,87 @@
         <button type="submit">Save</button>
       </form>
       {% endif %}
-     <!--  {% if listing.active %}
-    <form method="post">
-      <p>active: <label class="switch">
-      <input type="checkbox" value = "True" checked>
-      <span class="slider round"></span>
-    </label>
-    </p>
-      <input type="submit" value="Submit">
-    </form>
-    {% else %}
-    <form action = "post">
-      <p>active: <label class="switch">
-      <input type="checkbox" value = "False>
-    </label>
-    </p>
-      <button type="submit" value="Submit">
-    </form>
-    {% endif %} -->
     </div>
-  </div>
+    {% endif %}
+    <!--
+      <script type="text/javascript">
+    $(document).ready(function(){
+        $("input:checkbox").change(function() {
+            if($(this).is(":checked")) {
+                $.ajax({
+                    url: 'on_off.aspx',
+                    type: 'POST',
+                    data: { strID:$(this).attr("id"), strState:"1" }
+                });
+            } else {
+                $.ajax({
+                    url: 'on_off.aspx',
+                    type: 'POST',
+                    data: { strID:$(this).attr("id"), strState:"0" }
+                });
+            }
+        });
+    });
+</script>
+      -->
+    <!--
+    <div class="favorite">
+     {% if user in listing.user_list.all %}
+        <label for="id_favorite"></label>
+        <input type="checkbox" name="favorite" id="id_favorite" checked>
+      {% else %}
+        <label for="id_favorite"></label>
+        <input type="checkbox" name="favorite" id="id_favorite">
+      {% endif %}
 
+    </div>
+    -->
+
+  </div>
+<!--
   <script type="text/javascript">
     hide_stars({{ listing.rating }});
+  </script>
+-->
+  <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+
+
+  <script>
+    $(function(){
+      $("#favorite").click(function(){
+        var data = {};
+        data["username"] = "{{ user.username }}";
+        data["listing_id"] = "{{ listing.id }}";
+        data["favorite"] = true;
+        AJAX("/listings/add_favorite","post",data,function(response){
+          $("#favorite").hide();
+          $("#un-favorite").show();
+        });
+       });
+
+      $("#un-favorite").click(function(){
+        var data = {};
+        data["username"] = "{{ user.username }}";
+        data["listing_id"] = "{{ listing.id }}";
+        data["favorite"] = false;
+        AJAX("/listings/add_favorite","post",data,function(response){
+          $("#favorite").show();
+          $("#un-favorite").hide();
+        });
+      });
+
+    });
   </script>
 
   <script>
 function check() {
 alert("there");
-  if ({{list.active}}){
-    document.getElementById("active").checked = true;
- }
-  else{
-    document.getElementById("active").checked = false;
- }
+ //  if ({{list.active}}){
+ //    document.getElementById("active").checked = true;
+ // }
+ //  else{
+ //    document.getElementById("active").checked = false;
+ // }
 }
 </script>
 <div id="slides">
@@ -166,6 +303,11 @@ alert("there");
       <h3>Description</h3> <br/> {{ listing.description }}
   </div>
 
+  <div class="reviews">
+    <h3>Reviews</h3>
+    {% include "listings/review.html" %}
+
+  </div>
 
 
   <div class="contact-info">

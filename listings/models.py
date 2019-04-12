@@ -6,10 +6,12 @@ from django.db.models.signals import post_save
 from geopy import Nominatim
 
 
+
+
 class Listing(models.Model):
 
     name = models.CharField(max_length=100)
-    rating = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)
     description = models.TextField(default="")
     LAUNDRY_CHOICES = [('L', 'Laundry'), ('N', 'No Laundry')]
     #The first element in each tuple is the value that will be stored in the database. The second element is displayed by the field’s form widget.
@@ -31,9 +33,22 @@ class Listing(models.Model):
 
     active = models.BooleanField(default=True) #change to true for testing, will be made default false later
     favorite = models.BooleanField(default=False) #need to go find one.
+    user_profile_list = models.ManyToManyField('users.UserProfile', blank=True, related_name='user_favourite')
     user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
 
+    num_ratings = models.IntegerField(default=0)
+
+
     # sean = models.ImageField()
+
+    def add_rating(self,rating):
+        numerator = (self.num_ratings*self.rating) + rating
+        denominator = self.num_ratings + 1
+        print("ans =",numerator/denominator)
+        print("num =",self.num_ratings)
+        self.rating = numerator/denominator
+        self.num_ratings = denominator
+        self.save()
 
     def print_details(self): # pragma no cover (used for debugging)
         print("debugging info:")
@@ -83,23 +98,22 @@ class Listing(models.Model):
     def get_in_price_range(cls,low,high):
         return cls.objects.filter(price__gte=low,price__lte=high)
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # avatar = models.ImageField()
-    # favorites = models.ManyToManyField('Listing')
-    dummyfield=models.IntegerField(default=5)
-
-#scary copy pasted code
-# https://github.com/maxg203/Django-Tutorials/blob/master/accounts/models.py
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = UserProfile.objects.create(user=kwargs['instance'])
-
-post_save.connect(create_profile, sender=User)
-
 class Listing_Image(models.Model):
     listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
+
+class Review(models.Model):
+    listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
+    body = models.TextField(default="")
+    user = models.ForeignKey(User, related_name='reviews',null=True,on_delete=models.SET_NULL)
+
+    @classmethod
+    def create(cls,listing,body,UserProfile):
+        r = cls()
+        r.listing = listing
+        r.body = body
+        r.user = user
+        return r
 
 
 def dict_to_json(d):

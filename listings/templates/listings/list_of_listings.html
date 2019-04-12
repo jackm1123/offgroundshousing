@@ -20,6 +20,7 @@
 
         <button id="filter" onclick="show_dialog()">Filter</button>
 
+        
         <div id="dialog">
           <h3>Filters</h3>
           <ul style="list-style: none;">
@@ -92,7 +93,9 @@
           {% if list_of_listings %}
 
             {% for listing in list_of_listings %}
-              {% include 'listings/one_listing_condensed.html' %}
+              {% if listing.active or user.is_superuser %}
+                {% include 'listings/one_listing_condensed.html' %}
+              {% endif %}
             {% endfor %}
 
 
@@ -130,9 +133,6 @@
                       window.open('{{ listing.id }}');
                     });
 
-
-
-                    //NEED TO TALK TO TEAM ABOUT THIS ON. BC SEGFAULTERS PAGE DOESN'T HAVE 1
                  {% endfor %}
                {% endif %}
 

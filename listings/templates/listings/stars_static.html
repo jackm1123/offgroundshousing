@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="stars_static">
+  <img class='star_static' src="{% static 'listings/unstar.png' %}" val="1" alt="">
+  <img class='star_static' src="{% static 'listings/unstar.png' %}" val="2" alt="">
+  <img class='star_static' src="{% static 'listings/unstar.png' %}" val="3" alt="">
+  <img class='star_static' src="{% static 'listings/unstar.png' %}" val="4" alt="">
+  <img class='star_static' src="{% static 'listings/unstar.png' %}" val="5" alt="">
+</div>
+
+
+<script type="text/javascript">
+  function set_static_rating(rating){
+    $(".star_static").each(function(){
+      var v = parseInt($(this).attr("val"))
+      if(v <= rating){
+        $(this).attr("src","{% static 'listings/star.png' %}");
+      }else{
+        $(this).attr("src","{% static 'listings/unstar.png' %}");
+      }
+    });
+  }
+
+</script>
+
+<style media="screen">
+  .star_static{
+    width: 50px;
+    margin: 0;
+    padding: 0;
+  }
+</style>

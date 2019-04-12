@@ -1,9 +1,13 @@
 from django.core.mail import send_mail
 from django.views import generic
 from django.shortcuts import render_to_response, get_object_or_404, render
-from django.http import QueryDict
-from .models import Listing
+from django.http import QueryDict, HttpResponse
+from .models import Listing,Review
 from .forms import MailForm
+from django.db import models
+
+from django.apps import apps
+UserProfile =apps.get_model('users', 'UserProfile') # https://stackoverflow.com/questions/4881607/django-get-model-from-string
 
 def list_of_listings(request):
     if 'query' in request.GET and request.GET['query']:
@@ -36,6 +40,17 @@ def list_of_listings(request):
     apply_GET_filter("ownership_info","owned")
 
     return render(request, 'listings/list_of_listings.html',{'list_of_listings': objects})
+
+def favorites(request):
+    objects = Listing.objects.all()
+    user = UserProfile.get_user(request.user.username)
+    z = set()
+    for o in objects:
+        if o in user.favorites:
+            z.add(o)
+
+    return render(request, 'listings/list_of_listings.html',{'list_of_listings': objects})
+
 
 # class IndexView(generic.ListView):
 #     template_name = 'listings/list_of_listings.html'
@@ -75,8 +90,10 @@ def list_of_listings(request):
 #         return objects
 
 def one_listing(request,listing_id):
+
     listing = get_object_or_404(Listing, pk=listing_id)
     active = listing.active
+    favorite = listing.favorite
     context = {
         "listing" : listing,
     }
@@ -84,15 +101,16 @@ def one_listing(request,listing_id):
 
     form = MailForm(initial={'active': active, })
     if (request.method == "POST"):
+        print(request.POST)
         form = MailForm(request.POST)
         if form.is_valid():
             active = form.cleaned_data['active']
-            if (not active) and listing.active:
-                for i in listing.user_list.all():
+            if (not active) and listing.active and len(listing.user_list.all()) != 0:
+                for user in listing.user_list.all():
                     send_mail(
                         'Hello a listing you were interested in went down: ' + listing.name,
                         'this is an automated message do not reply',
-                        'segfaulters3240@gmail', [i.email], fail_silently=False)
+                        'segfaulters3240@gmail', [user.email], fail_silently=False)
                 print("SENT MAIL")
             listing.active = active
             listing.save()
@@ -120,6 +138,49 @@ def one_listing_slides(request,listing_id):
         "listing" : listing,
     }
     return render(request, 'listings/one_listing_slides.html', context)
+
+def add_favorite(request):
+    # print(request.body)
+    if (request.method == "POST" and 'favorite' in request.POST):
+        data = request.POST.copy()
+        listing_id = data.get('listing_id')
+        username = data.get('username')
+        print("listing id:",listing_id)
+        print("username: ",username)
+        listing = get_object_or_404(Listing,pk=listing_id)
+        user = UserProfile.get_user(username)
+        if(data.get("favorite") == "true"):
+            listing.user_profile_list.add(user)
+            listing.user_list.add(user.user)
+            user.favorites.add(listing)
+        else:
+            listing.user_profile_list.remove(user)
+            listing.user_list.remove(user.user)
+            user.favorites.remove(listing)
+        # listing.save()
+        # user.save()
+    return HttpResponse("wow you're looking at the console what a good boy")
+
+def rate(request):
+    if (request.method == "POST" and 'review' in request.POST):
+        data = request.POST.copy()
+
+        listing_id = data.get('listing_id')
+        username = data.get('username')
+        rating = int(data.get('rating'))
+        review_body = data.get('review')
+        if (rating < 0 or rating > 5):
+            return HttpResponse("Rejected.")
+        listing = get_object_or_404(Listing,pk=listing_id)
+        user = UserProfile.get_user(username)
+        # TODO: make only able to vote once
+        listing.add_rating(rating)
+
+        review = Review.create(listing,review_body)
+        review.save()
+
+    return HttpResponse("Nothing to see here...")
+
 
 '''
 probably deprecated
