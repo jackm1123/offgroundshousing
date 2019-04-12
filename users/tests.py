@@ -4,14 +4,14 @@ from .models import *
 
 # Create your tests here.
 
-counter = 0
+counter = 1
 
 def make_generic_user_profile(username):
     global counter
     a = User()
     a.username = username
     a.save()
-    
+
     b = UserProfile()
     b.user = a
 
@@ -32,4 +32,4 @@ class ListingTest(TestCase):
         b = make_generic_user_profile("user_b")
         c = make_generic_user_profile("user_c")
 
-        self.assertEqual(a,UserProfile.get_user("user_a"))
+        self.assertEqual(a.user,UserProfile.get_user("user_a").user)

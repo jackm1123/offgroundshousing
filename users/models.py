@@ -12,7 +12,7 @@ from django.apps import apps
 # from django.contrib.auth.signals import user_logged_in
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # avatar = models.ImageField()
     dummyfield = models.IntegerField(default=5)
     favorites = models.ManyToManyField("listings.Listing",blank=True)
@@ -23,9 +23,7 @@ class UserProfile(models.Model):
     @classmethod
     def get_user(cls,username):
         all = cls.objects.all()
-        print("users:",len(all))
         for u in all:
-            print(u.user.username)
             if u.user.username == username:
                 return u
 

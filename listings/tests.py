@@ -200,7 +200,7 @@ class ListingTest(TestCase):
     #     self.assertEqual(200,ping_url("/login/"))
 
     def test_logout_url(self):
-        self.assertEqual(200,ping_url("/logout/"))
+        self.assertEqual(302,ping_url("/logout/"))
 
     def test_auth_url(self):
         self.assertEqual(302,ping_url("/auth/login/google-oauth2/"))
