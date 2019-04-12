@@ -102,6 +102,11 @@ class Listing_Image(models.Model):
     listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
 
+class Review(models.Model):
+    listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
+    body = models.TextField(default="")
+
+
 def dict_to_json(d):
     copy = d.copy()
     out = "{"
