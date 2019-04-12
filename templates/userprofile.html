@@ -1,24 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-	{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
+        <div style="align-items: : center; text-align: center">
             <p class="display-3">My Profile</p>
-            <ul class="display-4">
-                <p>Username: {{ user.username }}</p>
-                <p>Display Name: {{ user.first_name }} {{ user.last_name }}</p>
-                <p>Dummy Field: {{UserProfile.dummyfield}}</p>
-                <p>Avatar: The Last Airbender</p>
-            </ul>
-			<p>Favorited Listings</p>
-
-            {% for listing in list_of_listings %}
-              {% if listing.active %}
-                {% include 'listings/one_listing_condensed.html' %}
-              {% endif %}
-            {% endfor %}
-
-            <a class="lead" href="{% url 'logout' %}">Log out</a>
-	{% else %}
-		<a class="lead" href="{% url 'login' %}">Log in</a>
-	{% endif %}
+            <h5>Username: <p>{{ user.username }}</p></h5>
+            <h5>Display Name: <p>{{ user.first_name }} {{ user.last_name }}</p></h5>
+            <h5>Favorited Listings:</h5>
+            {% if not UserProfile.favorites.all %}
+                <p>None available</p>
+            {% endif %} 
+            <div class="list-of-listings">
+                {% for listing in list_of_listings %}
+                  {% if listing in UserProfile.favorites.all and listing.active %}
+                    {% include 'listings/one_listing_condensed.html' %}
+                  {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <a class="lead" href="{% url 'login' %}">Log in</a>
+    {% endif %}
+    <style>
+        .list-of-listings{
+            width: 50%;
+            margin-left: 29%;
+        }
+    </style>
 {% endblock content %}
