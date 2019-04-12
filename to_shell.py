@@ -10,3 +10,4 @@ print(sean.favorites.all())
 
 # standard.user_list.remove(sean)
 print(standard.user_list.all())
+print(standard.user_profile_list.all())

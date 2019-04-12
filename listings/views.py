@@ -136,8 +136,14 @@ def add_favorite(request):
         print("username: ",username)
         listing = get_object_or_404(Listing,pk=listing_id)
         user = UserProfile.get_user(username)
-        listing.user_list.add(user)
-        user.favorites.add(listing)
+        if(data.get("favorite") == "true"):
+            listing.user_profile_list.add(user)
+            listing.user_list.add(user.user)
+            user.favorites.add(listing)
+        else:
+            listing.user_profile_list.remove(user)
+            listing.user_list.remove(user.user)
+            user.favorites.remove(listing)
         # listing.save()
         # user.save()
     return HttpResponse("wow you're looking at the console what a good boy")

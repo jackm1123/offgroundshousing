@@ -25,7 +25,11 @@
     <div class="favebutton">
       {% if user.is_authenticated %}
           {% csrf_token %}
+
           <button id="favorite">FAVORITE</button>
+          <button id="un-favorite" name="button">UN-FAVORITE</button>
+
+
       {% endif %}
     </div>
     <div class="active">
@@ -69,6 +73,8 @@
     hide_stars({{ listing.rating }});
   </script>
 
+  <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+
   <script>
     $(function(){
       $("#favorite").click(function(){
@@ -76,18 +82,23 @@
         data["username"] = "{{ user.username }}";
         data["listing_id"] = "{{ listing.id }}";
         data["favorite"] = true;
-        function AJAX(url,type,data,func){
-          $.ajax({
-            url: url,
-            type: type,
-            data: data,
-            success: func
-          });
-        }
         AJAX("/listings/add_favorite","post",data,function(response){
-          // alert("you did a favorite");
+          $("#favorite").hide();
+          $("#un-favorite").show();
         });
       });
+
+      $("#un-favorite").click(function(){
+        var data = {};
+        data["username"] = "{{ user.username }}";
+        data["listing_id"] = "{{ listing.id }}";
+        data["favorite"] = false;
+        AJAX("/listings/add_favorite","post",data,function(response){
+          $("#favorite").show();
+          $("#un-favorite").hide();
+        });
+      });
+
     });
   </script>
 
