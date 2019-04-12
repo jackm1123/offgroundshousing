@@ -20,12 +20,12 @@ urlpatterns = [
     url(r'^search/', include('listings.urls')),
 
     #listings app
-    path('listings/',include('listings.urls')),
+    path('listings/', include('listings.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += [
-        url(r'^media/(?P<path>.*)$',serve,{
+        url(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
         }),
     ]
