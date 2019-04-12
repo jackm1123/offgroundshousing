@@ -36,7 +36,15 @@ class Listing(models.Model):
     user_profile_list = models.ManyToManyField('users.UserProfile', blank=True, related_name='user_favourite')
     user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
 
+    num_ratings = models.IntegerField(default=0)
+
+
     # sean = models.ImageField()
+
+    def add_rating(self,rating):
+        numerator = (self.num_ratings*self.rating) + rating
+        denominator = self.num_ratings + 1
+        self.rating = numerator/denominator
 
     def print_details(self): # pragma no cover (used for debugging)
         print("debugging info:")

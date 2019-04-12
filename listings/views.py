@@ -147,6 +147,19 @@ def add_favorite(request):
         # listing.save()
         # user.save()
     return HttpResponse("wow you're looking at the console what a good boy")
+
+def rate(request):
+    if (request.method == "POST" and 'review' in request.POST):
+        data = request.POST.copy()
+
+        listing_id = data.get('listing_id')
+        username = data.get('username')
+        listing = get_object_or_404(Listing,pk=listing_id)
+        user = UserProfile.get_user(username)
+
+    return HttpResponse("Nothing to see here...")
+
+
 '''
 probably deprecated
 def one_listing_inactive(request,listing_id):

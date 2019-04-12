@@ -1,0 +1,73 @@
+{% load static %}
+
+<div class="stars">
+  <span id="indicator">( 0 )</span>
+  <img class='star' src="{% static 'listings/unstar.png' %}" val="1" alt="">
+  <img class='star' src="{% static 'listings/unstar.png' %}" val="2" alt="">
+  <img class='star' src="{% static 'listings/unstar.png' %}" val="3" alt="">
+  <img class='star' src="{% static 'listings/unstar.png' %}" val="4" alt="">
+  <img class='star' src="{% static 'listings/unstar.png' %}" val="5" alt="">
+</div>
+
+
+<script type="text/javascript">
+  var default_rating = 0;
+  function set_rating(rating){
+    $(".star").each(function(){
+      var v = parseInt($(this).attr("val"))
+      if(v <= rating){
+        $(this).attr("src","{% static 'listings/star.png' %}");
+      }else{
+        $(this).attr("src","{% static 'listings/unstar.png' %}");
+      }
+    });
+  }
+
+  $(function(){
+    $(".star").mouseenter(function(event){
+      $("#indicator").text("(....)")
+      var val = parseInt($(this).attr("val"))
+      set_rating(val);
+    });
+    $(".stars").mouseleave(function(){
+      $("#indicator").text("( " + default_rating.toString() + " )")
+      var val = parseInt($(this).attr("val"))
+      set_rating(default_rating);
+    });
+
+    $(".star").click(function(event){
+      var v = parseInt($(this).attr("val"));
+      default_rating = v;
+      $("#indicator").text("( " + v.toString() + " )")
+      event.stopPropagation();
+    });
+    $(".stars").click(function(){
+      var v = 0;
+      default_rating = v;
+      $("#indicator").text("( " + v.toString() + " )")
+      set_rating(0)
+    });
+    $(".star").mousedown(function(){
+      $(this).css("background-color","red")
+    });
+    $(".star").mouseup(function(){
+      $(this).css("background-color","")
+    });
+  });
+
+</script>
+
+<style media="screen">
+  .star{
+    width: 50px;
+    margin: 0;
+    padding: 0;
+  }
+  .star:hover{
+    background-color: grey;
+  }
+
+  #indicator{
+    font-size: 25px;
+  }
+</style>

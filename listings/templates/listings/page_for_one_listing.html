@@ -6,8 +6,7 @@
 {% if listing %}
 {% load static %}
 
-  <script type="text/javascript" src="{% static 'listings/jquery.js' %}"></script>
-  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+  <!--  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>-->
   <script type="text/javascript" src="{% static 'listings/favorite_button.js' %}"></script>
   <!--<script type="text/javascript" src="{% static 'listings/active.js' %}"></script> -->
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
@@ -15,10 +14,62 @@
   <link rel="stylesheet" href="{% static 'listings/active.css' %}">
 <div class="test">
 
+  <div id="dialog">
+    <h3>Write a review</h3>
+    <ul style="list-style: none;">
+      {% include 'listings/stars.html' %}
+      <hr>
+      <textarea id='review' rows="4" cols="50" placeholder="Please write your review here..."></textarea>
+
+
+    </ul>
+  </div>
+
+    <script type="text/javascript">
+      $( "#dialog" ).dialog({
+          dialogClass: "dialogs",
+          buttons: [
+            {
+              text: "Submit",
+              id: "submit-review",
+              click: function() {
+
+                var data = {};
+                data["username"] = "{{ user.username }}";
+                data["listing_id"] = "{{ listing.id }}";
+                data["rating"] = default_rating;
+                data["review"] = $("#review").val();
+                AJAX("/listings/rate","post",data,function(response){
+                  
+                });
+
+
+              }
+            }
+          ]
+        });
+
+        $(".dialogs").css("width","80%");
+        $(".dialogs").css("top","20%");
+        $(".dialogs").css("left","10%");
+
+
+    $(".dialogs").hide();
+
+    function show_dialog(){
+      console.log("yyeet")
+      $(".dialogs").show();
+    }
+
+    </script>
+
 
   <div class="name">
     <h1>{{ listing.name }}</h1>
-      {% include 'listings/rating.html' %}
+      {% include 'listings/stars_static.html' %}
+      <script type="text/javascript">
+        set_static_rating({{ listing.rating }});
+      </script>
     <div class="price">
       <h3>${{ listing.price }}</h3>
     </div>
@@ -26,6 +77,7 @@
       {% if user.is_authenticated %}
           {% csrf_token %}
 
+            <button id="rate" onclick="show_dialog()">Write a review</button>
             <button id="favorite">FAVORITE</button>
             <button id="un-favorite">UN-FAVORITE</button>
 
@@ -82,11 +134,11 @@
     {% endif %} -->
     </div>
   </div>
-
+<!--
   <script type="text/javascript">
     hide_stars({{ listing.rating }});
   </script>
-
+-->
   <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
 
 
