@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
-import shutil # https://stackoverflow.com/questions/1534986/how-do-i-override-delete-on-a-model-and-have-it-still-work-with-related-delete
-from django.db.models.signals import pre_delete
-from django.dispatch import receiver
-
 from django.apps import apps
 
 # from listings.models import Listing
