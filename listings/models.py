@@ -11,7 +11,7 @@ from geopy import Nominatim
 class Listing(models.Model):
 
     name = models.CharField(max_length=100)
-    rating = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)
     description = models.TextField(default="")
     LAUNDRY_CHOICES = [('L', 'Laundry'), ('N', 'No Laundry')]
     #The first element in each tuple is the value that will be stored in the database. The second element is displayed by the field’s form widget.
@@ -44,7 +44,11 @@ class Listing(models.Model):
     def add_rating(self,rating):
         numerator = (self.num_ratings*self.rating) + rating
         denominator = self.num_ratings + 1
+        print("ans =",numerator/denominator)
+        print("num =",self.num_ratings)
         self.rating = numerator/denominator
+        self.num_ratings = denominator
+        self.save()
 
     def print_details(self): # pragma no cover (used for debugging)
         print("debugging info:")
