@@ -93,7 +93,7 @@
           {% if list_of_listings %}
 
             {% for listing in list_of_listings %}
-              {% if listing.active %}
+              {% if listing.active or user.is_superuser %}
                 {% include 'listings/one_listing_condensed.html' %}
               {% endif %}
             {% endfor %}
