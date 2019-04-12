@@ -9,7 +9,6 @@ from django.db import models
 from django.apps import apps
 UserProfile =apps.get_model('users', 'UserProfile') # https://stackoverflow.com/questions/4881607/django-get-model-from-string
 
-
 def list_of_listings(request):
     if 'query' in request.GET and request.GET['query']:
         q = request.GET['query']
@@ -41,6 +40,17 @@ def list_of_listings(request):
     apply_GET_filter("ownership_info","owned")
 
     return render(request, 'listings/list_of_listings.html',{'list_of_listings': objects})
+
+def favorites(request):
+    objects = Listing.objects.all()
+    user = UserProfile.get_user(request.user.username)
+    z = set()
+    for o in objects:
+        if o in user.favorites:
+            z.add(o)
+
+    return render(request, 'listings/list_of_listings.html',{'list_of_listings': objects})
+
 
 # class IndexView(generic.ListView):
 #     template_name = 'listings/list_of_listings.html'
@@ -154,8 +164,13 @@ def rate(request):
 
         listing_id = data.get('listing_id')
         username = data.get('username')
+        rating = int(data.get('rating'))
+        if (rating < 0 or rating > 5):
+            return HttpResponse("Rejected.")
         listing = get_object_or_404(Listing,pk=listing_id)
         user = UserProfile.get_user(username)
+        # TODO: make only able to vote once
+        listing.add_rating(rating)
 
     return HttpResponse("Nothing to see here...")
 
