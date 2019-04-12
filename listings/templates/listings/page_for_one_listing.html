@@ -8,6 +8,19 @@
 
   <!--  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>-->
   <script type="text/javascript" src="{% static 'listings/favorite_button.js' %}"></script>
+  <script type="text/javascript">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $("input:id_favorite").change(function() {
+            var isChecked = $("input:id_favorite).is(":checked") ? 1:0;
+            $.ajax({
+                url: 'self.php',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': csrf_token , name: user.username, favorite:isChecked }
+            });
+        });
+    });
+  </script>
   <!--<script type="text/javascript" src="{% static 'listings/active.js' %}"></script> -->
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
   <link rel="stylesheet" href="{% static 'listings/favorite_button.css' %}">
@@ -114,25 +127,42 @@
         <button type="submit">Save</button>
       </form>
       {% endif %}
-     <!--  {% if listing.active %}
-    <form method="post">
-      <p>active: <label class="switch">
-      <input type="checkbox" value = "True" checked>
-      <span class="slider round"></span>
-    </label>
-    </p>
-      <input type="submit" value="Submit">
-    </form>
-    {% else %}
-    <form action = "post">
-      <p>active: <label class="switch">
-      <input type="checkbox" value = "False>
-    </label>
-    </p>
-      <button type="submit" value="Submit">
-    </form>
-    {% endif %} -->
+
     </div>
+    <!--
+      <script type="text/javascript">
+    $(document).ready(function(){
+        $("input:checkbox").change(function() {
+            if($(this).is(":checked")) {
+                $.ajax({
+                    url: 'on_off.aspx',
+                    type: 'POST',
+                    data: { strID:$(this).attr("id"), strState:"1" }
+                });
+            } else {
+                $.ajax({
+                    url: 'on_off.aspx',
+                    type: 'POST',
+                    data: { strID:$(this).attr("id"), strState:"0" }
+                });
+            }
+        });
+    });
+</script>
+      -->
+    <!--
+    <div class="favorite">
+     {% if user in listing.user_list.all %}
+        <label for="id_favorite"></label>
+        <input type="checkbox" name="favorite" id="id_favorite" checked>
+      {% else %}
+        <label for="id_favorite"></label>
+        <input type="checkbox" name="favorite" id="id_favorite">
+      {% endif %}
+
+    </div>
+    -->
+
   </div>
 <!--
   <script type="text/javascript">
