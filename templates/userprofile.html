@@ -9,7 +9,15 @@
                 <p>Dummy Field: {{user.userprofile.dummyfield}}</p>
                 <p>Avatar: The Last Airbender</p>
             </ul>
-			<a class="lead" href="{% url 'logout' %}">Log out</a>
+			<p>Favorited Listings</p>
+
+            {% for listing in list_of_listings %}
+              {% if listing.active %}
+                {% include 'listings/one_listing_condensed.html' %}
+              {% endif %}
+            {% endfor %}
+
+            <a class="lead" href="{% url 'logout' %}">Log out</a>
 	{% else %}
 		<a class="lead" href="{% url 'login' %}">Log in</a>
 	{% endif %}
