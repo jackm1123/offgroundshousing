@@ -95,11 +95,12 @@ def one_listing(request,listing_id):
         form = MailForm(request.POST)
         if form.is_valid():
             active = form.cleaned_data['active']
-            if (not active) and listing.active:
-                send_mail(
-                    'Hello a listing you were interested in went down: ' + listing.name,
-                    'this is an automated message do not reply',
-                    'segfaulters3240@gmail', ['djx7et@virginia.edu'], fail_silently=False)
+            if (not active) and listing.active and len(listing.user_list.all()) != 0:
+                for user in listing.user_list.all():
+                    send_mail(
+                        'Hello a listing you were interested in went down: ' + listing.name,
+                        'this is an automated message do not reply',
+                        'segfaulters3240@gmail', [user.email], fail_silently=False)
                 print("SENT MAIL")
             listing.active = active
             listing.save()

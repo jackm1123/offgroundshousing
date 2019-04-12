@@ -111,6 +111,7 @@
 
       {% endif %}
     </div>
+    {% if user.is_superuser %}
     <div class="active">
       {% if listing.active %}
       <form method = "post">
@@ -127,8 +128,8 @@
         <button type="submit">Save</button>
       </form>
       {% endif %}
-
     </div>
+    {% endif %}
     <!--
       <script type="text/javascript">
     $(document).ready(function(){
