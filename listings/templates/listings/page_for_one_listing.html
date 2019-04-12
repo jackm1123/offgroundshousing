@@ -12,7 +12,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
         $("input:id_favorite").change(function() {
-            var isChecked = $("input:id_favorite).is(":checked") ? 1:0;
+            var isChecked = $("input:id_favorite").is(":checked") ? 1:0;
             $.ajax({
                 url: 'self.php',
                 type: 'POST',
@@ -53,7 +53,7 @@
                 data["rating"] = default_rating;
                 data["review"] = $("#review").val();
                 AJAX("/listings/rate","post",data,function(response){
-                  
+
                 });
 
 
@@ -184,7 +184,7 @@
           $("#favorite").hide();
           $("#un-favorite").show();
         });
-      });
+       });
 
       $("#un-favorite").click(function(){
         var data = {};
@@ -303,6 +303,11 @@ alert("there");
       <h3>Description</h3> <br/> {{ listing.description }}
   </div>
 
+  <div class="reviews">
+    <h3>Reviews</h3>
+    {% include "listings/review.html" %}
+
+  </div>
 
 
   <div class="contact-info">

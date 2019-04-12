@@ -37,7 +37,7 @@ body{
   overflow: hidden;
 }
 
-.description {
+.description, .reviews {
   padding-top: 10px;
   padding-left: 2%;
   padding-bottom: 10px;
@@ -45,7 +45,7 @@ body{
   border-bottom: 2px solid black;
 }
 
-.at-a-glance h3, .contact-info h3, .description h3{
+.at-a-glance h3, .contact-info h3, .description h3, .reviews h3{
   padding-left: 1%;
   font-size: 250%;
 }
