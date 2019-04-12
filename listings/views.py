@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.views import generic
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import QueryDict, HttpResponse
-from .models import Listing
+from .models import Listing,Review
 from .forms import MailForm
 from django.db import models
 
@@ -168,12 +168,16 @@ def rate(request):
         listing_id = data.get('listing_id')
         username = data.get('username')
         rating = int(data.get('rating'))
+        review_body = data.get('review')
         if (rating < 0 or rating > 5):
             return HttpResponse("Rejected.")
         listing = get_object_or_404(Listing,pk=listing_id)
         user = UserProfile.get_user(username)
         # TODO: make only able to vote once
         listing.add_rating(rating)
+
+        review = Review.create(listing,review_body)
+        review.save()
 
     return HttpResponse("Nothing to see here...")
 

@@ -106,6 +106,13 @@ class Review(models.Model):
     listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
     body = models.TextField(default="")
 
+    @classmethod
+    def create(cls,listing,body):
+        r = cls()
+        r.listing = listing
+        r.body = body
+        return r
+
 
 def dict_to_json(d):
     copy = d.copy()
