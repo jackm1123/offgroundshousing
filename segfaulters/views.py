@@ -13,3 +13,9 @@ def home(request):
 def profile(request):
 	objects = Listing.objects.all()
 	return render(request, 'userprofile.html', {'list_of_listings': objects})
+
+def contact(request):
+    return render(request, 'contact.html')
+
+def about(request):
+    return render(request, 'about.html')
