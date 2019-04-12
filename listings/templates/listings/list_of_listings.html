@@ -93,7 +93,9 @@
           {% if list_of_listings %}
 
             {% for listing in list_of_listings %}
-              {% include 'listings/one_listing_condensed.html' %}
+              {% if listing.active %}
+                {% include 'listings/one_listing_condensed.html' %}
+              {% endif %}
             {% endfor %}
 
 
