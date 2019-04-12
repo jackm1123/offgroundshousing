@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Listing,Listing_Image
+from .models import Listing,Listing_Image,Review
 
 admin.site.register(Listing)
 admin.site.register(Listing_Image)
+admin.site.register(Review)
 
 
 
