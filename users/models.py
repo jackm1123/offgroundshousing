@@ -12,7 +12,7 @@ from django.apps import apps
 # from django.contrib.auth.signals import user_logged_in
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userprofile')
     # avatar = models.ImageField()
     dummyfield = models.IntegerField(default=5)
     favorites = models.ManyToManyField("listings.Listing",blank=True)

@@ -105,12 +105,14 @@ class Listing_Image(models.Model):
 class Review(models.Model):
     listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
     body = models.TextField(default="")
+    user = models.ForeignKey(User, related_name='reviews',null=True,on_delete=models.SET_NULL)
 
     @classmethod
-    def create(cls,listing,body):
+    def create(cls,listing,body,UserProfile):
         r = cls()
         r.listing = listing
         r.body = body
+        r.user = user
         return r
 
 
