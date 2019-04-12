@@ -110,3 +110,13 @@ body{
   margin-bottom: 20px;
   width: 50%;
 }
+
+#favorite{
+  background-color: red;
+  font-weight: bold;
+}
+
+#un-favorite{
+  background-color: #f6ff84;
+  font-weight: bold;
+}

@@ -26,8 +26,22 @@
       {% if user.is_authenticated %}
           {% csrf_token %}
 
-          <button id="favorite">FAVORITE</button>
-          <button id="un-favorite" name="button">UN-FAVORITE</button>
+            <button id="favorite">FAVORITE</button>
+            <button id="un-favorite">UN-FAVORITE</button>
+
+            {% if user in listing.user_list.all %}
+              <style media="screen">
+                #favorite{
+                  display: none;
+                }
+              </style>
+            {% else %}
+            <style media="screen">
+              #un-favorite{
+                display: none;
+              }
+            </style>
+            {% endif %}
 
 
       {% endif %}
@@ -74,6 +88,7 @@
   </script>
 
   <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+
 
   <script>
     $(function(){
