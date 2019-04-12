@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from geopy import Nominatim
 
 
+
+
 class Listing(models.Model):
 
     name = models.CharField(max_length=100)
@@ -31,7 +33,7 @@ class Listing(models.Model):
 
     active = models.BooleanField(default=True) #change to true for testing, will be made default false later
     favorite = models.BooleanField(default=False) #need to go find one.
-    user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
+    user_list = models.ManyToManyField('users.UserProfile', blank=True, related_name='user_favourite')
 
     # sean = models.ImageField()
 

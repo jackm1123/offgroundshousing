@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-import listings.models
+# from listings.models import Listing
+# import django.db.models
 # from django.apps import apps
 # MyModel1 = apps.get_model('listings', 'Listing')
 
@@ -9,7 +10,19 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # avatar = models.ImageField()
     dummyfield = models.IntegerField(default=5)
-    favorites = models.ManyToManyField(listings.models.Listing)
+    favorites = models.ManyToManyField("listings.Listing",blank=True)
+
+    def __str__(self):
+        return "<UserProfile for " + self.user.username + ">"
+
+    @classmethod
+    def get_user(cls,username):
+        all = cls.objects.all()
+        print("users:",len(all))
+        for u in all:
+            print(u.user.username)
+            if u.user.username == username:
+                return u
 
 
 # class LeasingAgent(UserProfile):
@@ -24,4 +37,3 @@ def create_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
     post_save.connect(create_profile, sender=User)
-    

@@ -4,6 +4,11 @@ from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import QueryDict, HttpResponse
 from .models import Listing
 from .forms import MailForm
+from django.db import models
+
+from django.apps import apps
+UserProfile =apps.get_model('users', 'UserProfile') # https://stackoverflow.com/questions/4881607/django-get-model-from-string
+
 
 def list_of_listings(request):
     if 'query' in request.GET and request.GET['query']:
@@ -127,8 +132,14 @@ def add_favorite(request):
         data = request.POST.copy()
         listing_id = data.get('listing_id')
         username = data.get('username')
-        print(listing_id,username)
+        print("listing id:",listing_id)
+        print("username: ",username)
         listing = get_object_or_404(Listing,pk=listing_id)
+        user = UserProfile.get_user(username)
+        listing.user_list.add(user)
+        user.favorites.add(listing)
+        # listing.save()
+        # user.save()
     return HttpResponse("wow you're looking at the console what a good boy")
 '''
 probably deprecated
