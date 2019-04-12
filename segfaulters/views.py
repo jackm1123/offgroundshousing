@@ -7,7 +7,13 @@ Listing = apps.get_model('listings', 'Listing')
 
 
 def home(request):
-	return render(request, 'home.html')
+	objects = Listing.objects.all()
+	active_list = []
+	for listing in objects:
+		if listing.active:
+			active_list.append(listing)
+	print(active_list)
+	return render(request, 'home.html', {'list_of_listings': active_list})
 
 def profile(request):
 	objects = Listing.objects.all()
@@ -18,3 +24,4 @@ def contact(request):
 
 def about(request):
     return render(request, 'about.html')
+
