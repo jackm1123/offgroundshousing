@@ -72,26 +72,44 @@
     </div>
 
     <section class="highlight">
-        <h1> Newest Listings!</h1>
+        <h1> Check out these Listings!</h1>
     <div class="container">
       <div class="row">
         <div class="col-md-4">
-          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image1">
-          <h3>Cardboard Box</h3>
-          <p> Thats a big TV the neighbors brought in.
-          </p>
+          {% if list_of_listings.0 %}
+              {% if list_of_listings.0.images %}
+              {% with list_of_listings.0.images.all|first as image_model %}
+              <img src="{{ image_model.image.url }}" alt="image missing" width = "100%" height="100%">
+            {% endwith %}
+            {% else %}
+              <p>No pictures</p>
+            {% endif %}
+          <h3><a href="../listings/{{ list_of_listings.0.id }}">{{ list_of_listings.0.name }}</a></h3>
+          {% endif %}
         </div>
         <div class="col-md-4">
-          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image2">
-          <h3>Trashcan</h3>
-          <p> Hey it could be worse, you could be garbage!
-          </p>
+          {% if list_of_listings.1 %}
+              {% if list_of_listings.1.images %}
+              {% with list_of_listings.1.images.all|first as image_model %}
+              <img src="{{ image_model.image.url }}" alt="image missing" width = "100%" height="100%">
+            {% endwith %}
+            {% else %}
+              <p>No pictures</p>
+            {% endif %}
+          <h3><a href="../listings/{{ list_of_listings.1.id }}">{{ list_of_listings.1.name }}</a></h3>
+          {% endif %}
         </div>
         <div class="col-md-4">
-          <img src="https://drive.google.com/uc?export=view&id=17kJ_pXFXv0UIcGCp-1lW-jDq_uTSX46a" alt="image3">
-          <h3>A friend's couch</h3>
-          <p> Always open and warm, though your friends might mind.
-          </p>
+          {% if list_of_listings.2 %}
+              {% if list_of_listings.2.images %}
+              {% with list_of_listings.2.images.all|first as image_model %}
+              <img src="{{ image_model.image.url }}" alt="image missing" width = "100%" height="100%">
+           {% endwith %}
+            {% else %}
+              <p>No pictures</p>
+            {% endif %}
+          <h3><a href="../listings/{{ list_of_listings.2.id }}">{{ list_of_listings.2.name }}</a></h3>
+          {% endif %}
         </div>
       </div>
     </div>
