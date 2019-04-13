@@ -176,7 +176,7 @@ def rate(request):
         # TODO: make only able to vote once
         listing.add_rating(rating)
 
-        review = Review.create(listing,review_body)
+        review = Review.create(listing,review_body,user.user)
         review.save()
 
     return HttpResponse("Nothing to see here...")

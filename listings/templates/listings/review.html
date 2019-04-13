@@ -1,3 +1,17 @@
 {% for review in listing.reviews.all %}
-  <p> {{review.body}}</p>
+  <div class="review">
+    <p> <strong>{{review.user.username}}</strong> </p>
+    <p> {{review.body}}</p>
+    <p></p>
+  </div>
 {% endfor %}
+
+<style media="screen">
+  .review{
+    border: 2px dashed black;
+    margin-bottom: 20px;
+    background-color: #cff8ff;
+    padding: 10px;
+    border-radius: 25px;
+  }
+</style>

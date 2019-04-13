@@ -108,7 +108,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, related_name='reviews',null=True,on_delete=models.SET_NULL)
 
     @classmethod
-    def create(cls,listing,body,UserProfile):
+    def create(cls,listing,body,user):
         r = cls()
         r.listing = listing
         r.body = body
