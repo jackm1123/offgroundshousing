@@ -76,7 +76,7 @@ class Listing(models.Model):
 
 
     def get_coordinates(self):
-        if(self.cached_latitude == 0 or self.cached_longitude == 0):
+        if(self.cached_latitude == -1 or self.cached_longitude == -1):
             print("geolocating",self.name + "...")
             geolocator = Nominatim()
             try:
