@@ -2,7 +2,12 @@ import os
 from listings.models import *
 # import datetime
 
+on_heroku = 'DYNO' in os.environ
+
 def save_image_from(url,filename):
+    global on_heroku
+    if on_heroku:
+        return
     path = "media/listing_pics/"
     command = "curl " + url + " > " + path + filename
     print(command)
@@ -36,13 +41,16 @@ def get_csv(filename):
 #     return datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
 
 l = get_csv("make_database.csv")
-# for i in l:
-#     for j in i:
-#         print(j,"->",i[j])
+for i in l:
+    for j in i:
+        print(j,"->",i[j])
 current_listings = Listing.objects.all()
 for listing in l:
-
     name = listing["name"]
+    if not listing["address"].split()[-1].isdigit():
+        print("PARSE ERROR: Please remove comma from " + name + "'s address.'")
+        print("(If there is no comma, please tell Sean that not all addresses end in a zip code, lol.)")
+        exit()
     query = current_listings.filter(name=name)
     listing["submission_date"] = "2019-04-01 00:00"
     if listing["description"] == "":
@@ -73,6 +81,8 @@ for listing in l:
 
     counter = 1
     for url in pic_urls:
+        if url == "":
+            continue
         extension = url[url.rfind("."):]
         filename = name + "_" + str(counter) + extension
         filename = filename.replace(" ","_")
