@@ -66,6 +66,11 @@ class Listing(models.Model):
     def get_day(self):
         return self.submission_date.strftime("%m/%d/%Y")
 
+    def add_image(self,path):
+        image = Listing_Image.create(self,path)
+        image.save()
+
+
     def get_coordinates(self):
         geolocator = Nominatim()
         location = geolocator.geocode(self.address)
@@ -101,6 +106,17 @@ class Listing(models.Model):
 class Listing_Image(models.Model):
     listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
+
+    @classmethod
+    def create(cls,listing,image):
+        out = cls()
+        out.listing = listing
+        out.image = image
+        return out
+
+    def __str__(self):
+        return str(self.image)
+
 
 class Review(models.Model):
     listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
