@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from geopy import Nominatim
+import geopy
 
 
 
@@ -37,6 +38,9 @@ class Listing(models.Model):
     user_list = models.ManyToManyField(User, blank=True, related_name='user_favourite')
 
     num_ratings = models.IntegerField(default=0)
+
+    cached_latitude = models.FloatField(default=-1)
+    cached_longitude = models.FloatField(default=-1)
 
 
     # sean = models.ImageField()
@@ -72,11 +76,25 @@ class Listing(models.Model):
 
 
     def get_coordinates(self):
-        geolocator = Nominatim()
-        location = geolocator.geocode(self.address)
-        if(location == None):
-            return 0,0
-        return (location.latitude, location.longitude)
+        if(self.cached_latitude == 0 or self.cached_longitude == 0):
+            print("geolocating",self.name + "...")
+            geolocator = Nominatim()
+            try:
+                location = geolocator.geocode(self.address,timeout=10)
+            except geopy.exc.GeocoderTimedOut:
+                print("Geolocating %s (%s) timed out" % (self.name,self.address))
+                return 0,0
+            if(location == None):
+                print("Geolocation failed")
+                self.cached_latitude,self.cached_longitude = 0,0
+                self.save()
+                return 0,0
+            self.cached_latitude,self.cached_longitude = location.latitude, location.longitude
+            self.save()
+        else:
+            print("geolocation cached! Nice!")
+
+        return (self.cached_latitude,self.cached_longitude)
 
     @property
     def latitude(self):
