@@ -54,6 +54,9 @@ class Listing(models.Model):
         self.num_ratings = denominator
         self.save()
 
+    def get_condensed_address(self):
+        return self.address.split("Charlottesville")[0]
+
     def print_details(self): # pragma no cover (used for debugging)
         print("debugging info:")
         print("-"*30)
