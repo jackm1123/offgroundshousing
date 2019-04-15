@@ -1,5 +1,5 @@
 META_TESTING = False
-SYSTEM_TESTING = False
+SYSTEM_TESTING = True
 
 from django.test import TestCase
 from django.test import Client
