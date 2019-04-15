@@ -8,7 +8,7 @@
 
   <!--  <script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>-->
   <script type="text/javascript" src="{% static 'listings/favorite_button.js' %}"></script>
-  <script type="text/javascript">
+  <!--
   <script type="text/javascript">
     $(document).ready(function(){
         $("input:id_favorite").change(function() {
@@ -21,6 +21,7 @@
         });
     });
   </script>
+-->
   <!--<script type="text/javascript" src="{% static 'listings/active.js' %}"></script> -->
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
   <link rel="stylesheet" href="{% static 'listings/favorite_button.css' %}">
@@ -39,40 +40,49 @@
   </div>
 
     <script type="text/javascript">
-      $( "#dialog" ).dialog({
-          dialogClass: "dialogs",
-          buttons: [
-            {
-              text: "Submit",
-              id: "submit-review",
-              click: function() {
+      $(function(){
+          $( "#dialog" ).dialog({
+              dialogClass: "dialogs",
+              buttons: [
+                {
+                  text: "Submit",
+                  id: "submit-review",
+                  click: function() {
 
-                var data = {};
-                data["username"] = "{{ user.username }}";
-                data["listing_id"] = "{{ listing.id }}";
-                data["rating"] = default_rating;
-                data["review"] = $("#review").val();
-                AJAX("/listings/rate","post",data,function(response){
-
-                });
-
-
-              }
-            }
-          ]
-        });
-
-        $(".dialogs").css("width","80%");
-        $(".dialogs").css("top","20%");
-        $(".dialogs").css("left","10%");
+                    var data = {};
+                    data["username"] = "{{ user.username }}";
+                    data["listing_id"] = "{{ listing.id }}";
+                    data["rating"] = default_rating;
+                    data["review"] = $("#review").val();
+                    AJAX("/listings/rate","post",data,function(response){
+                      alert("Review updated. Thanks!")
+                      $(".ui-dialog-titlebar-close").trigger("click");
+                    });
 
 
-    $(".dialogs").hide();
+                  }
+                }
+              ]
+            });
 
-    function show_dialog(){
-      console.log("yyeet")
-      $(".dialogs").show();
-    }
+            $(".dialogs").css("width","80%");
+            $(".dialogs").css("top","20%");
+            $(".dialogs").css("left","10%");
+
+            $(".ui-dialog-titlebar-close").click(function(){
+              $(".dialogs").hide();
+            });
+
+
+        $(".dialogs").hide();
+
+      });
+
+      function show_dialog(){
+        console.log("yyeet")
+        $(".dialogs").show();
+      }
+
 
     </script>
 

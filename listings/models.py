@@ -48,8 +48,13 @@ class Listing(models.Model):
     def add_rating(self,rating):
         numerator = (self.num_ratings*self.rating) + rating
         denominator = self.num_ratings + 1
-        print("ans =",numerator/denominator)
-        print("num =",self.num_ratings)
+        self.rating = numerator/denominator
+        self.num_ratings = denominator
+        self.save()
+
+    def undo_rating(self,rating):
+        numerator = (self.num_ratings*self.rating) - rating
+        denominator = self.num_ratings - 1
         self.rating = numerator/denominator
         self.num_ratings = denominator
         self.save()

@@ -216,6 +216,21 @@ class ListingTest(TestCase):
         self.assertEqual(3.2,a.rating)
         self.assertEqual(10,a.num_ratings)
 
+    def test_undo_rating(self):
+        a = create_generic_listing(rating=3.0, num_ratings= 9)
+        a.add_rating(1)
+        a.add_rating(1)
+        a.add_rating(2)
+        a.add_rating(2)
+        a.add_rating(2)
+        a.undo_rating(1)
+        a.undo_rating(1)
+        a.undo_rating(2)
+        a.undo_rating(2)
+        a.undo_rating(2)
+        self.assertEqual(3.0,a.rating)
+        self.assertEqual(9,a.num_ratings)
+
     def test_add_image(self):
         a = create_generic_listing()
         a.add_image("test.jpg")

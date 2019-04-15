@@ -173,11 +173,19 @@ def rate(request):
             return HttpResponse("Rejected.")
         listing = get_object_or_404(Listing,pk=listing_id)
         user = UserProfile.get_user(username)
-        # TODO: make only able to vote once
-        listing.add_rating(rating)
 
-        review = Review.create(listing,review_body,user.user)
-        review.save()
+        prior_submission = None
+        for review in listing.reviews.all():
+            if review.user.username == user.user.username:
+                prior_submission = review
+                break
+
+        if prior_submission != None:
+            pass
+        else:
+            listing.add_rating(rating)
+            review = Review.create(listing,review_body,user.user)
+            review.save()
 
     return HttpResponse("Nothing to see here...")
 
