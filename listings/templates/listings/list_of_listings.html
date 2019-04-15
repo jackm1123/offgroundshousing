@@ -21,10 +21,10 @@
         <button id="filter" onclick="show_dialog()">Filter</button>
 
 
-        <div id="dialog">
+        <div id="dialog" style="display: none;">
           <h3>Filters</h3>
           <ul style="list-style: none;">
-            <li><label for="name">Name:</label> <input id="name" type="text"></li>
+            <li><label for="name">Name:</label> <input id="name" type="text" placeholder="Name of Listing"></li>
             <li><input id="laundry" type="checkbox"> <label for="laundry">Laundry</label></li>
             <li><input id="parking" type="checkbox"> <label for="parking">Parking</label></li>
             <li><input id="owned" type="checkbox"> <label for="owned">Owned</label></li>
@@ -80,6 +80,10 @@
           $(".dialogs").css("top","20%");
           $(".dialogs").css("left","10%");
           $(".dialogs").hide();
+
+          $(".ui-dialog-titlebar-close").click(function(){
+            $(".dialogs").hide();
+          });
 
           function show_dialog(){
             $(".dialogs").show();
