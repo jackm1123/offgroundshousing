@@ -183,8 +183,8 @@ class ListingTest(TestCase):
     def test_admin_url(self):
         self.assertEqual(302,ping_url("/admin/"))
 
-    def test_listings_url(self):
-        self.assertEqual(200,ping_url("/listings/"))
+    # def test_listings_url(self):
+    #     self.assertEqual(200,ping_url("/listings/"))
 
     def test_all_listings_pages(self):
         a = create_generic_listing(name="a",id=3)

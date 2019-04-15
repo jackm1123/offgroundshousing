@@ -181,11 +181,12 @@ def rate(request):
                 break
 
         if prior_submission != None:
-            pass
+            listing.add_rating(rating)
+            listing.undo_rating(prior_submission.rating)
+            review.update(listing,rating,review_body,user.user)
         else:
             listing.add_rating(rating)
-            review = Review.create(listing,review_body,user.user)
-            review.save()
+            review = Review.create(listing,rating,review_body,user.user)
 
     return HttpResponse("Nothing to see here...")
 

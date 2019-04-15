@@ -48,6 +48,10 @@ class Listing(models.Model):
     def add_rating(self,rating):
         numerator = (self.num_ratings*self.rating) + rating
         denominator = self.num_ratings + 1
+        # print("self.num_ratings",self.num_ratings)
+        # print("self.rating",self.rating)
+        # print("num:",numerator)
+        # print("denom:",denominator)
         self.rating = numerator/denominator
         self.num_ratings = denominator
         self.save()
@@ -55,9 +59,14 @@ class Listing(models.Model):
     def undo_rating(self,rating):
         numerator = (self.num_ratings*self.rating) - rating
         denominator = self.num_ratings - 1
-        self.rating = numerator/denominator
-        self.num_ratings = denominator
-        self.save()
+        if denominator == 0:
+            self.num_ratings = denominator
+            self.rating = 0
+            self.save()
+        else:
+            self.rating = numerator/denominator
+            self.num_ratings = denominator
+            self.save()
 
     def get_condensed_address(self):
         return self.address.split("Charlottesville")[0]
@@ -146,16 +155,26 @@ class Listing_Image(models.Model):
 
 class Review(models.Model):
     listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
     body = models.TextField(default="")
     user = models.ForeignKey(User, related_name='reviews',null=True,on_delete=models.SET_NULL)
 
     @classmethod
-    def create(cls,listing,body,user):
+    def create(cls,listing,rating,body,user):
         r = cls()
-        r.listing = listing
-        r.body = body
-        r.user = user
+        r.update(listing,rating,body,user)
         return r
+
+    def update(self,listing,rating,body,user):
+        self.listing = listing
+        self.rating = rating
+        self.body = body
+        print("body: ",self.body)
+        self.user = user
+        self.save()
+
+    def __str__(self):
+        return "<%s's %d-star rating for %s>" % (self.user.username,self.rating,self.listing.name)
 
 
 def dict_to_json(d):

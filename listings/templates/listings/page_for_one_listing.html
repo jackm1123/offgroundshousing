@@ -41,6 +41,9 @@
 
     <script type="text/javascript">
       $(function(){
+        $(".stars_static").click(function(){
+          $("#rate").trigger("click")
+        });
           $( "#dialog" ).dialog({
               dialogClass: "dialogs",
               buttons: [
@@ -315,7 +318,12 @@ alert("there");
 
   <div class="reviews">
     <h3>Reviews</h3>
-    {% include "listings/review.html" %}
+    {% if listing.reviews.all %}
+      {% include "listings/review.html" %}
+    {% else %}
+      <p>No reviews are available for this listing.</p>
+    {% endif %}
+
 
   </div>
 

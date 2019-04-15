@@ -1,8 +1,18 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static 'listings/rating.js' %}"></script>
+
 {% for review in listing.reviews.all %}
   <div class="review">
     <p> <strong>{{review.user.username}}</strong> </p>
     <p> {{review.body}}</p>
     <p></p>
+    <div class="rating">
+      {% include 'listings/stars_static.html' %}
+      <script type="text/javascript">
+        hide_stars({{ review.rating }});
+      </script>
+    </div>
   </div>
 {% endfor %}
 
