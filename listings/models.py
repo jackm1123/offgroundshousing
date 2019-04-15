@@ -92,7 +92,7 @@ class Listing(models.Model):
             self.cached_latitude,self.cached_longitude = location.latitude, location.longitude
             self.save()
         else:
-            print("geolocation cached! Nice!")
+            print("geolocation cached! (%s)" % self.name)
 
         return (self.cached_latitude,self.cached_longitude)
 

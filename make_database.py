@@ -94,6 +94,7 @@ for listing in l:
 
     try:
         listing.save()
+        listing.get_coordinates()
     except Exception as e:
         print("\n"+"-"*30,"\nError on ",name,"\n"+"-"*30+"\n")
         raise(e)
