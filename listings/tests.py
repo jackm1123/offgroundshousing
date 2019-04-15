@@ -216,6 +216,10 @@ class ListingTest(TestCase):
         self.assertEqual(3.2,a.rating)
         self.assertEqual(10,a.num_ratings)
 
+    def test_add_image(self):
+        a = create_generic_listing()
+        a.add_image("test.jpg")
+
 
 ################################################################################
 """ System Tests """
@@ -300,6 +304,8 @@ if SYSTEM_TESTING and not exclude_from_metatest():
             box = self.get_by_id(id)
             box.send_keys(text)
             self.get_by_id("apply_filters").click()
+
+
 
 
         ###############################################

@@ -20,7 +20,7 @@
 
         <button id="filter" onclick="show_dialog()">Filter</button>
 
-        
+
         <div id="dialog">
           <h3>Filters</h3>
           <ul style="list-style: none;">
@@ -107,7 +107,7 @@
         <div class="mapview">
           <div id="map">
             <script async defer
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs&callback=initMap">
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs">
             </script>
           </div>
         </div>
@@ -128,8 +128,32 @@
                     coords = ( '{{ listing.get_coordinates }}')
                     coords = JSON.parse("[" + coords.replace(/\(/g, "[").replace(/\)/g, "]") + "]")
                     coords = coords[0]
-                    var marker = new google.maps.Marker({position: {lat: coords[0], lng: coords[1]}, map: map,})
-                    google.maps.event.addListener(marker, 'click', function() {
+                    var marker_{{ listing.id }} = new google.maps.Marker({position: {lat: coords[0], lng: coords[1]}, map: map,})
+
+                    //https://duncan99.wordpress.com/2011/10/08/google-maps-api-infowindows/
+                    var infowindow_{{ listing.id }} =  new google.maps.InfoWindow({
+                  		content: '{{ listing.name }}',
+                  		map: map,
+                  		position: {lat: coords[0], lng: coords[1]}
+                  	});
+
+                    // console.log(infowindow_{{ listing.id }});
+                    // console.log('marker_{{ listing.id }}');
+
+
+
+                    infowindow_{{ listing.id }}.close()
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'mouseover', function() {
+                    	infowindow_{{ listing.id }}.open(map, this);
+                    });
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'mouseout', function() {
+                      infowindow_{{ listing.id }}.close()
+                    });
+
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'click', function() {
                       window.open('{{ listing.id }}');
                     });
 

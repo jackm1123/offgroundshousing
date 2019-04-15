@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from geopy import Nominatim
+import geopy
 
 
 
@@ -38,6 +39,9 @@ class Listing(models.Model):
 
     num_ratings = models.IntegerField(default=0)
 
+    cached_latitude = models.FloatField(default=-1)
+    cached_longitude = models.FloatField(default=-1)
+
 
     # sean = models.ImageField()
 
@@ -66,12 +70,31 @@ class Listing(models.Model):
     def get_day(self):
         return self.submission_date.strftime("%m/%d/%Y")
 
+    def add_image(self,path):
+        image = Listing_Image.create(self,path)
+        image.save()
+
+
     def get_coordinates(self):
-        geolocator = Nominatim()
-        location = geolocator.geocode(self.address)
-        if(location == None):
-            return 0,0
-        return (location.latitude, location.longitude)
+        if(self.cached_latitude == -1 or self.cached_longitude == -1):
+            print("geolocating",self.name + "...")
+            geolocator = Nominatim()
+            try:
+                location = geolocator.geocode(self.address,timeout=10)
+            except geopy.exc.GeocoderTimedOut:
+                print("Geolocating %s (%s) timed out" % (self.name,self.address))
+                return 0,0
+            if(location == None):
+                print("Geolocation failed")
+                self.cached_latitude,self.cached_longitude = 0,0
+                self.save()
+                return 0,0
+            self.cached_latitude,self.cached_longitude = location.latitude, location.longitude
+            self.save()
+        else:
+            print("geolocation cached! (%s)" % self.name)
+
+        return (self.cached_latitude,self.cached_longitude)
 
     @property
     def latitude(self):
@@ -101,6 +124,17 @@ class Listing(models.Model):
 class Listing_Image(models.Model):
     listing = models.ForeignKey(Listing, related_name='images',on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True, upload_to=("listing_pics/"))
+
+    @classmethod
+    def create(cls,listing,image):
+        out = cls()
+        out.listing = listing
+        out.image = image
+        return out
+
+    def __str__(self):
+        return str(self.image)
+
 
 class Review(models.Model):
     listing = models.ForeignKey(Listing, related_name='reviews',on_delete=models.CASCADE)
