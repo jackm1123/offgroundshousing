@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'listings/list_of_listings.css' %}">
+
+
 <style>
     #map {
       height: 400px;
@@ -18,25 +23,23 @@
       <body>
         <h1>Listings</h1>
 
-        <button id="filter" onclick="show_dialog()">Filter</button>
 
-        
-        <div id="dialog">
+
+        <div id="dialog" style="display: none;">
           <h3>Filters</h3>
           <ul style="list-style: none;">
-            <li><label for="name">Name:</label> <input id="name" type="text"></li>
+            <li><label for="name">Name:</label> <input id="name" type="text" placeholder="Name of Listing"></li>
             <li><input id="laundry" type="checkbox"> <label for="laundry">Laundry</label></li>
             <li><input id="parking" type="checkbox"> <label for="parking">Parking</label></li>
             <li><input id="owned" type="checkbox"> <label for="owned">Owned</label></li>
-            <li><label for="price_low">Price higher than:</label> <input id="price_low" type="text">
-            <label for="price_high">Price lower than:</label> <input id="price_high" type="text"></li>
-            <li><label for="rating_low">Rating higher than:</label> <input id="rating_low" type="text">
-            <label for="rating_high">Rating lower than:</label> <input id="rating_high" type="text"></li>
-            <li><label for="sqft_low">Square footage higher than:</label> <input id="sqft_low" type="text">
-            <label for="sqft_high">Square footage lower than:</label> <input id="sqft_high" type="text"></li>
-            <li><label for="beds_low"># Beds higher than:</label> <input id="beds_low" type="text">
-            <label for="beds_high"># Beds lower than:</label> <input id="beds_high" type="text"></li>
-
+            <li><label for="price_low">Price higher than:</label> <input id="price_low" type="text" placeholder="price lower bound">
+            <label for="price_high">Price lower than:</label> <input id="price_high" type="text" placeholder="price upper bound"></li>
+            <li><label for="rating_low">Rating higher than:</label> <input id="rating_low" type="text" placeholder="rating lower bound">
+            <label for="rating_high">Rating lower than:</label> <input id="rating_high" type="text" placeholder="rating upper bound"></li>
+            <li><label for="sqft_low">Square footage higher than:</label> <input id="sqft_low" type="text" placeholder="sqft upper bound">
+            <label for="sqft_high">Square footage lower than:</label> <input id="sqft_high" type="text" placeholder="sqft lower bound"></li>
+            <li><label for="beds_low"># Beds higher than:</label> <input id="beds_low" type="text" placeholder="beds lower bound">
+            <label for="beds_high"># Beds lower than:</label> <input id="beds_high" type="text" placeholder="beds upper bound"></li>
           </ul>
 
 
@@ -79,15 +82,23 @@
           $(".dialogs").css("width","80%");
           $(".dialogs").css("top","20%");
           $(".dialogs").css("left","10%");
+          $(".dialogs").css("border","5px solid black");
           $(".dialogs").hide();
+
+          $(".ui-dialog-titlebar-close").click(function(){
+            $(".dialogs").hide();
+          });
 
           function show_dialog(){
             $(".dialogs").show();
           }
         </script>
 
+
         <button id="show-list">List view</button>
         <button id="show-map">Map view</button>
+        <button id="filter" onclick="show_dialog()">Filter</button>
+
 
         <div class="list-of-listings">
           {% if list_of_listings %}
@@ -107,18 +118,33 @@
         <div class="mapview">
           <div id="map">
             <script async defer
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs&callback=initMap">
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC01WGGqQ_6fkdF_nJNUj4q9G6WF7BUXTs">
             </script>
           </div>
         </div>
 
         <script type="text/javascript">
+          $("#show-list").prop("disabled","true")
+          $("#show-list").css("border","3px solid #e29797")
           $("#show-list").click(function(){
+            $(this).prop("disabled","true")
+            $(this).css("border","3px solid #e29797")
+
+            $("#show-map").prop("disabled","")
+            $("#show-map").css("border","")
+
+
             $(".map").hide()
             $(".list-of-listings").show();
             document.getElementById('map').innerHTML = ''
           });
           $("#show-map").click(function(){
+            $(this).prop("disabled","true")
+            $(this).css("border","3px solid #e29797")
+
+            $("#show-list").prop("disabled","")
+            $("#show-list").css("border","")
+
             $(".list-of-listings").hide();
             $(".mapview").show();
               var map = new google.maps.Map(
@@ -128,8 +154,32 @@
                     coords = ( '{{ listing.get_coordinates }}')
                     coords = JSON.parse("[" + coords.replace(/\(/g, "[").replace(/\)/g, "]") + "]")
                     coords = coords[0]
-                    var marker = new google.maps.Marker({position: {lat: coords[0], lng: coords[1]}, map: map,})
-                    google.maps.event.addListener(marker, 'click', function() {
+                    var marker_{{ listing.id }} = new google.maps.Marker({position: {lat: coords[0], lng: coords[1]}, map: map,})
+
+                    //https://duncan99.wordpress.com/2011/10/08/google-maps-api-infowindows/
+                    var infowindow_{{ listing.id }} =  new google.maps.InfoWindow({
+                  		content: '{{ listing.name }}',
+                  		map: map,
+                  		position: {lat: coords[0], lng: coords[1]}
+                  	});
+
+                    // console.log(infowindow_{{ listing.id }});
+                    // console.log('marker_{{ listing.id }}');
+
+
+
+                    infowindow_{{ listing.id }}.close()
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'mouseover', function() {
+                    	infowindow_{{ listing.id }}.open(map, this);
+                    });
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'mouseout', function() {
+                      infowindow_{{ listing.id }}.close()
+                    });
+
+
+                    google.maps.event.addListener(marker_{{ listing.id }}, 'click', function() {
                       window.open('{{ listing.id }}');
                     });
 
