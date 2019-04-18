@@ -52,12 +52,12 @@
 }
 
 .name a{
-  font-size: 200%;
+  font-size: 100%;
   font-weight: bold;
   color: #b10000;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 600px) {
     
   .listing{
     position: relative;
@@ -67,7 +67,7 @@
   }
 
   .name a{
-  font-size: 1em;
+  font-size: 200%;
   font-weight: bold;
   color: #b10000;
 }
