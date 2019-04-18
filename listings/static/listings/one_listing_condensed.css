@@ -56,3 +56,25 @@
   font-weight: bold;
   color: #b10000;
 }
+
+@media only screen and (max-width: 600px) {
+    
+  .listing{
+    position: relative;
+    width: 100%;
+    border-bottom: 2px dotted black;
+    overflow: visible;
+  }
+
+  .name a{
+  font-size: 100%;
+  font-weight: bold;
+  color: #b10000;
+}
+    
+}
+
+
+
+
+

@@ -5,6 +5,29 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
   <head>
+
+    <style type="text/css">
+      @media only screen and (max-width: 600px) {
+    
+        .row{
+          margin: 100;
+        }
+
+
+      }
+      @media only screen and (min-width: 600px) {
+    
+        .spacer{
+          height: 0;
+          width: 0;
+        }
+
+
+      }
+    </style>
+
+
+
     <meta charset="utf-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,8 +97,8 @@
     <section class="highlight">
         <h1> Check out these Listings!</h1>
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
+      <div class="row" >
+        <div class="col-md-4" style="word-wrap: break-word">
           {% if list_of_listings.0 %}
               {% if list_of_listings.0.images %}
               {% with list_of_listings.0.images.all|first as image_model %}
@@ -87,6 +110,7 @@
           <h3><a href="../listings/{{ list_of_listings.0.id }}">{{ list_of_listings.0.name }}</a></h3>
           {% endif %}
         </div>
+        <div class="spacer">&nbsp;</div>
         <div class="col-md-4">
           {% if list_of_listings.1 %}
               {% if list_of_listings.1.images %}
@@ -99,6 +123,7 @@
           <h3><a href="../listings/{{ list_of_listings.1.id }}">{{ list_of_listings.1.name }}</a></h3>
           {% endif %}
         </div>
+        <div class="spacer">&nbsp;</div>
         <div class="col-md-4">
           {% if list_of_listings.2 %}
               {% if list_of_listings.2.images %}
@@ -111,6 +136,7 @@
           <h3><a href="../listings/{{ list_of_listings.2.id }}">{{ list_of_listings.2.name }}</a></h3>
           {% endif %}
         </div>
+        <div class="spacer">&nbsp;</div>
       </div>
     </div>
     </section>

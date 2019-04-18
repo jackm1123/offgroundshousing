@@ -26,6 +26,28 @@
   <link rel="stylesheet" href="{% static 'listings/one_listing.css' %}">
   <link rel="stylesheet" href="{% static 'listings/favorite_button.css' %}">
   <link rel="stylesheet" href="{% static 'listings/active.css' %}">
+
+
+  <style type="text/css">
+      @media only screen and (min-width: 600px) {
+    
+        .spacer{
+          height: 0;
+          width: 0;
+        }
+
+
+      }
+ </style>
+
+
+
+
+
+
+
+
+
 <div class="test">
 
   <div id="dialog">
@@ -224,11 +246,16 @@ alert("there");
  // }
 }
 </script>
+
+
 <div id="slides">
   <embed src="slides" width="500px" height="600px">
 </div>
+<div id="map"></div>
 
-  <div id="map"></div>
+
+
+
 
 <a href="slides">View photos</a>
 <div class="at-a-glance">
@@ -249,7 +276,10 @@ alert("there");
     </div>
   </div>
 
-
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
   <div class="bullet_pair">
     <img class="bullet_icon" src="{% static 'listings/icons/sqft.png' %}" alt="sqft icon">
     <div class="bullet_pair_body">
@@ -257,7 +287,11 @@ alert("there");
       {{ listing.square_footage }} sqft
     </div>
   </div>
-
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
 
   <div class="bullet_pair" id="bullet_pair_price">
     <img class="bullet_icon" src="{% static 'listings/icons/price.png' %}" alt="price icon">
@@ -266,7 +300,10 @@ alert("there");
       ${{ listing.price }}
     </div>
   </div>
-
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
   <div class="bullet_pair">
     <img class="bullet_icon" src="{% static 'listings/icons/bed.png' %}" alt="bed icon">
     <div class="bullet_pair_body">
@@ -274,7 +311,10 @@ alert("there");
       {{ listing.bedroom_num }}
     </div>
   </div>
-
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
   <div class="bullet_pair">
     <img class="bullet_icon" src="{% static 'listings/icons/available.png' %}" alt="owner icon">
     <div class="bullet_pair_body">
@@ -282,7 +322,10 @@ alert("there");
       {{ listing.ownership_info }}
     </div>
   </div>
-
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
   <div class="bullet_pair">
     <img class="bullet_icon" src="{% static 'listings/icons/calendar.png' %}" alt="date icon">
     <div class="bullet_pair_body">
