@@ -273,7 +273,11 @@ alert("there");
     <img class="bullet_icon" src="{% static 'listings/icons/laundry.png' %}" alt="laundry icon">
     <div class="bullet_pair_body">
       <strong>Laundry</strong> <br/>
-      {{ listing.laundry_info }}
+      {% ifequal listing.laundry_info "L" %}
+      YES
+      {% else %}
+      NO
+      {% endifequal %}
     </div>
   </div>
 
@@ -320,7 +324,11 @@ alert("there");
     <img class="bullet_icon" src="{% static 'listings/icons/available.png' %}" alt="owner icon">
     <div class="bullet_pair_body">
       <strong>Available</strong> <br/>
-      {{ listing.ownership_info }}
+      {% ifequal listing.laundry_info "A" %}
+      YES
+      {% else %}
+      NO
+      {% endifequal %}
     </div>
   </div>
   <div class="spacer" >&nbsp;</div>
@@ -332,6 +340,21 @@ alert("there");
     <div class="bullet_pair_body">
       <strong>Posted</strong> <br/>
       {{ listing.get_day }}
+    </div>
+  </div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="spacer" >&nbsp;</div>
+  <div class="bullet_pair">
+    <img class="bullet_icon" src="{% static 'listings/icons/parking.png' %}" alt="date icon">
+    <div class="bullet_pair_body">
+      <strong>Parking</strong> <br/>
+      {% ifequal listing.parking_info "P" %}
+      YES
+      {% else %}
+      NO
+      {% endifequal %}
     </div>
   </div>
 
