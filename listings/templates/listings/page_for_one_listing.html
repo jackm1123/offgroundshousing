@@ -30,7 +30,7 @@
 
   <style type="text/css">
       @media only screen and (min-width: 600px) {
-    
+
         .spacer{
           height: 0;
           width: 0;
@@ -80,8 +80,9 @@
                     data["rating"] = default_rating;
                     data["review"] = $("#review").val();
                     AJAX("/listings/rate","post",data,function(response){
-                      alert("Review updated. Thanks!")
+                      // alert("Review updated. Thanks!")
                       $(".ui-dialog-titlebar-close").trigger("click");
+                      location.reload();
                     });
 
 
