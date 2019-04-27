@@ -1,6 +1,6 @@
 # project-101-segfaulters
 
-                                        Yelp for Off Ground Housing
+##                                        Yelp for Off Ground Housing
 ## We have created an app for off ground housing in UVA area. Here is the link to our application, “Yelp for Off Ground Housing”:
 https://segfaulters3240.herokuapp.com/
 ## A “Staff Account” has been created for the Prof Sherriff to access the application. The username and password have been provided via the google form.
