@@ -19,7 +19,7 @@
             </div>
         </div>
     {% else %}
-        <a class="lead" href="{% url 'login' %}">Log in</a>
+        <a class="lead" href="{% url 'social:begin' 'google-oauth2' %}">Log in</a>
     {% endif %}
     <style>
         .list-of-listings{
@@ -28,6 +28,5 @@
         }
     </style>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 {% endblock content %}
