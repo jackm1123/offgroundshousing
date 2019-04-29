@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views
-from .views import home, profile, contact, about
+from .views import home, profile, contact, about, login
 from django.urls import path, include
 
 from django.conf import settings
@@ -9,7 +9,7 @@ from django.views.static import serve
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', views.LoginView.as_view(), name='login'),
+    url(r'^login/$', login, name='login'),
     url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
     url(r'^profile/$', profile,name='profile'),
     url(r'^contact/', contact, name='contact'),

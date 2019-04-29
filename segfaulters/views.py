@@ -5,7 +5,8 @@ from django.apps import apps
 Listing = apps.get_model('listings', 'Listing')
 UserProfile = apps.get_model('users', 'UserProfile')
 
-
+def login(request):
+    return render(request,"login.html")
 
 def home(request):
 	objects = Listing.objects.all()
@@ -26,4 +27,3 @@ def contact(request):
 
 def about(request):
     return render(request, 'about.html')
-
