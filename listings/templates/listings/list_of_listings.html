@@ -66,6 +66,19 @@
                       if(text.length > 0){
                         url += id + "=" + text + "&"
                       }
+                    }else if(type == "checkbox"){
+                      var id = $(this).attr("id");
+                      var checked = $(this).prop("checked");
+                      if (checked){
+                        if(id == "laundry"){
+                          url += "laundry=L&";
+                        }else if(id == "parking"){
+                          url += "parking=P&";
+                        }else if(id == "owned"){
+                          url += "owned=O&";
+                        }
+                      }
+
                     }
                   });
 
