@@ -324,7 +324,7 @@ alert("there");
     <img class="bullet_icon" src="{% static 'listings/icons/available.png' %}" alt="owner icon">
     <div class="bullet_pair_body">
       <strong>Available</strong> <br/>
-      {% ifequal listing.laundry_info "A" %}
+      {% ifequal listing.ownership_info "A" %}
       YES
       {% else %}
       NO
