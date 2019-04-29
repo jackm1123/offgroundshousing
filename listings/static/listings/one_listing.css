@@ -120,3 +120,21 @@ body{
   background-color: #f6ff84;
   font-weight: bold;
 }
+
+@media only screen and (max-width:620px) {
+  /* For mobile phones: */
+  #slides{
+    float: none;
+    width: 100%;
+  }
+
+  #slides embed{
+    height: 300px;
+    overflow: visible;
+  }
+
+  #map{
+    width: 100%;
+  }
+
+}
