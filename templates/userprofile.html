@@ -19,7 +19,7 @@
             </div>
         </div>
     {% else %}
-        <a class="lead" href="{% url 'login' %}">Log in</a>
+        <a class="lead" href="{% url 'social:begin' 'google-oauth2' %}">Log in</a>
     {% endif %}
     <style>
         .list-of-listings{
