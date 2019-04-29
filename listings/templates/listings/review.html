@@ -4,14 +4,12 @@
 
 {% for review in listing.reviews.all %}
   <div class="review">
-    <p> <strong>{{review.user.username}}</strong> </p>
+    {% ifequal review.rating 1 %}
+    <p> <strong>{{review.user.username}}</strong> ({{review.rating}} star) </p>
+    {% else %}
+    <p> <strong>{{review.user.username}}</strong> ({{review.rating}} stars) </p>
+    {% endifequal %}
     <p> {{review.body}}</p>
-    <p></p>
-    <div class="rating">
-      <script type="text/javascript">
-        hide_stars({{ review.rating }});
-      </script>
-    </div>
   </div>
 {% endfor %}
 

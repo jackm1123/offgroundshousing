@@ -9,7 +9,7 @@
             <h5>Favorited Listings:</h5>
             {% if not UserProfile.favorites.all %}
                 <p>None available</p>
-            {% endif %} 
+            {% endif %}
             <div class="list-of-listings">
                 {% for listing in list_of_listings %}
                   {% if listing in UserProfile.favorites.all and listing.active %}
@@ -27,4 +27,7 @@
             margin-left: 29%;
         }
     </style>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
 {% endblock content %}

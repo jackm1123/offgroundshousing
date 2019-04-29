@@ -66,6 +66,19 @@
                       if(text.length > 0){
                         url += id + "=" + text + "&"
                       }
+                    }else if(type == "checkbox"){
+                      var id = $(this).attr("id");
+                      var checked = $(this).prop("checked");
+                      if (checked){
+                        if(id == "laundry"){
+                          url += "laundry=L&";
+                        }else if(id == "parking"){
+                          url += "parking=P&";
+                        }else if(id == "owned"){
+                          url += "owned=O&";
+                        }
+                      }
+
                     }
                   });
 
@@ -99,7 +112,6 @@
         <button id="show-map">Map view</button>
         <button id="filter" onclick="show_dialog()">Filter</button>
 
-
         <div class="list-of-listings">
           {% if list_of_listings %}
 
@@ -109,11 +121,17 @@
               {% endif %}
             {% endfor %}
 
-
-          {% else %}
-            <p>No listings are available. :(</p>
           {% endif %}
         </div>
+
+        <script type="text/javascript">
+          $(function(){
+            var listings = $(".listing");
+            if(listings.length == 0){
+              $(".list-of-listings").append("<p>No listings are available. :(</p>");
+            }
+          });
+        </script>
 
         <div class="mapview">
           <div id="map">
@@ -198,5 +216,5 @@
 
 
 
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 {% endblock %}

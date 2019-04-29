@@ -152,14 +152,16 @@
       {% if listing.active %}
       <form method = "post">
         {% csrf_token %}
-        <label for="id_active">Active:</label>
+        <br/>
+        <label for="id_active" style="color:white">Active:</label>
         <input type="checkbox" name="active" id="id_active" checked>
         <button type="submit">Save</button>
       </form>
       {% else %}
       <form method = "post">
         {% csrf_token %}
-        <label for="id_active">Active:</label>
+        <br/>
+        <label for="id_active" style="color:white">Active:</label>
         <input type="checkbox" name="active" id="id_active">
         <button type="submit">Save</button>
       </form>
